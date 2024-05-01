@@ -6,11 +6,11 @@ namespace HL7\FHIR\R4;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: October 23rd, 2023 13:30+0000
+ * Class creation date: May 1st, 2024 07:44+0000
  * 
  * PHPFHIR Copyright:
  * 
- * Copyright 2016-2023 Daniel Carbone (daniel.p.carbone@gmail.com)
+ * Copyright 2016-2024 Daniel Carbone (daniel.p.carbone@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,239 +65,170 @@ namespace HL7\FHIR\R4;
 /**
  * XHTML type used in special cases
  *
- * Class FHIRXHTML
+ * Class FHIRXhtml
  * @package \HL7\FHIR\R4
  */
-class FHIRXHTML implements PHPFHIRTypeInterface
+class FHIRXhtml implements PHPFHIRXmlSerializableInterface, \JsonSerializable
 {
-    use PHPFHIRValidationAssertionsTrait;
-    use PHPFHIRChangeTrackingTrait;
+    use PHPFHIRChangeTrackingTrait,
+        PHPFHIRXmlNamespaceTrait;
 
-    // name of FHIR type this class describes
-    const FHIR_TYPE_NAME = PHPFHIRConstants::TYPE_NAME_XHTML;
+    const _NOISE_NODES = ['html', 'head', 'body'];
 
-    /** @var null|\DOMNode */
-    private ?\DOMNode $_data = null;
-    /** @var null|string */
-    private ?string $_elementName = null;
-    /** @var string */
-    private string $_xmlns = '';
-
-    /** @var array */
-    private static array $_validationRules = [];
+    /** @var null|\DOMElement */
+    private null|\DOMElement $_node = null;
 
     /**
-     * XHTML Constructor
-     * @param null|string|\SimpleXMLElement|\DOMNode $data
+     * Xhtml Constructor
+     * @param null|string|\DOMNode $node
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config
      */
-    public function __construct($data = null)
+    public function __construct(null|string|\DOMNode $node = null, null|PHPFHIRXmlSerializableConfigInterface $config = null)
     {
-        $this->_setData($data);
-    }
-
-    /**
-     * The name of the FHIR element this raw type represents
-     *
-     * @param string $elementName
-     * @return \HL7\FHIR\R4\FHIRXHTML
-     */
-    public function _setElementName(string $elementName): FHIRXHTML
-    {
-        $this->_elementName = $elementName;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function _getFHIRTypeName(): string
-    {
-        return self::FHIR_TYPE_NAME;
-    }
-
-    /**
-     * @return string
-     */
-    public function _getFHIRXMLNamespace(): string
-    {
-        return $this->_xmlns;
-    }
-
-    /**
-     * @param null|string $xmlNamespace
-     * @return static
-     */
-    public function _setFHIRXMLNamespace(string $xmlNamespace): object
-    {
-        $this->_xmlns = trim((string)$xmlNamespace);
-        return $this;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function _getFHIRXMLElementDefinition(): string
-    {
-        $xmlns = $this->_getFHIRXMLNamespace();
-        if ('' !==  $xmlns) {
-            $xmlns = " xmlns=\"{$xmlns}\"";
-        }
-        return "<XHTML{$xmlns}></XHTML>";
+        $this->setNode($node, $config);
     }
 
     /**
      * @return null|\DOMNode
      */
-    public function _getData(): ?\DOMNode
+    public function getNode(): null|\DOMNode
     {
-        return $this->_data;
+        return $this->_node;
     }
 
     /**
-     * @param null|string|\SimpleXMLElement|\DOMNode $data
-     * @return \HL7\FHIR\R4\FHIRXHTML
+     * @param null|string|\DOMNode $node
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config
+     * @return static
      */
-    public function _setData($data): FHIRXHTML
+    public function setNode(null|string|\DOMNode $node, null|PHPFHIRXmlSerializableConfigInterface $config = null): self
     {
-        if (null === $data) {
-            $this->_data = null;
+        if (null === $node) {
+            $this->_trackValueSet($this->_node, null);
+            $this->_node = null;
             return $this;
         }
-        if (is_string($data)) {
-            $dom = new \DOMDocument();
-            $dom->loadHTML($data);
-            $this->_data = $dom->documentElement;
-            return $this;
+        if (null === $config) {
+            $config = new PHPFHIRConfig();
         }
-        if ($data instanceof \SimpleXMLElement) {
-            $dom = new \DOMDocument();
-            $dom->appendChild($dom->importNode(dom_import_simplexml($data), true));
-            $this->_data = $dom->documentElement;
-            return $this;
+        $dom = $config->newDOMDocument();
+        if (is_string($node)) {
+            $dom->loadHTML($node);
+        } else if ($node instanceof \DOMDocument) {
+            $dom->appendChild($dom->importNode($node->documentElement, true));
+        } else {
+            $dom->appendChild($dom->importNode($node, true));
         }
-        if ($data instanceof \DOMDocument) {
-            $dom = new \DOMDocument();
-            $dom->appendChild($dom->importNode($data->documentElement, true));
-            $this->_data = $dom->documentElement;
-            return $this;
+        $newNode = $dom->documentElement;
+        while (null !== $newNode) {
+            if (in_array(strtolower($newNode->nodeName), self::_NOISE_NODES, true)) {
+                $newNode = $newNode->firstChild;
+            } else {
+                break;
+            }
         }
-        if ($data instanceof \DOMNode) {
-            $dom = new \DOMDocument();
-            $dom->appendChild($dom->importNode($data, true));
-            $this->_data = $dom->documentElement;
-            return $this;
+        if ('' !== ($ens = (string)$newNode?->namespaceURI)) {
+            $this->_setFHIRXMLNamespace($ens);
         }
-        throw new \InvalidArgumentException(sprintf(
-            '$data must be one of: null, valid XHTML string, or instance of \\SimpleXMLElement or \\DOMNode, saw "%s"',
-            gettype($data)
-        ));
-    }
-
-
-    /**
-     * Returns the validation rules that this type's fields must comply with to be considered "valid"
-     * The returned array is in ["fieldname[.offset]" => ["rule" => {constraint}]]
-     *
-     * @return array
-     */
-    public function _getValidationRules(): array
-    {
-        return self::$_validationRules;
-    }
-
-    /**
-     * Validates that this type conforms to the specifications set forth for it by FHIR.  An empty array must be seen as
-     * passing.
-     *
-     * @return array
-     */
-    public function _getValidationErrors(): array
-    {
-        $errs = [];
-        $validationRules = $this->_getValidationRules();
-        return $errs;
+        $this->_trackValueSet($this->_node, $newNode);
+        $this->_node = $newNode;
+        return $this;
     }
 
     /**
      * @param null|string|\DOMElement $element
-     * @param null|\HL7\FHIR\R4\FHIRXHTML $type
-     * @param null|int $libxmlOpts
-     * @return null|\HL7\FHIR\R4\FHIRXHTML
+     * @param null|\HL7\FHIR\R4\FHIRXhtml $type
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return null|\HL7\FHIR\R4\FHIRXhtml
      */
-    public static function xmlUnserialize($element = null, PHPFHIRTypeInterface $type = null, ?int $libxmlOpts = 591872): ?PHPFHIRTypeInterface
+    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
+        if (is_int($config)) {
+            $libxmlOpts = $config;
+            $config = new PHPFHIRConfig();
+        } else if (null === $config) {
+            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
+            $config = new PHPFHIRConfig();
+        } else {
+            $libxmlOpts = $config->getLibxmlOpts();
+        }
         if (is_string($element)) {
             libxml_use_internal_errors(true);
-            $dom = new \DOMDocument();
+            $dom = $config->newDOMDocument();
             if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf('FHIRXHTML::xmlUnserialize - String provided is not parseable as XML: %s', implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))));
+                throw new \DomainException(sprintf(
+                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
+                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
+                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
+                ));
             }
             libxml_use_internal_errors(false);
             $element = $dom->documentElement;
         }
-        if (!($element instanceof \DOMElement)) {
-            throw new \InvalidArgumentException(sprintf('FHIRXHTML::xmlUnserialize - $node value must be null, \\DOMElement, or valid XML string, %s seen', is_object($element) ? get_class($element) : gettype($element)));
-        }
         if (null === $type) {
-            $type = new FHIRXHTML(null);
-        } elseif (!is_object($type) || !($type instanceof FHIRXHTML)) {
+            $type = new static(null);
+        } else if (!($type instanceof FHIRXhtml)) {
             throw new \RuntimeException(sprintf(
-                'FHIRXHTML::xmlUnserialize - $type must be instance of \HL7\FHIR\R4\FHIRXHTML or null, %s seen.',
-                is_object($type) ? get_class($type) : gettype($type)
+                '%s::xmlUnserialize - $type must be instance of \\%s or null, %s seen.',
+                ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
+                static::class,
+                get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && (null === $element->parentNode || $element->namespaceURI !== $element->parentNode->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($element->namespaceURI);
+        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
+            $type->_setFHIRXMLNamespace($ens);
         }
-        $type->_setData($element);
+        $type->setNode($element);
         return $type;
     }
 
-     /**
-     * @param \DOMElement|null $element
-     * @param null|int $libxmlOpts
+    /**
+     * @param null|\DOMElement $element
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return \DOMElement
      */
-    public function xmlSerialize(\DOMElement $element = null, ?int $libxmlOpts = 591872): \DOMElement
+    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
     {
-        $data = $this->_getData();
-        $xmlns = $this->_getFHIRXMLNamespace();
-        if (null === $element) {
-            $dom = new \DOMDocument();
-            if (!empty($xmlns)) {
-                $xmlns = " xmlns=\"{$xmlns}\"";
-            }
-            if (null === $data) {
-                $dom->loadXML("<XHTML{$xmlns}></XHTML>", $libxmlOpts);
-                return $dom->documentElement;
-            }
-            $dom->appendChild($dom->importNode($data, true));
-            return $dom->documentElement;
+        if (is_int($config)) {
+            $libxmlOpts = $config;
+            $config = new PHPFHIRConfig();
+        } else if (null === $config) {
+            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
+            $config = new PHPFHIRConfig();
+        } else {
+            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $data) {
+        if (null === $element) {
+            $dom = $config->newDOMDocument();
+            $dom->loadXML($this->_getFHIRXMLElementDefinition('Xhtml'), $libxmlOpts);
+            $element = $dom->documentElement;
+        } else if ('' !== ($ns = $this->_getFHIRXMLNamespace())) {
+            $element->setAttribute('xmlns', $ns);
+        }
+        $node = $this->getNode();
+        if (null === $node) {
             return $element;
         }
-        if (!empty($xmlns)) {
-            $element->setAttribute('xmlns', $xmlns);
+        for ($i = 0; $i < $node->attributes->length; $i++) {
+            $attr = $node->attributes->item($i);
+            $element->setAttribute($attr->nodeName, $attr->nodeValue);
         }
-        $element->appendChild($element->ownerDocument->importNode($data, true));
+        for ($i = 0; $i < $node->childNodes->length; $i++) {
+            $element->appendChild($element->ownerDocument->importNode($node->childNodes->item($i), true));
+        }
         return $element;
     }
 
     /**
      * @return mixed
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
-        $data = $this->_getData();
-        if (null === $data) {
-            return null;
-        }
-        return $data->ownerDocument->saveXML($data);
+        $node = $this->getNode();
+        return $node?->ownerDocument->saveXML($node);
     }
 
     /**
@@ -305,10 +236,6 @@ class FHIRXHTML implements PHPFHIRTypeInterface
      */
     public function __toString(): string
     {
-        $data = $this->_getData();
-        if (null === $data) {
-            return '';
-        }
-        return $data->ownerDocument->saveXML($data);
+        return $this->jsonSerialize() ?? '';
     }
 }
