@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -63,44 +63,27 @@ namespace HL7\FHIR\STU3;
  */
 
 /**
- * Interface PHPFHIRXmlSerializableInterface
+ * Trait PHPFHIRSourceXmlNamespaceTrait
  * @package \HL7\FHIR\STU3
  */
-interface PHPFHIRXmlSerializableInterface
+trait PHPFHIRSourceXmlNamespaceTrait
 {
-    /**
-     * Returns the xml namespace to use for this type when serializing to XML, if applicable.
-     * @return string
-     */
-    public function _getFHIRXMLNamespace(): string;
+    /** @var string */
+    private string $_sourceXmlns;
 
     /**
-     * Set the XML Namespace to be output when serializing this type to XML
-     * @param string $xmlNamespace
-     * @return static
+     * @param string $xmlns
      */
-    public function _setFHIRXMLNamespace(string $xmlNamespace): self;
+    protected function _setSourceXmlns(string $xmlns): void
+    {
+        $this->_sourceXmlns = $xmlns;
+    }
 
     /**
-     * Returns the base xml element definition for this type
-     *
-     * @param string $elementName Name of the root element
-     * @return string
+     * @return null|string
      */
-    public function _getFHIRXMLElementDefinition(string $elementName): string;
-
-    /**
-     * @param null|string|\DOMElement $element
-     * @param null|static $type
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return null|static
-     */
-    public static function xmlUnserialize(null|string|\DOMElement $element, PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self;
-
-    /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     */
-    public function xmlSerialize(null|\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement;
+    public function _getSourceXmlns(): null|string
+    {
+        return $this->_sourceXmlns ?? null;
+    }
 }

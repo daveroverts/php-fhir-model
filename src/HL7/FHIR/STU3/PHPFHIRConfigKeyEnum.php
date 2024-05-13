@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -70,10 +70,24 @@ enum PHPFHIRConfigKeyEnum : string
 {
     case REGISTER_AUTOLOADER = 'registerAutoloader';
     case LIBXML_OPTS = 'libxmlOpts';
-    case DOM_VERSION = 'domVersion';
-    case XML_ENCODING = 'encoding';
-    case PRESERVE_WHITESPACE = 'preserveWhitespace';
-    case FORMAT_OUTPUT = 'formatOutput';
+    case ROOT_XMLNS = 'rootXmlns';
+    case OVERRIDE_SOURCE_XMLNS = 'overrideSourceXmlns';
+
+    /**
+     * @return string
+     */
+    public function setter(): string
+    {
+        return 'set' . $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getter(): string
+    {
+        return 'get' . $this->value;
+    }
 
     /**
      * @return array

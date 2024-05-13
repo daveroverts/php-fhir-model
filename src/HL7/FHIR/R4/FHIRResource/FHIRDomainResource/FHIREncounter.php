@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\FHIRResource\FHIRDomainResource;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -86,12 +86,13 @@ use HL7\FHIR\R4\FHIRIdPrimitive;
 use HL7\FHIR\R4\FHIRResource\FHIRDomainResource;
 use HL7\FHIR\R4\FHIRUriPrimitive;
 use HL7\FHIR\R4\PHPFHIRConfig;
+use HL7\FHIR\R4\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\R4\PHPFHIRConstants;
 use HL7\FHIR\R4\PHPFHIRContainedTypeInterface;
 use HL7\FHIR\R4\PHPFHIRTypeInterface;
 use HL7\FHIR\R4\PHPFHIRTypeMap;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\R4\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\R4\PHPFHIRXmlWriter;
 
 /**
  * An interaction between a patient and healthcare provider(s) for the purpose of
@@ -393,10 +394,12 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIREncounter Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -404,12 +407,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_IDENTIFIER])) {
+        if (array_key_exists(self::FIELD_IDENTIFIER, $data)) {
             if (is_array($data[self::FIELD_IDENTIFIER])) {
                 foreach($data[self::FIELD_IDENTIFIER] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRIdentifier) {
                         $this->addIdentifier($v);
                     } else {
@@ -422,7 +422,7 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addIdentifier(new FHIRIdentifier($data[self::FIELD_IDENTIFIER]));
             }
         }
-        if (isset($data[self::FIELD_STATUS]) || isset($data[self::FIELD_STATUS_EXT])) {
+        if (array_key_exists(self::FIELD_STATUS, $data) || array_key_exists(self::FIELD_STATUS_EXT, $data)) {
             $value = $data[self::FIELD_STATUS] ?? null;
             $ext = (isset($data[self::FIELD_STATUS_EXT]) && is_array($data[self::FIELD_STATUS_EXT])) ? $data[self::FIELD_STATUS_EXT] : [];
             if (null !== $value) {
@@ -435,14 +435,13 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 }
             } elseif ([] !== $ext) {
                 $this->setStatus(new FHIREncounterStatus($ext));
+            } else {
+                $this->setStatus(new FHIREncounterStatus(null));
             }
         }
-        if (isset($data[self::FIELD_STATUS_HISTORY])) {
+        if (array_key_exists(self::FIELD_STATUS_HISTORY, $data)) {
             if (is_array($data[self::FIELD_STATUS_HISTORY])) {
                 foreach($data[self::FIELD_STATUS_HISTORY] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIREncounterStatusHistory) {
                         $this->addStatusHistory($v);
                     } else {
@@ -455,19 +454,16 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addStatusHistory(new FHIREncounterStatusHistory($data[self::FIELD_STATUS_HISTORY]));
             }
         }
-        if (isset($data[self::FIELD_CLASS])) {
+        if (array_key_exists(self::FIELD_CLASS, $data)) {
             if ($data[self::FIELD_CLASS] instanceof FHIRCoding) {
                 $this->setClass($data[self::FIELD_CLASS]);
             } else {
                 $this->setClass(new FHIRCoding($data[self::FIELD_CLASS]));
             }
         }
-        if (isset($data[self::FIELD_CLASS_HISTORY])) {
+        if (array_key_exists(self::FIELD_CLASS_HISTORY, $data)) {
             if (is_array($data[self::FIELD_CLASS_HISTORY])) {
                 foreach($data[self::FIELD_CLASS_HISTORY] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIREncounterClassHistory) {
                         $this->addClassHistory($v);
                     } else {
@@ -480,12 +476,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addClassHistory(new FHIREncounterClassHistory($data[self::FIELD_CLASS_HISTORY]));
             }
         }
-        if (isset($data[self::FIELD_TYPE])) {
+        if (array_key_exists(self::FIELD_TYPE, $data)) {
             if (is_array($data[self::FIELD_TYPE])) {
                 foreach($data[self::FIELD_TYPE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCodeableConcept) {
                         $this->addType($v);
                     } else {
@@ -498,33 +491,30 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addType(new FHIRCodeableConcept($data[self::FIELD_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_SERVICE_TYPE])) {
+        if (array_key_exists(self::FIELD_SERVICE_TYPE, $data)) {
             if ($data[self::FIELD_SERVICE_TYPE] instanceof FHIRCodeableConcept) {
                 $this->setServiceType($data[self::FIELD_SERVICE_TYPE]);
             } else {
                 $this->setServiceType(new FHIRCodeableConcept($data[self::FIELD_SERVICE_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_PRIORITY])) {
+        if (array_key_exists(self::FIELD_PRIORITY, $data)) {
             if ($data[self::FIELD_PRIORITY] instanceof FHIRCodeableConcept) {
                 $this->setPriority($data[self::FIELD_PRIORITY]);
             } else {
                 $this->setPriority(new FHIRCodeableConcept($data[self::FIELD_PRIORITY]));
             }
         }
-        if (isset($data[self::FIELD_SUBJECT])) {
+        if (array_key_exists(self::FIELD_SUBJECT, $data)) {
             if ($data[self::FIELD_SUBJECT] instanceof FHIRReference) {
                 $this->setSubject($data[self::FIELD_SUBJECT]);
             } else {
                 $this->setSubject(new FHIRReference($data[self::FIELD_SUBJECT]));
             }
         }
-        if (isset($data[self::FIELD_EPISODE_OF_CARE])) {
+        if (array_key_exists(self::FIELD_EPISODE_OF_CARE, $data)) {
             if (is_array($data[self::FIELD_EPISODE_OF_CARE])) {
                 foreach($data[self::FIELD_EPISODE_OF_CARE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addEpisodeOfCare($v);
                     } else {
@@ -537,12 +527,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addEpisodeOfCare(new FHIRReference($data[self::FIELD_EPISODE_OF_CARE]));
             }
         }
-        if (isset($data[self::FIELD_BASED_ON])) {
+        if (array_key_exists(self::FIELD_BASED_ON, $data)) {
             if (is_array($data[self::FIELD_BASED_ON])) {
                 foreach($data[self::FIELD_BASED_ON] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addBasedOn($v);
                     } else {
@@ -555,12 +542,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addBasedOn(new FHIRReference($data[self::FIELD_BASED_ON]));
             }
         }
-        if (isset($data[self::FIELD_PARTICIPANT])) {
+        if (array_key_exists(self::FIELD_PARTICIPANT, $data)) {
             if (is_array($data[self::FIELD_PARTICIPANT])) {
                 foreach($data[self::FIELD_PARTICIPANT] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIREncounterParticipant) {
                         $this->addParticipant($v);
                     } else {
@@ -573,12 +557,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addParticipant(new FHIREncounterParticipant($data[self::FIELD_PARTICIPANT]));
             }
         }
-        if (isset($data[self::FIELD_APPOINTMENT])) {
+        if (array_key_exists(self::FIELD_APPOINTMENT, $data)) {
             if (is_array($data[self::FIELD_APPOINTMENT])) {
                 foreach($data[self::FIELD_APPOINTMENT] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addAppointment($v);
                     } else {
@@ -591,26 +572,23 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addAppointment(new FHIRReference($data[self::FIELD_APPOINTMENT]));
             }
         }
-        if (isset($data[self::FIELD_PERIOD])) {
+        if (array_key_exists(self::FIELD_PERIOD, $data)) {
             if ($data[self::FIELD_PERIOD] instanceof FHIRPeriod) {
                 $this->setPeriod($data[self::FIELD_PERIOD]);
             } else {
                 $this->setPeriod(new FHIRPeriod($data[self::FIELD_PERIOD]));
             }
         }
-        if (isset($data[self::FIELD_LENGTH])) {
+        if (array_key_exists(self::FIELD_LENGTH, $data)) {
             if ($data[self::FIELD_LENGTH] instanceof FHIRDuration) {
                 $this->setLength($data[self::FIELD_LENGTH]);
             } else {
                 $this->setLength(new FHIRDuration($data[self::FIELD_LENGTH]));
             }
         }
-        if (isset($data[self::FIELD_REASON_CODE])) {
+        if (array_key_exists(self::FIELD_REASON_CODE, $data)) {
             if (is_array($data[self::FIELD_REASON_CODE])) {
                 foreach($data[self::FIELD_REASON_CODE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCodeableConcept) {
                         $this->addReasonCode($v);
                     } else {
@@ -623,12 +601,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addReasonCode(new FHIRCodeableConcept($data[self::FIELD_REASON_CODE]));
             }
         }
-        if (isset($data[self::FIELD_REASON_REFERENCE])) {
+        if (array_key_exists(self::FIELD_REASON_REFERENCE, $data)) {
             if (is_array($data[self::FIELD_REASON_REFERENCE])) {
                 foreach($data[self::FIELD_REASON_REFERENCE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addReasonReference($v);
                     } else {
@@ -641,12 +616,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addReasonReference(new FHIRReference($data[self::FIELD_REASON_REFERENCE]));
             }
         }
-        if (isset($data[self::FIELD_DIAGNOSIS])) {
+        if (array_key_exists(self::FIELD_DIAGNOSIS, $data)) {
             if (is_array($data[self::FIELD_DIAGNOSIS])) {
                 foreach($data[self::FIELD_DIAGNOSIS] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIREncounterDiagnosis) {
                         $this->addDiagnosis($v);
                     } else {
@@ -659,12 +631,9 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addDiagnosis(new FHIREncounterDiagnosis($data[self::FIELD_DIAGNOSIS]));
             }
         }
-        if (isset($data[self::FIELD_ACCOUNT])) {
+        if (array_key_exists(self::FIELD_ACCOUNT, $data)) {
             if (is_array($data[self::FIELD_ACCOUNT])) {
                 foreach($data[self::FIELD_ACCOUNT] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addAccount($v);
                     } else {
@@ -677,19 +646,16 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addAccount(new FHIRReference($data[self::FIELD_ACCOUNT]));
             }
         }
-        if (isset($data[self::FIELD_HOSPITALIZATION])) {
+        if (array_key_exists(self::FIELD_HOSPITALIZATION, $data)) {
             if ($data[self::FIELD_HOSPITALIZATION] instanceof FHIREncounterHospitalization) {
                 $this->setHospitalization($data[self::FIELD_HOSPITALIZATION]);
             } else {
                 $this->setHospitalization(new FHIREncounterHospitalization($data[self::FIELD_HOSPITALIZATION]));
             }
         }
-        if (isset($data[self::FIELD_LOCATION])) {
+        if (array_key_exists(self::FIELD_LOCATION, $data)) {
             if (is_array($data[self::FIELD_LOCATION])) {
                 foreach($data[self::FIELD_LOCATION] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIREncounterLocation) {
                         $this->addLocation($v);
                     } else {
@@ -702,14 +668,14 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 $this->addLocation(new FHIREncounterLocation($data[self::FIELD_LOCATION]));
             }
         }
-        if (isset($data[self::FIELD_SERVICE_PROVIDER])) {
+        if (array_key_exists(self::FIELD_SERVICE_PROVIDER, $data)) {
             if ($data[self::FIELD_SERVICE_PROVIDER] instanceof FHIRReference) {
                 $this->setServiceProvider($data[self::FIELD_SERVICE_PROVIDER]);
             } else {
                 $this->setServiceProvider(new FHIRReference($data[self::FIELD_SERVICE_PROVIDER]));
             }
         }
-        if (isset($data[self::FIELD_PART_OF])) {
+        if (array_key_exists(self::FIELD_PART_OF, $data)) {
             if ($data[self::FIELD_PART_OF] instanceof FHIRReference) {
                 $this->setPartOf($data[self::FIELD_PART_OF]);
             } else {
@@ -718,11 +684,10 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -734,7 +699,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
     {
         return static::FHIR_TYPE_NAME;
     }
-
 
     /**
      * An identifier - identifies some entity uniquely and unambiguously. Typically
@@ -769,36 +733,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->identifier[] = $identifier;
-        return $this;
-    }
-
-    /**
-     * An identifier - identifies some entity uniquely and unambiguously. Typically
-     * this is used for business identifiers.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Identifier(s) by which this encounter is known.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRIdentifier[] $identifier
-     * @return static
-     */
-    public function setIdentifier(array $identifier = []): self
-    {
-        if ([] !== $this->identifier) {
-            $this->_trackValuesRemoved(count($this->identifier));
-            $this->identifier = [];
-        }
-        if ([] === $identifier) {
-            return $this;
-        }
-        foreach($identifier as $v) {
-            if ($v instanceof FHIRIdentifier) {
-                $this->addIdentifier($v);
-            } else {
-                $this->addIdentifier(new FHIRIdentifier($v));
-            }
-        }
         return $this;
     }
 
@@ -867,36 +801,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->statusHistory[] = $statusHistory;
-        return $this;
-    }
-
-    /**
-     * An interaction between a patient and healthcare provider(s) for the purpose of
-     * providing healthcare service(s) or assessing the health status of a patient.
-     *
-     * The status history permits the encounter resource to contain the status history
-     * without needing to read through the historical versions of the resource, or even
-     * have the server store them.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIREncounter\FHIREncounterStatusHistory[] $statusHistory
-     * @return static
-     */
-    public function setStatusHistory(array $statusHistory = []): self
-    {
-        if ([] !== $this->statusHistory) {
-            $this->_trackValuesRemoved(count($this->statusHistory));
-            $this->statusHistory = [];
-        }
-        if ([] === $statusHistory) {
-            return $this;
-        }
-        foreach($statusHistory as $v) {
-            if ($v instanceof FHIREncounterStatusHistory) {
-                $this->addStatusHistory($v);
-            } else {
-                $this->addStatusHistory(new FHIREncounterStatusHistory($v));
-            }
-        }
         return $this;
     }
 
@@ -983,40 +887,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
     }
 
     /**
-     * An interaction between a patient and healthcare provider(s) for the purpose of
-     * providing healthcare service(s) or assessing the health status of a patient.
-     *
-     * The class history permits the tracking of the encounters transitions without
-     * needing to go through the resource history. This would be used for a case where
-     * an admission starts of as an emergency encounter, then transitions into an
-     * inpatient scenario. Doing this and not restarting a new encounter ensures that
-     * any lab/diagnostic results can more easily follow the patient and not require
-     * re-processing and not get lost or cancelled during a kind of discharge from
-     * emergency to inpatient.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIREncounter\FHIREncounterClassHistory[] $classHistory
-     * @return static
-     */
-    public function setClassHistory(array $classHistory = []): self
-    {
-        if ([] !== $this->classHistory) {
-            $this->_trackValuesRemoved(count($this->classHistory));
-            $this->classHistory = [];
-        }
-        if ([] === $classHistory) {
-            return $this;
-        }
-        foreach($classHistory as $v) {
-            if ($v instanceof FHIREncounterClassHistory) {
-                $this->addClassHistory($v);
-            } else {
-                $this->addClassHistory(new FHIREncounterClassHistory($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A concept that may be defined by a formal reference to a terminology or ontology
      * or may be provided by text.
      * If the element is present, it must have a value for at least one of the defined
@@ -1051,37 +921,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->type[] = $type;
-        return $this;
-    }
-
-    /**
-     * A concept that may be defined by a formal reference to a terminology or ontology
-     * or may be provided by text.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled
-     * nursing, rehabilitation).
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRCodeableConcept[] $type
-     * @return static
-     */
-    public function setType(array $type = []): self
-    {
-        if ([] !== $this->type) {
-            $this->_trackValuesRemoved(count($this->type));
-            $this->type = [];
-        }
-        if ([] === $type) {
-            return $this;
-        }
-        foreach($type as $v) {
-            if ($v instanceof FHIRCodeableConcept) {
-                $this->addType($v);
-            } else {
-                $this->addType(new FHIRCodeableConcept($v));
-            }
-        }
         return $this;
     }
 
@@ -1242,41 +1081,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * Where a specific encounter should be classified as a part of a specific
-     * episode(s) of care this field should be used. This association can facilitate
-     * grouping of related encounters together for a specific purpose, such as
-     * government reporting, issue tracking, association via a common problem. The
-     * association is recorded on the encounter as these are typically created after
-     * the episode of care and grouped on entry rather than editing the episode of care
-     * to append another encounter to it (the episode of care could span years).
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRReference[] $episodeOfCare
-     * @return static
-     */
-    public function setEpisodeOfCare(array $episodeOfCare = []): self
-    {
-        if ([] !== $this->episodeOfCare) {
-            $this->_trackValuesRemoved(count($this->episodeOfCare));
-            $this->episodeOfCare = [];
-        }
-        if ([] === $episodeOfCare) {
-            return $this;
-        }
-        foreach($episodeOfCare as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addEpisodeOfCare($v);
-            } else {
-                $this->addEpisodeOfCare(new FHIRReference($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * The request this encounter satisfies (e.g. incoming referral or procedure
      * request).
      *
@@ -1305,36 +1109,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->basedOn[] = $basedOn;
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * The request this encounter satisfies (e.g. incoming referral or procedure
-     * request).
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRReference[] $basedOn
-     * @return static
-     */
-    public function setBasedOn(array $basedOn = []): self
-    {
-        if ([] !== $this->basedOn) {
-            $this->_trackValuesRemoved(count($this->basedOn));
-            $this->basedOn = [];
-        }
-        if ([] === $basedOn) {
-            return $this;
-        }
-        foreach($basedOn as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addBasedOn($v);
-            } else {
-                $this->addBasedOn(new FHIRReference($v));
-            }
-        }
         return $this;
     }
 
@@ -1371,34 +1145,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
     }
 
     /**
-     * An interaction between a patient and healthcare provider(s) for the purpose of
-     * providing healthcare service(s) or assessing the health status of a patient.
-     *
-     * The list of people responsible for providing the service.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIREncounter\FHIREncounterParticipant[] $participant
-     * @return static
-     */
-    public function setParticipant(array $participant = []): self
-    {
-        if ([] !== $this->participant) {
-            $this->_trackValuesRemoved(count($this->participant));
-            $this->participant = [];
-        }
-        if ([] === $participant) {
-            return $this;
-        }
-        foreach($participant as $v) {
-            if ($v instanceof FHIREncounterParticipant) {
-                $this->addParticipant($v);
-            } else {
-                $this->addParticipant(new FHIREncounterParticipant($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A reference from one resource to another.
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
@@ -1429,35 +1175,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->appointment[] = $appointment;
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * The appointment that scheduled this encounter.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRReference[] $appointment
-     * @return static
-     */
-    public function setAppointment(array $appointment = []): self
-    {
-        if ([] !== $this->appointment) {
-            $this->_trackValuesRemoved(count($this->appointment));
-            $this->appointment = [];
-        }
-        if ([] === $appointment) {
-            return $this;
-        }
-        foreach($appointment as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addAppointment($v);
-            } else {
-                $this->addAppointment(new FHIRReference($v));
-            }
-        }
         return $this;
     }
 
@@ -1570,37 +1287,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
     }
 
     /**
-     * A concept that may be defined by a formal reference to a terminology or ontology
-     * or may be provided by text.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Reason the encounter takes place, expressed as a code. For admissions, this can
-     * be used for a coded admission diagnosis.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRCodeableConcept[] $reasonCode
-     * @return static
-     */
-    public function setReasonCode(array $reasonCode = []): self
-    {
-        if ([] !== $this->reasonCode) {
-            $this->_trackValuesRemoved(count($this->reasonCode));
-            $this->reasonCode = [];
-        }
-        if ([] === $reasonCode) {
-            return $this;
-        }
-        foreach($reasonCode as $v) {
-            if ($v instanceof FHIRCodeableConcept) {
-                $this->addReasonCode($v);
-            } else {
-                $this->addReasonCode(new FHIRCodeableConcept($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A reference from one resource to another.
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
@@ -1637,36 +1323,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
     }
 
     /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Reason the encounter takes place, expressed as a code. For admissions, this can
-     * be used for a coded admission diagnosis.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRReference[] $reasonReference
-     * @return static
-     */
-    public function setReasonReference(array $reasonReference = []): self
-    {
-        if ([] !== $this->reasonReference) {
-            $this->_trackValuesRemoved(count($this->reasonReference));
-            $this->reasonReference = [];
-        }
-        if ([] === $reasonReference) {
-            return $this;
-        }
-        foreach($reasonReference as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addReasonReference($v);
-            } else {
-                $this->addReasonReference(new FHIRReference($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * An interaction between a patient and healthcare provider(s) for the purpose of
      * providing healthcare service(s) or assessing the health status of a patient.
      *
@@ -1695,34 +1351,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->diagnosis[] = $diagnosis;
-        return $this;
-    }
-
-    /**
-     * An interaction between a patient and healthcare provider(s) for the purpose of
-     * providing healthcare service(s) or assessing the health status of a patient.
-     *
-     * The list of diagnosis relevant to this encounter.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIREncounter\FHIREncounterDiagnosis[] $diagnosis
-     * @return static
-     */
-    public function setDiagnosis(array $diagnosis = []): self
-    {
-        if ([] !== $this->diagnosis) {
-            $this->_trackValuesRemoved(count($this->diagnosis));
-            $this->diagnosis = [];
-        }
-        if ([] === $diagnosis) {
-            return $this;
-        }
-        foreach($diagnosis as $v) {
-            if ($v instanceof FHIREncounterDiagnosis) {
-                $this->addDiagnosis($v);
-            } else {
-                $this->addDiagnosis(new FHIREncounterDiagnosis($v));
-            }
-        }
         return $this;
     }
 
@@ -1757,35 +1385,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->account[] = $account;
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * The set of accounts that may be used for billing for this Encounter.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRReference[] $account
-     * @return static
-     */
-    public function setAccount(array $account = []): self
-    {
-        if ([] !== $this->account) {
-            $this->_trackValuesRemoved(count($this->account));
-            $this->account = [];
-        }
-        if ([] === $account) {
-            return $this;
-        }
-        foreach($account as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addAccount($v);
-            } else {
-                $this->addAccount(new FHIRReference($v));
-            }
-        }
         return $this;
     }
 
@@ -1850,34 +1449,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         }
         $this->_trackValueAdded();
         $this->location[] = $location;
-        return $this;
-    }
-
-    /**
-     * An interaction between a patient and healthcare provider(s) for the purpose of
-     * providing healthcare service(s) or assessing the health status of a patient.
-     *
-     * List of locations where the patient has been during this encounter.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIREncounter\FHIREncounterLocation[] $location
-     * @return static
-     */
-    public function setLocation(array $location = []): self
-    {
-        if ([] !== $this->location) {
-            $this->_trackValuesRemoved(count($this->location));
-            $this->location = [];
-        }
-        if ([] === $location) {
-            return $this;
-        }
-        foreach($location as $v) {
-            if ($v instanceof FHIREncounterLocation) {
-                $this->addLocation($v);
-            } else {
-                $this->addLocation(new FHIREncounterLocation($v));
-            }
-        }
         return $this;
     }
 
@@ -2499,37 +2070,23 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRResource\FHIRDomainResource\FHIREncounter $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRResource\FHIRDomainResource\FHIREncounter
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -2541,317 +2098,254 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_IDENTIFIER === $n->nodeName) {
-                $type->addIdentifier(FHIRIdentifier::xmlUnserialize($n));
-            } elseif (self::FIELD_STATUS === $n->nodeName) {
-                $type->setStatus(FHIREncounterStatus::xmlUnserialize($n));
-            } elseif (self::FIELD_STATUS_HISTORY === $n->nodeName) {
-                $type->addStatusHistory(FHIREncounterStatusHistory::xmlUnserialize($n));
-            } elseif (self::FIELD_CLASS === $n->nodeName) {
-                $type->setClass(FHIRCoding::xmlUnserialize($n));
-            } elseif (self::FIELD_CLASS_HISTORY === $n->nodeName) {
-                $type->addClassHistory(FHIREncounterClassHistory::xmlUnserialize($n));
-            } elseif (self::FIELD_TYPE === $n->nodeName) {
-                $type->addType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_SERVICE_TYPE === $n->nodeName) {
-                $type->setServiceType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_PRIORITY === $n->nodeName) {
-                $type->setPriority(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBJECT === $n->nodeName) {
-                $type->setSubject(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_EPISODE_OF_CARE === $n->nodeName) {
-                $type->addEpisodeOfCare(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_BASED_ON === $n->nodeName) {
-                $type->addBasedOn(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_PARTICIPANT === $n->nodeName) {
-                $type->addParticipant(FHIREncounterParticipant::xmlUnserialize($n));
-            } elseif (self::FIELD_APPOINTMENT === $n->nodeName) {
-                $type->addAppointment(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_PERIOD === $n->nodeName) {
-                $type->setPeriod(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_LENGTH === $n->nodeName) {
-                $type->setLength(FHIRDuration::xmlUnserialize($n));
-            } elseif (self::FIELD_REASON_CODE === $n->nodeName) {
-                $type->addReasonCode(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_REASON_REFERENCE === $n->nodeName) {
-                $type->addReasonReference(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_DIAGNOSIS === $n->nodeName) {
-                $type->addDiagnosis(FHIREncounterDiagnosis::xmlUnserialize($n));
-            } elseif (self::FIELD_ACCOUNT === $n->nodeName) {
-                $type->addAccount(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_HOSPITALIZATION === $n->nodeName) {
-                $type->setHospitalization(FHIREncounterHospitalization::xmlUnserialize($n));
-            } elseif (self::FIELD_LOCATION === $n->nodeName) {
-                $type->addLocation(FHIREncounterLocation::xmlUnserialize($n));
-            } elseif (self::FIELD_SERVICE_PROVIDER === $n->nodeName) {
-                $type->setServiceProvider(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_PART_OF === $n->nodeName) {
-                $type->setPartOf(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_TEXT === $n->nodeName) {
-                $type->setText(FHIRNarrative::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTAINED === $n->nodeName) {
-                for ($ni = 0; $ni < $n->childNodes->length; $ni++) {
-                    $nn = $n->childNodes->item($ni);
-                    if ($nn instanceof \DOMElement) {
-                        $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn));
-                    }
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_IDENTIFIER === $childName) {
+                $type->addIdentifier(FHIRIdentifier::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_STATUS === $childName) {
+                $type->setStatus(FHIREncounterStatus::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_STATUS_HISTORY === $childName) {
+                $type->addStatusHistory(FHIREncounterStatusHistory::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLASS === $childName) {
+                $type->setClass(FHIRCoding::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLASS_HISTORY === $childName) {
+                $type->addClassHistory(FHIREncounterClassHistory::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TYPE === $childName) {
+                $type->addType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SERVICE_TYPE === $childName) {
+                $type->setServiceType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PRIORITY === $childName) {
+                $type->setPriority(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBJECT === $childName) {
+                $type->setSubject(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EPISODE_OF_CARE === $childName) {
+                $type->addEpisodeOfCare(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BASED_ON === $childName) {
+                $type->addBasedOn(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PARTICIPANT === $childName) {
+                $type->addParticipant(FHIREncounterParticipant::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_APPOINTMENT === $childName) {
+                $type->addAppointment(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PERIOD === $childName) {
+                $type->setPeriod(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LENGTH === $childName) {
+                $type->setLength(FHIRDuration::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_REASON_CODE === $childName) {
+                $type->addReasonCode(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_REASON_REFERENCE === $childName) {
+                $type->addReasonReference(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DIAGNOSIS === $childName) {
+                $type->addDiagnosis(FHIREncounterDiagnosis::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ACCOUNT === $childName) {
+                $type->addAccount(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_HOSPITALIZATION === $childName) {
+                $type->setHospitalization(FHIREncounterHospitalization::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LOCATION === $childName) {
+                $type->addLocation(FHIREncounterLocation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SERVICE_PROVIDER === $childName) {
+                $type->setServiceProvider(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PART_OF === $childName) {
+                $type->setPartOf(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TEXT === $childName) {
+                $type->setText(FHIRNarrative::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTAINED === $childName) {
+                foreach ($n->children() as $nn) {
+                    $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn, $config));
                 }
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRId::xmlUnserialize($n));
-            } elseif (self::FIELD_META === $n->nodeName) {
-                $type->setMeta(FHIRMeta::xmlUnserialize($n));
-            } elseif (self::FIELD_IMPLICIT_RULES === $n->nodeName) {
-                $type->setImplicitRules(FHIRUri::xmlUnserialize($n));
-            } elseif (self::FIELD_LANGUAGE === $n->nodeName) {
-                $type->setLanguage(FHIRCode::xmlUnserialize($n));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRId::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_META === $childName) {
+                $type->setMeta(FHIRMeta::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMPLICIT_RULES === $childName) {
+                $type->setImplicitRules(FHIRUri::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_LANGUAGE === $childName) {
+                $type->setLanguage(FHIRCode::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_IMPLICIT_RULES);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_IMPLICIT_RULES])) {
             $pt = $type->getImplicitRules();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setImplicitRules($n->nodeValue);
+                $type->setImplicitRules((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_LANGUAGE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_LANGUAGE])) {
             $pt = $type->getLanguage();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setLanguage($n->nodeValue);
+                $type->setLanguage((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('Encounter'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
-        if ([] !== ($vs = $this->getIdentifier())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_IDENTIFIER);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'Encounter', $this->_getSourceXmlns());
+        }
+        parent::xmlSerialize($xw, $config);
+        foreach ($this->getIdentifier() as $v) {
+            $xw->startElement(self::FIELD_IDENTIFIER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getStatus())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_STATUS);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_STATUS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getStatusHistory())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_STATUS_HISTORY);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getStatusHistory() as $v) {
+            $xw->startElement(self::FIELD_STATUS_HISTORY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getClass())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CLASS);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CLASS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getClassHistory())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_CLASS_HISTORY);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getClassHistory() as $v) {
+            $xw->startElement(self::FIELD_CLASS_HISTORY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getType())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_TYPE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getType() as $v) {
+            $xw->startElement(self::FIELD_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getServiceType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SERVICE_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_SERVICE_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPriority())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PRIORITY);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PRIORITY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getSubject())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SUBJECT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_SUBJECT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getEpisodeOfCare())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_EPISODE_OF_CARE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getEpisodeOfCare() as $v) {
+            $xw->startElement(self::FIELD_EPISODE_OF_CARE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getBasedOn())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_BASED_ON);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getBasedOn() as $v) {
+            $xw->startElement(self::FIELD_BASED_ON);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getParticipant())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_PARTICIPANT);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getParticipant() as $v) {
+            $xw->startElement(self::FIELD_PARTICIPANT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAppointment())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_APPOINTMENT);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAppointment() as $v) {
+            $xw->startElement(self::FIELD_APPOINTMENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPeriod())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PERIOD);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PERIOD);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getLength())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_LENGTH);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_LENGTH);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getReasonCode())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_REASON_CODE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getReasonCode() as $v) {
+            $xw->startElement(self::FIELD_REASON_CODE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getReasonReference())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_REASON_REFERENCE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getReasonReference() as $v) {
+            $xw->startElement(self::FIELD_REASON_REFERENCE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getDiagnosis())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_DIAGNOSIS);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getDiagnosis() as $v) {
+            $xw->startElement(self::FIELD_DIAGNOSIS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAccount())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ACCOUNT);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAccount() as $v) {
+            $xw->startElement(self::FIELD_ACCOUNT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getHospitalization())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_HOSPITALIZATION);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_HOSPITALIZATION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getLocation())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_LOCATION);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getLocation() as $v) {
+            $xw->startElement(self::FIELD_LOCATION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getServiceProvider())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SERVICE_PROVIDER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_SERVICE_PROVIDER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPartOf())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PART_OF);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PART_OF);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -2863,9 +2357,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         if ([] !== ($vs = $this->getIdentifier())) {
             $out->{self::FIELD_IDENTIFIER} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_IDENTIFIER}[] = $v;
             }
         }
@@ -2882,9 +2373,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         if ([] !== ($vs = $this->getStatusHistory())) {
             $out->{self::FIELD_STATUS_HISTORY} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_STATUS_HISTORY}[] = $v;
             }
         }
@@ -2894,18 +2382,12 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         if ([] !== ($vs = $this->getClassHistory())) {
             $out->{self::FIELD_CLASS_HISTORY} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_CLASS_HISTORY}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getType())) {
             $out->{self::FIELD_TYPE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_TYPE}[] = $v;
             }
         }
@@ -2921,36 +2403,24 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         if ([] !== ($vs = $this->getEpisodeOfCare())) {
             $out->{self::FIELD_EPISODE_OF_CARE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_EPISODE_OF_CARE}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getBasedOn())) {
             $out->{self::FIELD_BASED_ON} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_BASED_ON}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getParticipant())) {
             $out->{self::FIELD_PARTICIPANT} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_PARTICIPANT}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAppointment())) {
             $out->{self::FIELD_APPOINTMENT} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_APPOINTMENT}[] = $v;
             }
         }
@@ -2963,36 +2433,24 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         if ([] !== ($vs = $this->getReasonCode())) {
             $out->{self::FIELD_REASON_CODE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_REASON_CODE}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getReasonReference())) {
             $out->{self::FIELD_REASON_REFERENCE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_REASON_REFERENCE}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getDiagnosis())) {
             $out->{self::FIELD_DIAGNOSIS} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_DIAGNOSIS}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAccount())) {
             $out->{self::FIELD_ACCOUNT} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ACCOUNT}[] = $v;
             }
         }
@@ -3002,9 +2460,6 @@ class FHIREncounter extends FHIRDomainResource implements PHPFHIRContainedTypeIn
         if ([] !== ($vs = $this->getLocation())) {
             $out->{self::FIELD_LOCATION} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_LOCATION}[] = $v;
             }
         }

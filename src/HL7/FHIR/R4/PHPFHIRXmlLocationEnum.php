@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace HL7\FHIR\STU3;
+namespace HL7\FHIR\R4;
 
 /*!
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -54,7 +54,7 @@ namespace HL7\FHIR\STU3;
  *   POSSIBILITY OF SUCH DAMAGE.
  * 
  * 
- *   Generated on Wed, Apr 19, 2017 07:44+1000 for FHIR v3.0.1
+ *   Generated on Fri, Nov 1, 2019 09:29+1100 for FHIR v4.0.1
  * 
  *   Note: the schemas & schematrons do not contain all of the rules about what makes resources
  *   valid. Implementers will still need to be familiar with the content of the specification and with
@@ -63,82 +63,11 @@ namespace HL7\FHIR\STU3;
  */
 
 /**
- * Interface PHPFHIRXmlSerializableConfigInterface
- * @package \HL7\FHIR\STU3
+ * Enum PHPFHIRXmlLocationEnum
+ * @package \HL7\FHIR\R4
  */
-interface PHPFHIRXmlSerializableConfigInterface
+enum PHPFHIRXmlLocationEnum : string
 {
-    public const DEFAULT_LIBXML_OPTS = LIBXML_NONET | LIBXML_PARSEHUGE | LIBXML_COMPACT;
-    public const DEFAULT_DOM_VERSION = '1.0';
-    public const DEFAULT_ENCODING = 'UTF-8';
-    public const DEFAULT_PRESERVE_WHITESPACE = true;
-    public const DEFAULT_FORMAT_OUTPUT = false;
-
-    /**
-     * Must construct a new \DOMDocument instance based on current configuration
-     *
-     * @return \DOMDocument
-     */
-    public function newDOMDocument(): \DOMDocument;
-
-    /**
-     * Sets the option flags to provide to libxml when serializing and unserializing XML
-     *
-     * @param int $libxmlOpts
-     * @return static
-     */
-    public function setLibxmlOpts(int $libxmlOpts): self;
-
-    /**
-     * Must return the set libxml option flags
-     *
-     * @return int
-     */
-    public function getLibxmlOpts(): int;
-
-    /**
-     * @param string $domVersion
-     * @return static
-     */
-    public function setDOMVersion(string $domVersion): self;
-
-    /**
-     * @return string
-     */
-    public function getDOMVersion(): string;
-
-    /**
-     * @param string $encoding
-     * @return static
-     */
-    public function setEncoding(string $encoding): self;
-
-    /**
-     * @return string
-     */
-    public function getEncoding(): string;
-
-    /**
-     * Sets whether or not to preserve whitespace when rendering XML
-     *
-     * @param bool $preserveWhitespace
-     * @return static
-     */
-    public function setPreserveWhitespace(bool $preserveWhitespace): self;
-
-    /**
-     * @return bool
-     */
-    public function getPreserveWhitespace(): bool;
-
-    /**
-     * @param bool $formatOutput
-     * @return static
-     */
-    public function setFormatOutput(bool $formatOutput): self;
-
-    /**
-     * @return bool
-     */
-    public function getFormatOutput(): bool;
+    case ATTRIBUTE = 'attribute';
+    case ELEMENT = 'element';
 }

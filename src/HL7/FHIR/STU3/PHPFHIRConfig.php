@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -66,12 +66,19 @@ namespace HL7\FHIR\STU3;
  * Class PHPFHIRConfig
  * @package \HL7\FHIR\STU3
  */
-class PHPFHIRConfig implements PHPFHIRXmlSerializableConfigInterface, \JsonSerializable
+class PHPFHIRConfig implements \JsonSerializable
 {
-    use PHPFHIRXmlSerializableConfigTrait;
-
     /** @var bool */
     private bool $registerAutoloader = false;
+
+    /** @var int */
+    private int $libxmlOpts;
+
+    /** @var string */
+    private string $rootXmlns;
+
+    /** @var bool */
+    private bool $overrideSourceXmlns;
 
     /**
      * PHPFHIRConfig Constructor
@@ -121,13 +128,75 @@ class PHPFHIRConfig implements PHPFHIRXmlSerializableConfigInterface, \JsonSeria
     }
 
     /**
+     * Sets the option flags to provide to libxml when unserializing XML
+     *
+     * @param int $libxmlOpts
+     * @return static
+     */
+    public function setLibxmlOpts(int $libxmlOpts): self
+    {
+        $this->libxmlOpts = $libxmlOpts;
+        return $this;
+    }
+
+    /**
+     * Returns set libxml option flags
+     *
+     * @return int
+     */
+    public function getLibxmlOpts(): int
+    {
+        return $this->libxmlOpts ?? PHPFHIRConstants::DEFAULT_LIBXML_OPTS;
+    }
+
+    /**
+     * Default root xmlns to use.
+     *
+     * @param string $rootXmlns
+     * @return static
+     */
+    public function setRootXmlns(string $rootXmlns): self
+    {
+        $this->rootXmlns = $rootXmlns;
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRootXmlns(): null|string
+    {
+        return $this->rootXmlns ?? null;
+    }
+
+    /**
+     * If true, overrides the xmlns entry found at the root of a source document, if there was one.
+     *
+     * @param bool $overrideSourceXmlns
+     * @return static
+     */
+    public function setOverrideSourceXmlns(bool $overrideSourceXmlns): self
+    {
+        $this->overrideSourceXmlns = $overrideSourceXmlns;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOverrideSourceXmlns(): bool
+    {
+        return $this->overrideSourceXmlns ?? false;
+    }
+
+    /**
      * @return \stdClass
      */
     public function jsonSerialize(): \stdClass
     {
         $out = new \stdClass();
-        foreach(PHPFHIRConfigKeyEnum::values() as $k => $_) {
-            $out->{$k} = $this->{'get'.$k}();
+        foreach(PHPFHIRConfigKeyEnum::cases() as $key) {
+            $out->{$k} = $this->{$key->getter()}();
         }
         return $out;
     }

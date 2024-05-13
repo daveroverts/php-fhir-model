@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRTerminologyCapabilitie
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -71,10 +71,11 @@ use HL7\FHIR\R4\FHIRElement\FHIRExtension;
 use HL7\FHIR\R4\FHIRElement\FHIRString;
 use HL7\FHIR\R4\FHIRStringPrimitive;
 use HL7\FHIR\R4\PHPFHIRConfig;
+use HL7\FHIR\R4\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\R4\PHPFHIRConstants;
 use HL7\FHIR\R4\PHPFHIRTypeInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\R4\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\R4\PHPFHIRXmlWriter;
 
 /**
  * A TerminologyCapabilities resource documents a set of capabilities (behaviors)
@@ -169,10 +170,12 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRTerminologyCapabilitiesVersion Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -180,7 +183,7 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_CODE]) || isset($data[self::FIELD_CODE_EXT])) {
+        if (array_key_exists(self::FIELD_CODE, $data) || array_key_exists(self::FIELD_CODE_EXT, $data)) {
             $value = $data[self::FIELD_CODE] ?? null;
             $ext = (isset($data[self::FIELD_CODE_EXT]) && is_array($data[self::FIELD_CODE_EXT])) ? $data[self::FIELD_CODE_EXT] : [];
             if (null !== $value) {
@@ -193,9 +196,11 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setCode(new FHIRString($ext));
+            } else {
+                $this->setCode(new FHIRString(null));
             }
         }
-        if (isset($data[self::FIELD_IS_DEFAULT]) || isset($data[self::FIELD_IS_DEFAULT_EXT])) {
+        if (array_key_exists(self::FIELD_IS_DEFAULT, $data) || array_key_exists(self::FIELD_IS_DEFAULT_EXT, $data)) {
             $value = $data[self::FIELD_IS_DEFAULT] ?? null;
             $ext = (isset($data[self::FIELD_IS_DEFAULT_EXT]) && is_array($data[self::FIELD_IS_DEFAULT_EXT])) ? $data[self::FIELD_IS_DEFAULT_EXT] : [];
             if (null !== $value) {
@@ -208,9 +213,11 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setIsDefault(new FHIRBoolean($ext));
+            } else {
+                $this->setIsDefault(new FHIRBoolean(null));
             }
         }
-        if (isset($data[self::FIELD_COMPOSITIONAL]) || isset($data[self::FIELD_COMPOSITIONAL_EXT])) {
+        if (array_key_exists(self::FIELD_COMPOSITIONAL, $data) || array_key_exists(self::FIELD_COMPOSITIONAL_EXT, $data)) {
             $value = $data[self::FIELD_COMPOSITIONAL] ?? null;
             $ext = (isset($data[self::FIELD_COMPOSITIONAL_EXT]) && is_array($data[self::FIELD_COMPOSITIONAL_EXT])) ? $data[self::FIELD_COMPOSITIONAL_EXT] : [];
             if (null !== $value) {
@@ -223,9 +230,11 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setCompositional(new FHIRBoolean($ext));
+            } else {
+                $this->setCompositional(new FHIRBoolean(null));
             }
         }
-        if (isset($data[self::FIELD_LANGUAGE]) || isset($data[self::FIELD_LANGUAGE_EXT])) {
+        if (array_key_exists(self::FIELD_LANGUAGE, $data) || array_key_exists(self::FIELD_LANGUAGE_EXT, $data)) {
             $value = $data[self::FIELD_LANGUAGE] ?? null;
             $ext = (isset($data[self::FIELD_LANGUAGE_EXT]) && is_array($data[self::FIELD_LANGUAGE_EXT])) ? $data[self::FIELD_LANGUAGE_EXT] : [];
             if (null !== $value) {
@@ -253,14 +262,13 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
                 foreach($ext as $iext) {
                     $this->addLanguage(new FHIRCode($iext));
                 }
+            } else {
+                $this->addLanguage(new FHIRCode(null));
             }
         }
-        if (isset($data[self::FIELD_FILTER])) {
+        if (array_key_exists(self::FIELD_FILTER, $data)) {
             if (is_array($data[self::FIELD_FILTER])) {
                 foreach($data[self::FIELD_FILTER] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRTerminologyCapabilitiesFilter) {
                         $this->addFilter($v);
                     } else {
@@ -273,7 +281,7 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
                 $this->addFilter(new FHIRTerminologyCapabilitiesFilter($data[self::FIELD_FILTER]));
             }
         }
-        if (isset($data[self::FIELD_PROPERTY]) || isset($data[self::FIELD_PROPERTY_EXT])) {
+        if (array_key_exists(self::FIELD_PROPERTY, $data) || array_key_exists(self::FIELD_PROPERTY_EXT, $data)) {
             $value = $data[self::FIELD_PROPERTY] ?? null;
             $ext = (isset($data[self::FIELD_PROPERTY_EXT]) && is_array($data[self::FIELD_PROPERTY_EXT])) ? $data[self::FIELD_PROPERTY_EXT] : [];
             if (null !== $value) {
@@ -301,15 +309,16 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
                 foreach($ext as $iext) {
                     $this->addProperty(new FHIRCode($iext));
                 }
+            } else {
+                $this->addProperty(new FHIRCode(null));
             }
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -338,14 +347,19 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      * identifier.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRStringPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRString $code
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setCode(null|string|FHIRStringPrimitive|FHIRString $code = null): self
+    public function setCode(null|string|FHIRStringPrimitive|FHIRString $code = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $code && !($code instanceof FHIRString)) {
             $code = new FHIRString($code);
         }
         $this->_trackValueSet($this->code, $code);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_CODE])) {
+            $this->_primitiveXmlLocations[self::FIELD_CODE] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_CODE][0] = $xmlLocation;
         $this->code = $code;
         return $this;
     }
@@ -370,14 +384,19 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      * If this is the default version for this code system.
      *
      * @param null|string|bool|\HL7\FHIR\R4\FHIRBooleanPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRBoolean $isDefault
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setIsDefault(null|string|bool|FHIRBooleanPrimitive|FHIRBoolean $isDefault = null): self
+    public function setIsDefault(null|string|bool|FHIRBooleanPrimitive|FHIRBoolean $isDefault = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $isDefault && !($isDefault instanceof FHIRBoolean)) {
             $isDefault = new FHIRBoolean($isDefault);
         }
         $this->_trackValueSet($this->isDefault, $isDefault);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_IS_DEFAULT])) {
+            $this->_primitiveXmlLocations[self::FIELD_IS_DEFAULT] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_IS_DEFAULT][0] = $xmlLocation;
         $this->isDefault = $isDefault;
         return $this;
     }
@@ -402,14 +421,19 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      * If the compositional grammar defined by the code system is supported.
      *
      * @param null|string|bool|\HL7\FHIR\R4\FHIRBooleanPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRBoolean $compositional
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setCompositional(null|string|bool|FHIRBooleanPrimitive|FHIRBoolean $compositional = null): self
+    public function setCompositional(null|string|bool|FHIRBooleanPrimitive|FHIRBoolean $compositional = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $compositional && !($compositional instanceof FHIRBoolean)) {
             $compositional = new FHIRBoolean($compositional);
         }
         $this->_trackValueSet($this->compositional, $compositional);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_COMPOSITIONAL])) {
+            $this->_primitiveXmlLocations[self::FIELD_COMPOSITIONAL] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_COMPOSITIONAL][0] = $xmlLocation;
         $this->compositional = $compositional;
         return $this;
     }
@@ -438,14 +462,19 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      * Language Displays supported.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRCodePrimitive|\HL7\FHIR\R4\FHIRElement\FHIRCode $language
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function addLanguage(null|string|FHIRCodePrimitive|FHIRCode $language = null): self
+    public function addLanguage(null|string|FHIRCodePrimitive|FHIRCode $language = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $language && !($language instanceof FHIRCode)) {
             $language = new FHIRCode($language);
         }
         $this->_trackValueAdded();
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_LANGUAGE])) {
+            $this->_primitiveXmlLocations[self::FIELD_LANGUAGE] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_LANGUAGE][] = $xmlLocation;
         $this->language[] = $language;
         return $this;
     }
@@ -459,10 +488,12 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      * Language Displays supported.
      *
      * @param \HL7\FHIR\R4\FHIRElement\FHIRCode[] $language
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setLanguage(array $language = []): self
+    public function setLanguage(array $language = [], PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
+        unset($this->_primitiveXmlLocations[self::FIELD_LANGUAGE]);
         if ([] !== $this->language) {
             $this->_trackValuesRemoved(count($this->language));
             $this->language = [];
@@ -472,9 +503,9 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
         }
         foreach($language as $v) {
             if ($v instanceof FHIRCode) {
-                $this->addLanguage($v);
+                $this->addLanguage($v, $xmlLocation);
             } else {
-                $this->addLanguage(new FHIRCode($v));
+                $this->addLanguage(new FHIRCode($v), $xmlLocation);
             }
         }
         return $this;
@@ -515,35 +546,6 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
     }
 
     /**
-     * A TerminologyCapabilities resource documents a set of capabilities (behaviors)
-     * of a FHIR Terminology Server that may be used as a statement of actual server
-     * functionality or a statement of required or desired server implementation.
-     *
-     * Filter Properties supported.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRTerminologyCapabilities\FHIRTerminologyCapabilitiesFilter[] $filter
-     * @return static
-     */
-    public function setFilter(array $filter = []): self
-    {
-        if ([] !== $this->filter) {
-            $this->_trackValuesRemoved(count($this->filter));
-            $this->filter = [];
-        }
-        if ([] === $filter) {
-            return $this;
-        }
-        foreach($filter as $v) {
-            if ($v instanceof FHIRTerminologyCapabilitiesFilter) {
-                $this->addFilter($v);
-            } else {
-                $this->addFilter(new FHIRTerminologyCapabilitiesFilter($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A string which has at least one character and no leading or trailing whitespace
      * and where there is no whitespace other than single spaces in the contents
      * If the element is present, it must have either a \@value, an \@id referenced from
@@ -567,14 +569,19 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      * Properties supported for $lookup.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRCodePrimitive|\HL7\FHIR\R4\FHIRElement\FHIRCode $property
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function addProperty(null|string|FHIRCodePrimitive|FHIRCode $property = null): self
+    public function addProperty(null|string|FHIRCodePrimitive|FHIRCode $property = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $property && !($property instanceof FHIRCode)) {
             $property = new FHIRCode($property);
         }
         $this->_trackValueAdded();
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_PROPERTY])) {
+            $this->_primitiveXmlLocations[self::FIELD_PROPERTY] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_PROPERTY][] = $xmlLocation;
         $this->property[] = $property;
         return $this;
     }
@@ -588,10 +595,12 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
      * Properties supported for $lookup.
      *
      * @param \HL7\FHIR\R4\FHIRElement\FHIRCode[] $property
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setProperty(array $property = []): self
+    public function setProperty(array $property = [], PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
+        unset($this->_primitiveXmlLocations[self::FIELD_PROPERTY]);
         if ([] !== $this->property) {
             $this->_trackValuesRemoved(count($this->property));
             $this->property = [];
@@ -601,9 +610,9 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
         }
         foreach($property as $v) {
             if ($v instanceof FHIRCode) {
-                $this->addProperty($v);
+                $this->addProperty($v, $xmlLocation);
             } else {
-                $this->addProperty(new FHIRCode($v));
+                $this->addProperty(new FHIRCode($v), $xmlLocation);
             }
         }
         return $this;
@@ -778,37 +787,23 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRTerminologyCapabilities\FHIRTerminologyCapabilitiesVersion $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRTerminologyCapabilities\FHIRTerminologyCapabilitiesVersion
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -820,150 +815,174 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_CODE === $n->nodeName) {
-                $type->setCode(FHIRString::xmlUnserialize($n));
-            } elseif (self::FIELD_IS_DEFAULT === $n->nodeName) {
-                $type->setIsDefault(FHIRBoolean::xmlUnserialize($n));
-            } elseif (self::FIELD_COMPOSITIONAL === $n->nodeName) {
-                $type->setCompositional(FHIRBoolean::xmlUnserialize($n));
-            } elseif (self::FIELD_LANGUAGE === $n->nodeName) {
-                $type->addLanguage(FHIRCode::xmlUnserialize($n));
-            } elseif (self::FIELD_FILTER === $n->nodeName) {
-                $type->addFilter(FHIRTerminologyCapabilitiesFilter::xmlUnserialize($n));
-            } elseif (self::FIELD_PROPERTY === $n->nodeName) {
-                $type->addProperty(FHIRCode::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRStringPrimitive::xmlUnserialize($n));
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_CODE === $childName) {
+                $type->setCode(FHIRString::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_IS_DEFAULT === $childName) {
+                $type->setIsDefault(FHIRBoolean::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_COMPOSITIONAL === $childName) {
+                $type->setCompositional(FHIRBoolean::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_LANGUAGE === $childName) {
+                $type->addLanguage(FHIRCode::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_FILTER === $childName) {
+                $type->addFilter(FHIRTerminologyCapabilitiesFilter::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PROPERTY === $childName) {
+                $type->addProperty(FHIRCode::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRStringPrimitive::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_CODE);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_CODE])) {
             $pt = $type->getCode();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_CODE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setCode($n->nodeValue);
+                $type->setCode((string)$attributes[self::FIELD_CODE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_IS_DEFAULT);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_IS_DEFAULT])) {
             $pt = $type->getIsDefault();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_IS_DEFAULT], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setIsDefault($n->nodeValue);
+                $type->setIsDefault((string)$attributes[self::FIELD_IS_DEFAULT], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_COMPOSITIONAL);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_COMPOSITIONAL])) {
             $pt = $type->getCompositional();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_COMPOSITIONAL], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setCompositional($n->nodeValue);
+                $type->setCompositional((string)$attributes[self::FIELD_COMPOSITIONAL], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_LANGUAGE);
-        if (null !== $n) {
-            $type->addLanguage($n->nodeValue);
+        if (isset($attributes[self::FIELD_LANGUAGE])) {
+            $type->addLanguage((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_PROPERTY);
-        if (null !== $n) {
-            $type->addProperty($n->nodeValue);
+        if (isset($attributes[self::FIELD_PROPERTY])) {
+            $type->addProperty((string)$attributes[self::FIELD_PROPERTY], PHPFHIRXmlLocationEnum::ATTRIBUTE);
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('TerminologyCapabilitiesVersion'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
-        if (null !== ($v = $this->getCode())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CODE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
         }
-        if (null !== ($v = $this->getIsDefault())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_IS_DEFAULT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
         }
-        if (null !== ($v = $this->getCompositional())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_COMPOSITIONAL);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'TerminologyCapabilitiesVersion', $this->_getSourceXmlns());
         }
-        if ([] !== ($vs = $this->getLanguage())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
+        $locs = $this->_primitiveXmlLocations[self::FIELD_CODE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getCode())) {
+            $xw->writeAttribute(self::FIELD_CODE, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_IS_DEFAULT] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getIsDefault())) {
+            $xw->writeAttribute(self::FIELD_IS_DEFAULT, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_COMPOSITIONAL] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getCompositional())) {
+            $xw->writeAttribute(self::FIELD_COMPOSITIONAL, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_LANGUAGE] ?? [];
+        if ([] === $locs && [] !== ($vs = $this->getLanguage())) {
+            $xw->writeAttribute(self::FIELD_LANGUAGE, $vs[0]->getValue()?->getFormattedValue());
+        } else if (false !== ($idx = array_search(PHPFHIRXmlLocationEnum::ATTRIBUTE, $locs, true)) && [] !== ($vs = $this->getLanguage()) && isset($vs[$idx])) {
+            $xw->writeAttribute(self::FIELD_LANGUAGE, $vs[$idx]->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PROPERTY] ?? [];
+        if ([] === $locs && [] !== ($vs = $this->getProperty())) {
+            $xw->writeAttribute(self::FIELD_PROPERTY, $vs[0]->getValue()?->getFormattedValue());
+        } else if (false !== ($idx = array_search(PHPFHIRXmlLocationEnum::ATTRIBUTE, $locs, true)) && [] !== ($vs = $this->getProperty()) && isset($vs[$idx])) {
+            $xw->writeAttribute(self::FIELD_PROPERTY, $vs[$idx]->getValue()?->getFormattedValue());
+        }
+        parent::xmlSerialize($xw, $config);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_CODE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getCode())) {
+            $xw->startElement(self::FIELD_CODE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_IS_DEFAULT] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getIsDefault())) {
+            $xw->startElement(self::FIELD_IS_DEFAULT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_COMPOSITIONAL] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getCompositional())) {
+            $xw->startElement(self::FIELD_COMPOSITIONAL);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_LANGUAGE] ?? [];
+        if (([] === $locs || in_array(PHPFHIRXmlLocationEnum::ELEMENT, $locs, true)) && [] !== ($vs = $this->getLanguage())) {
+            foreach($vs as $i => $v) {
+                if (!isset($locs[$i]) || PHPFHIRXmlLocationEnum::ELEMENT === $locs[$i]) {
+                    $xw->startElement(self::FIELD_LANGUAGE);
+                    $v->xmlSerialize($xw, $config);
+                    $xw->endElement();
                 }
-                $telement = $element->ownerDocument->createElement(self::FIELD_LANGUAGE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
             }
         }
-        if ([] !== ($vs = $this->getFilter())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
+        foreach ($this->getFilter() as $v) {
+            $xw->startElement(self::FIELD_FILTER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PROPERTY] ?? [];
+        if (([] === $locs || in_array(PHPFHIRXmlLocationEnum::ELEMENT, $locs, true)) && [] !== ($vs = $this->getProperty())) {
+            foreach($vs as $i => $v) {
+                if (!isset($locs[$i]) || PHPFHIRXmlLocationEnum::ELEMENT === $locs[$i]) {
+                    $xw->startElement(self::FIELD_PROPERTY);
+                    $v->xmlSerialize($xw, $config);
+                    $xw->endElement();
                 }
-                $telement = $element->ownerDocument->createElement(self::FIELD_FILTER);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
             }
         }
-        if ([] !== ($vs = $this->getProperty())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_PROPERTY);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
         }
-        return $element;
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -1029,9 +1048,6 @@ class FHIRTerminologyCapabilitiesVersion extends FHIRBackboneElement
         if ([] !== ($vs = $this->getFilter())) {
             $out->{self::FIELD_FILTER} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_FILTER}[] = $v;
             }
         }

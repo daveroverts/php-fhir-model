@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -66,14 +66,18 @@ namespace HL7\FHIR\STU3;
  * Class PHPFHIRConstants
  * @package \HL7\FHIR\STU3
  */
-abstract class PHPFHIRConstants
+final class PHPFHIRConstants
 {
     // FHIR source
     public const SOURCE_VERSION = 'v3.0.1';
     public const SOURCE_GENERATION_DATE = 'Wed, Apr 19, 2017 07:44+1000';
 
     // PHPFHIR
-    public const CODE_GENERATION_DATE = 'May 1st, 2024 07:44+0000';
+    public const CODE_GENERATION_DATE = 'May 13th, 2024 09:03+0000';
+
+    // Config Defaults
+    public const DEFAULT_LIBXML_OPTS = LIBXML_NONET | LIBXML_BIGLINES | LIBXML_PARSEHUGE | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOXMLDECL;
+    public const DEFAULT_XMLNS = 'https://hl7.org/fhir';
 
     // Common
     public const JSON_FIELD_RESOURCE_TYPE = 'resourceType';

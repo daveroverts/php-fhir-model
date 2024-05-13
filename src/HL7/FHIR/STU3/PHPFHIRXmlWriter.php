@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -62,127 +62,149 @@ namespace HL7\FHIR\STU3;
  * 
  */
 
-    /**
-    * Trait PHPFHIRXmlSerializableConfigTrait
-    * @package \HL7\FHIR\STU3
-    */
-trait PHPFHIRXmlSerializableConfigTrait
+/**
+ * Fhir Xml Writer
+ *
+ * Class PHPFHIRXmlWriter
+ * @package \HL7\FHIR\STU3
+ */
+class PHPFHIRXmlWriter extends \XMLWriter
 {
-    /** @var int */
-    private int $libxmlOpts;
-    /** @var string */
-    private string $domVersion;
-    /** @var string */
-    private string $encoding;
+    private const MEM = 'memory';
+
     /** @var bool */
-    private bool $preserveWhitespace;
+    private bool $_docStarted = false;
     /** @var bool */
-    private bool $formatOutput;
+    private bool $_rootOpen = false;
+    /** @var null|string */
+    private null|string $_open = null;
 
     /**
-     * @return \DOMDocument;
-     */
-    public function newDOMDocument(): \DOMDocument
-    {
-        $dom = new \DOMDocument($this->getDOMVersion(), $this->getEncoding());
-        $dom->preserveWhiteSpace = $this->getPreserveWhitespace();
-        $dom->formatOutput = $this->getFormatOutput();
-        return $dom;
-    }
-
-    /**
-     * Sets the option flags to provide to libxml when serializing and unserializing XML
+     * @see https://www.php.net/manual/en/xmlwriter.openmemory.php
      *
-     * @param int $libxmlOpts
-     * @return static
+     * @return bool
      */
-    public function setLibxmlOpts(int $libxmlOpts): self
+    public function openMemory(): bool
     {
-        $this->libxmlOpts = $libxmlOpts;
-        return $this;
+        $this->_open = self::MEM;
+        return parent::openMemory();
     }
 
     /**
-     * Returns set libxml option flags
+     * @see https://www.php.net/manual/en/xmlwriter.openuri.php
      *
-     * @return int
+     * @param string $uri
+     * @return bool
      */
-    public function getLibxmlOpts(): int
+    public function openUri(string $uri): bool
     {
-        return $this->libxmlOpts ?? PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
-    }
-
-    /**
-     * @param string $domVersion
-     * @return static
-     */
-    public function setDOMVersion(string $domVersion): self
-    {
-        $this->domVersion = $domVersion;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDOMVersion(): string
-    {
-        return $this->domVersion ?? PHPFHIRXmlSerializableConfigInterface::DEFAULT_DOM_VERSION;
-    }
-
-    /**
-     * @param string $encoding
-     * @return static
-     */
-    public function setEncoding(string $encoding): self
-    {
-        $this->encoding = $encoding;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEncoding(): string
-    {
-        return $this->encoding ?? PHPFHIRXmlSerializableConfigInterface::DEFAULT_ENCODING;
-    }
-
-    /**
-     * Sets whether or not to preserve whitespace when rendering XML
-     *
-     * @param bool $preserveWhitespace
-     * @return static
-     */
-    public function setPreserveWhitespace(bool $preserveWhitespace): self
-    {
-        $this->preserveWhitespace = $preserveWhitespace;
-        return $this;
+        $this->_open = $uri;
+        return parent::openUri($uri);
     }
 
     /**
      * @return bool
      */
-    public function getPreserveWhitespace(): bool
+    public function isOpen(): bool
     {
-        return $this->preserveWhitespace ?? PHPFHIRXmlSerializableConfigInterface::DEFAULT_PRESERVE_WHITESPACE;
+        return null !== $this->_open;
     }
 
     /**
-     * @param bool $formatOutput
-     * @return static
+     * Returns the destination of writes made by this class.  Value will be "null" if not opened, "memory" if writing
+     * opened with "openMemory()", or the $uri provided to "openUri()"
+     *
+     * @return null|string
      */
-    public function setFormatOutput(bool $formatOutput): self
+    public function getWriteDestination(): null|string
     {
-        $this->formatOutput = $formatOutput;
-        return $this;
+        return $this->_open;
+    }
+
+    /**
+     * Used to track whether the document has been started
+     *
+     * @return bool
+     */
+    public function isDocStarted(): bool
+    {
+        return $this->_docStarted;
+    }
+
+    /**
+     * @see https://www.php.net/manual/en/xmlwriter.startdocument.php
+     *
+     * @param null|string $version
+     * @param null|string $encoding
+     * @param null|string $standalone
+     * @return bool
+     */
+    public function startDocument(null|string $version = '1.0', null|string $encoding = 'UTF-8', null|string $standalone = 'yes'): bool
+    {
+        $this->_docStarted = true;
+        return parent::startDocument($version, $encoding, $standalone);
+    }
+
+    /**
+     * @see https://www.php.net/manual/en/xmlwriter.startattribute.php
+     *
+     * @param string $name Attribute name
+     * @param string $value Attribute value
+     * @return bool
+     */
+    public function writeAttribute(string $name, string $value): bool
+    {
+        return $this->startAttribute($name)
+            && $this->text($value)
+            && $this->endAttribute();
+    }
+
+    /**
+     * Write a complete element with a text value
+     *
+     * @param string $name Element name
+     * @param string $value Element text value
+     * @return bool
+     */
+    public function writeSimpleElement(string $name, string $value): bool
+    {
+        return $this->startElement($name)
+            && $this->text($value)
+            && $this->endElement();
     }
 
     /**
      * @return bool
      */
-    public function getFormatOutput(): bool
+    public function isRootOpen(): bool
     {
-        return $this->formatOutput ?? PHPFHIRXmlSerializableConfigInterface::DEFAULT_FORMAT_OUTPUT;
+        return $this->_rootOpen;
+    }
+
+    /**
+     * @param \HL7\FHIR\STU3\PHPFHIRConfig $config
+     * @param string $name
+     * @param string|null $sourceXmlns
+     * @return bool
+     */
+    public function openRootNode(PHPFHIRConfig $config, string $name, null|string $sourceXmlns): bool
+    {
+        $ok = $this->startElement($name);
+        if (!$ok) {
+            return false;
+        }
+        if ($config->getOverrideSourceXmlns() || null === $sourceXmlns) {
+            $ns = (string)$config->getRootXmlns();
+        } else {
+            $ns = $sourceXmlns;
+        }
+        if ('' !== $ns) {
+            $ok = $this->writeAttribute('xmlns', $ns);
+            if (!$ok) {
+                return false;
+            }
+        }
+        $this->_rootOpen = true;
+        return true;
     }
 }

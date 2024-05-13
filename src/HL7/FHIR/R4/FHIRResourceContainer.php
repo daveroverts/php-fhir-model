@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -218,7 +218,7 @@ class FHIRResourceContainer implements PHPFHIRCommentContainerInterface, PHPFHIR
     use PHPFHIRCommentContainerTrait;
     use PHPFHIRValidationAssertionsTrait;
     use PHPFHIRChangeTrackingTrait;
-    use PHPFHIRXmlNamespaceTrait;
+    use PHPFHIRSourceXmlNamespaceTrait;
 
     // name of FHIR type this class describes
     const FHIR_TYPE_NAME = PHPFHIRConstants::TYPE_NAME_RESOURCE_CONTAINER;
@@ -1656,10 +1656,12 @@ class FHIRResourceContainer implements PHPFHIRCommentContainerInterface, PHPFHIR
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRResourceContainer Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -1674,1022 +1676,1022 @@ class FHIRResourceContainer implements PHPFHIRCommentContainerInterface, PHPFHIR
                 $this->_addFHIRComment($data[PHPFHIRConstants::JSON_FIELD_FHIR_COMMENTS]);
             }
         }
-        if (isset($data[self::FIELD_ACCOUNT])) {
+        if (array_key_exists(self::FIELD_ACCOUNT, $data)) {
             if ($data[self::FIELD_ACCOUNT] instanceof FHIRAccount) {
                 $this->setAccount($data[self::FIELD_ACCOUNT]);
             } else {
                 $this->setAccount(new FHIRAccount($data[self::FIELD_ACCOUNT]));
             }
         }
-        if (isset($data[self::FIELD_ACTIVITY_DEFINITION])) {
+        if (array_key_exists(self::FIELD_ACTIVITY_DEFINITION, $data)) {
             if ($data[self::FIELD_ACTIVITY_DEFINITION] instanceof FHIRActivityDefinition) {
                 $this->setActivityDefinition($data[self::FIELD_ACTIVITY_DEFINITION]);
             } else {
                 $this->setActivityDefinition(new FHIRActivityDefinition($data[self::FIELD_ACTIVITY_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_ADVERSE_EVENT])) {
+        if (array_key_exists(self::FIELD_ADVERSE_EVENT, $data)) {
             if ($data[self::FIELD_ADVERSE_EVENT] instanceof FHIRAdverseEvent) {
                 $this->setAdverseEvent($data[self::FIELD_ADVERSE_EVENT]);
             } else {
                 $this->setAdverseEvent(new FHIRAdverseEvent($data[self::FIELD_ADVERSE_EVENT]));
             }
         }
-        if (isset($data[self::FIELD_ALLERGY_INTOLERANCE])) {
+        if (array_key_exists(self::FIELD_ALLERGY_INTOLERANCE, $data)) {
             if ($data[self::FIELD_ALLERGY_INTOLERANCE] instanceof FHIRAllergyIntolerance) {
                 $this->setAllergyIntolerance($data[self::FIELD_ALLERGY_INTOLERANCE]);
             } else {
                 $this->setAllergyIntolerance(new FHIRAllergyIntolerance($data[self::FIELD_ALLERGY_INTOLERANCE]));
             }
         }
-        if (isset($data[self::FIELD_APPOINTMENT])) {
+        if (array_key_exists(self::FIELD_APPOINTMENT, $data)) {
             if ($data[self::FIELD_APPOINTMENT] instanceof FHIRAppointment) {
                 $this->setAppointment($data[self::FIELD_APPOINTMENT]);
             } else {
                 $this->setAppointment(new FHIRAppointment($data[self::FIELD_APPOINTMENT]));
             }
         }
-        if (isset($data[self::FIELD_APPOINTMENT_RESPONSE])) {
+        if (array_key_exists(self::FIELD_APPOINTMENT_RESPONSE, $data)) {
             if ($data[self::FIELD_APPOINTMENT_RESPONSE] instanceof FHIRAppointmentResponse) {
                 $this->setAppointmentResponse($data[self::FIELD_APPOINTMENT_RESPONSE]);
             } else {
                 $this->setAppointmentResponse(new FHIRAppointmentResponse($data[self::FIELD_APPOINTMENT_RESPONSE]));
             }
         }
-        if (isset($data[self::FIELD_AUDIT_EVENT])) {
+        if (array_key_exists(self::FIELD_AUDIT_EVENT, $data)) {
             if ($data[self::FIELD_AUDIT_EVENT] instanceof FHIRAuditEvent) {
                 $this->setAuditEvent($data[self::FIELD_AUDIT_EVENT]);
             } else {
                 $this->setAuditEvent(new FHIRAuditEvent($data[self::FIELD_AUDIT_EVENT]));
             }
         }
-        if (isset($data[self::FIELD_BASIC])) {
+        if (array_key_exists(self::FIELD_BASIC, $data)) {
             if ($data[self::FIELD_BASIC] instanceof FHIRBasic) {
                 $this->setBasic($data[self::FIELD_BASIC]);
             } else {
                 $this->setBasic(new FHIRBasic($data[self::FIELD_BASIC]));
             }
         }
-        if (isset($data[self::FIELD_BINARY])) {
+        if (array_key_exists(self::FIELD_BINARY, $data)) {
             if ($data[self::FIELD_BINARY] instanceof FHIRBinary) {
                 $this->setBinary($data[self::FIELD_BINARY]);
             } else {
                 $this->setBinary(new FHIRBinary($data[self::FIELD_BINARY]));
             }
         }
-        if (isset($data[self::FIELD_BIOLOGICALLY_DERIVED_PRODUCT])) {
+        if (array_key_exists(self::FIELD_BIOLOGICALLY_DERIVED_PRODUCT, $data)) {
             if ($data[self::FIELD_BIOLOGICALLY_DERIVED_PRODUCT] instanceof FHIRBiologicallyDerivedProduct) {
                 $this->setBiologicallyDerivedProduct($data[self::FIELD_BIOLOGICALLY_DERIVED_PRODUCT]);
             } else {
                 $this->setBiologicallyDerivedProduct(new FHIRBiologicallyDerivedProduct($data[self::FIELD_BIOLOGICALLY_DERIVED_PRODUCT]));
             }
         }
-        if (isset($data[self::FIELD_BODY_STRUCTURE])) {
+        if (array_key_exists(self::FIELD_BODY_STRUCTURE, $data)) {
             if ($data[self::FIELD_BODY_STRUCTURE] instanceof FHIRBodyStructure) {
                 $this->setBodyStructure($data[self::FIELD_BODY_STRUCTURE]);
             } else {
                 $this->setBodyStructure(new FHIRBodyStructure($data[self::FIELD_BODY_STRUCTURE]));
             }
         }
-        if (isset($data[self::FIELD_BUNDLE])) {
+        if (array_key_exists(self::FIELD_BUNDLE, $data)) {
             if ($data[self::FIELD_BUNDLE] instanceof FHIRBundle) {
                 $this->setBundle($data[self::FIELD_BUNDLE]);
             } else {
                 $this->setBundle(new FHIRBundle($data[self::FIELD_BUNDLE]));
             }
         }
-        if (isset($data[self::FIELD_CAPABILITY_STATEMENT])) {
+        if (array_key_exists(self::FIELD_CAPABILITY_STATEMENT, $data)) {
             if ($data[self::FIELD_CAPABILITY_STATEMENT] instanceof FHIRCapabilityStatement) {
                 $this->setCapabilityStatement($data[self::FIELD_CAPABILITY_STATEMENT]);
             } else {
                 $this->setCapabilityStatement(new FHIRCapabilityStatement($data[self::FIELD_CAPABILITY_STATEMENT]));
             }
         }
-        if (isset($data[self::FIELD_CARE_PLAN])) {
+        if (array_key_exists(self::FIELD_CARE_PLAN, $data)) {
             if ($data[self::FIELD_CARE_PLAN] instanceof FHIRCarePlan) {
                 $this->setCarePlan($data[self::FIELD_CARE_PLAN]);
             } else {
                 $this->setCarePlan(new FHIRCarePlan($data[self::FIELD_CARE_PLAN]));
             }
         }
-        if (isset($data[self::FIELD_CARE_TEAM])) {
+        if (array_key_exists(self::FIELD_CARE_TEAM, $data)) {
             if ($data[self::FIELD_CARE_TEAM] instanceof FHIRCareTeam) {
                 $this->setCareTeam($data[self::FIELD_CARE_TEAM]);
             } else {
                 $this->setCareTeam(new FHIRCareTeam($data[self::FIELD_CARE_TEAM]));
             }
         }
-        if (isset($data[self::FIELD_CATALOG_ENTRY])) {
+        if (array_key_exists(self::FIELD_CATALOG_ENTRY, $data)) {
             if ($data[self::FIELD_CATALOG_ENTRY] instanceof FHIRCatalogEntry) {
                 $this->setCatalogEntry($data[self::FIELD_CATALOG_ENTRY]);
             } else {
                 $this->setCatalogEntry(new FHIRCatalogEntry($data[self::FIELD_CATALOG_ENTRY]));
             }
         }
-        if (isset($data[self::FIELD_CHARGE_ITEM])) {
+        if (array_key_exists(self::FIELD_CHARGE_ITEM, $data)) {
             if ($data[self::FIELD_CHARGE_ITEM] instanceof FHIRChargeItem) {
                 $this->setChargeItem($data[self::FIELD_CHARGE_ITEM]);
             } else {
                 $this->setChargeItem(new FHIRChargeItem($data[self::FIELD_CHARGE_ITEM]));
             }
         }
-        if (isset($data[self::FIELD_CHARGE_ITEM_DEFINITION])) {
+        if (array_key_exists(self::FIELD_CHARGE_ITEM_DEFINITION, $data)) {
             if ($data[self::FIELD_CHARGE_ITEM_DEFINITION] instanceof FHIRChargeItemDefinition) {
                 $this->setChargeItemDefinition($data[self::FIELD_CHARGE_ITEM_DEFINITION]);
             } else {
                 $this->setChargeItemDefinition(new FHIRChargeItemDefinition($data[self::FIELD_CHARGE_ITEM_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_CLAIM])) {
+        if (array_key_exists(self::FIELD_CLAIM, $data)) {
             if ($data[self::FIELD_CLAIM] instanceof FHIRClaim) {
                 $this->setClaim($data[self::FIELD_CLAIM]);
             } else {
                 $this->setClaim(new FHIRClaim($data[self::FIELD_CLAIM]));
             }
         }
-        if (isset($data[self::FIELD_CLAIM_RESPONSE])) {
+        if (array_key_exists(self::FIELD_CLAIM_RESPONSE, $data)) {
             if ($data[self::FIELD_CLAIM_RESPONSE] instanceof FHIRClaimResponse) {
                 $this->setClaimResponse($data[self::FIELD_CLAIM_RESPONSE]);
             } else {
                 $this->setClaimResponse(new FHIRClaimResponse($data[self::FIELD_CLAIM_RESPONSE]));
             }
         }
-        if (isset($data[self::FIELD_CLINICAL_IMPRESSION])) {
+        if (array_key_exists(self::FIELD_CLINICAL_IMPRESSION, $data)) {
             if ($data[self::FIELD_CLINICAL_IMPRESSION] instanceof FHIRClinicalImpression) {
                 $this->setClinicalImpression($data[self::FIELD_CLINICAL_IMPRESSION]);
             } else {
                 $this->setClinicalImpression(new FHIRClinicalImpression($data[self::FIELD_CLINICAL_IMPRESSION]));
             }
         }
-        if (isset($data[self::FIELD_CODE_SYSTEM])) {
+        if (array_key_exists(self::FIELD_CODE_SYSTEM, $data)) {
             if ($data[self::FIELD_CODE_SYSTEM] instanceof FHIRCodeSystem) {
                 $this->setCodeSystem($data[self::FIELD_CODE_SYSTEM]);
             } else {
                 $this->setCodeSystem(new FHIRCodeSystem($data[self::FIELD_CODE_SYSTEM]));
             }
         }
-        if (isset($data[self::FIELD_COMMUNICATION])) {
+        if (array_key_exists(self::FIELD_COMMUNICATION, $data)) {
             if ($data[self::FIELD_COMMUNICATION] instanceof FHIRCommunication) {
                 $this->setCommunication($data[self::FIELD_COMMUNICATION]);
             } else {
                 $this->setCommunication(new FHIRCommunication($data[self::FIELD_COMMUNICATION]));
             }
         }
-        if (isset($data[self::FIELD_COMMUNICATION_REQUEST])) {
+        if (array_key_exists(self::FIELD_COMMUNICATION_REQUEST, $data)) {
             if ($data[self::FIELD_COMMUNICATION_REQUEST] instanceof FHIRCommunicationRequest) {
                 $this->setCommunicationRequest($data[self::FIELD_COMMUNICATION_REQUEST]);
             } else {
                 $this->setCommunicationRequest(new FHIRCommunicationRequest($data[self::FIELD_COMMUNICATION_REQUEST]));
             }
         }
-        if (isset($data[self::FIELD_COMPARTMENT_DEFINITION])) {
+        if (array_key_exists(self::FIELD_COMPARTMENT_DEFINITION, $data)) {
             if ($data[self::FIELD_COMPARTMENT_DEFINITION] instanceof FHIRCompartmentDefinition) {
                 $this->setCompartmentDefinition($data[self::FIELD_COMPARTMENT_DEFINITION]);
             } else {
                 $this->setCompartmentDefinition(new FHIRCompartmentDefinition($data[self::FIELD_COMPARTMENT_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_COMPOSITION])) {
+        if (array_key_exists(self::FIELD_COMPOSITION, $data)) {
             if ($data[self::FIELD_COMPOSITION] instanceof FHIRComposition) {
                 $this->setComposition($data[self::FIELD_COMPOSITION]);
             } else {
                 $this->setComposition(new FHIRComposition($data[self::FIELD_COMPOSITION]));
             }
         }
-        if (isset($data[self::FIELD_CONCEPT_MAP])) {
+        if (array_key_exists(self::FIELD_CONCEPT_MAP, $data)) {
             if ($data[self::FIELD_CONCEPT_MAP] instanceof FHIRConceptMap) {
                 $this->setConceptMap($data[self::FIELD_CONCEPT_MAP]);
             } else {
                 $this->setConceptMap(new FHIRConceptMap($data[self::FIELD_CONCEPT_MAP]));
             }
         }
-        if (isset($data[self::FIELD_CONDITION])) {
+        if (array_key_exists(self::FIELD_CONDITION, $data)) {
             if ($data[self::FIELD_CONDITION] instanceof FHIRCondition) {
                 $this->setCondition($data[self::FIELD_CONDITION]);
             } else {
                 $this->setCondition(new FHIRCondition($data[self::FIELD_CONDITION]));
             }
         }
-        if (isset($data[self::FIELD_CONSENT])) {
+        if (array_key_exists(self::FIELD_CONSENT, $data)) {
             if ($data[self::FIELD_CONSENT] instanceof FHIRConsent) {
                 $this->setConsent($data[self::FIELD_CONSENT]);
             } else {
                 $this->setConsent(new FHIRConsent($data[self::FIELD_CONSENT]));
             }
         }
-        if (isset($data[self::FIELD_CONTRACT])) {
+        if (array_key_exists(self::FIELD_CONTRACT, $data)) {
             if ($data[self::FIELD_CONTRACT] instanceof FHIRContract) {
                 $this->setContract($data[self::FIELD_CONTRACT]);
             } else {
                 $this->setContract(new FHIRContract($data[self::FIELD_CONTRACT]));
             }
         }
-        if (isset($data[self::FIELD_COVERAGE])) {
+        if (array_key_exists(self::FIELD_COVERAGE, $data)) {
             if ($data[self::FIELD_COVERAGE] instanceof FHIRCoverage) {
                 $this->setCoverage($data[self::FIELD_COVERAGE]);
             } else {
                 $this->setCoverage(new FHIRCoverage($data[self::FIELD_COVERAGE]));
             }
         }
-        if (isset($data[self::FIELD_COVERAGE_ELIGIBILITY_REQUEST])) {
+        if (array_key_exists(self::FIELD_COVERAGE_ELIGIBILITY_REQUEST, $data)) {
             if ($data[self::FIELD_COVERAGE_ELIGIBILITY_REQUEST] instanceof FHIRCoverageEligibilityRequest) {
                 $this->setCoverageEligibilityRequest($data[self::FIELD_COVERAGE_ELIGIBILITY_REQUEST]);
             } else {
                 $this->setCoverageEligibilityRequest(new FHIRCoverageEligibilityRequest($data[self::FIELD_COVERAGE_ELIGIBILITY_REQUEST]));
             }
         }
-        if (isset($data[self::FIELD_COVERAGE_ELIGIBILITY_RESPONSE])) {
+        if (array_key_exists(self::FIELD_COVERAGE_ELIGIBILITY_RESPONSE, $data)) {
             if ($data[self::FIELD_COVERAGE_ELIGIBILITY_RESPONSE] instanceof FHIRCoverageEligibilityResponse) {
                 $this->setCoverageEligibilityResponse($data[self::FIELD_COVERAGE_ELIGIBILITY_RESPONSE]);
             } else {
                 $this->setCoverageEligibilityResponse(new FHIRCoverageEligibilityResponse($data[self::FIELD_COVERAGE_ELIGIBILITY_RESPONSE]));
             }
         }
-        if (isset($data[self::FIELD_DETECTED_ISSUE])) {
+        if (array_key_exists(self::FIELD_DETECTED_ISSUE, $data)) {
             if ($data[self::FIELD_DETECTED_ISSUE] instanceof FHIRDetectedIssue) {
                 $this->setDetectedIssue($data[self::FIELD_DETECTED_ISSUE]);
             } else {
                 $this->setDetectedIssue(new FHIRDetectedIssue($data[self::FIELD_DETECTED_ISSUE]));
             }
         }
-        if (isset($data[self::FIELD_DEVICE])) {
+        if (array_key_exists(self::FIELD_DEVICE, $data)) {
             if ($data[self::FIELD_DEVICE] instanceof FHIRDevice) {
                 $this->setDevice($data[self::FIELD_DEVICE]);
             } else {
                 $this->setDevice(new FHIRDevice($data[self::FIELD_DEVICE]));
             }
         }
-        if (isset($data[self::FIELD_DEVICE_DEFINITION])) {
+        if (array_key_exists(self::FIELD_DEVICE_DEFINITION, $data)) {
             if ($data[self::FIELD_DEVICE_DEFINITION] instanceof FHIRDeviceDefinition) {
                 $this->setDeviceDefinition($data[self::FIELD_DEVICE_DEFINITION]);
             } else {
                 $this->setDeviceDefinition(new FHIRDeviceDefinition($data[self::FIELD_DEVICE_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_DEVICE_METRIC])) {
+        if (array_key_exists(self::FIELD_DEVICE_METRIC, $data)) {
             if ($data[self::FIELD_DEVICE_METRIC] instanceof FHIRDeviceMetric) {
                 $this->setDeviceMetric($data[self::FIELD_DEVICE_METRIC]);
             } else {
                 $this->setDeviceMetric(new FHIRDeviceMetric($data[self::FIELD_DEVICE_METRIC]));
             }
         }
-        if (isset($data[self::FIELD_DEVICE_REQUEST])) {
+        if (array_key_exists(self::FIELD_DEVICE_REQUEST, $data)) {
             if ($data[self::FIELD_DEVICE_REQUEST] instanceof FHIRDeviceRequest) {
                 $this->setDeviceRequest($data[self::FIELD_DEVICE_REQUEST]);
             } else {
                 $this->setDeviceRequest(new FHIRDeviceRequest($data[self::FIELD_DEVICE_REQUEST]));
             }
         }
-        if (isset($data[self::FIELD_DEVICE_USE_STATEMENT])) {
+        if (array_key_exists(self::FIELD_DEVICE_USE_STATEMENT, $data)) {
             if ($data[self::FIELD_DEVICE_USE_STATEMENT] instanceof FHIRDeviceUseStatement) {
                 $this->setDeviceUseStatement($data[self::FIELD_DEVICE_USE_STATEMENT]);
             } else {
                 $this->setDeviceUseStatement(new FHIRDeviceUseStatement($data[self::FIELD_DEVICE_USE_STATEMENT]));
             }
         }
-        if (isset($data[self::FIELD_DIAGNOSTIC_REPORT])) {
+        if (array_key_exists(self::FIELD_DIAGNOSTIC_REPORT, $data)) {
             if ($data[self::FIELD_DIAGNOSTIC_REPORT] instanceof FHIRDiagnosticReport) {
                 $this->setDiagnosticReport($data[self::FIELD_DIAGNOSTIC_REPORT]);
             } else {
                 $this->setDiagnosticReport(new FHIRDiagnosticReport($data[self::FIELD_DIAGNOSTIC_REPORT]));
             }
         }
-        if (isset($data[self::FIELD_DOCUMENT_MANIFEST])) {
+        if (array_key_exists(self::FIELD_DOCUMENT_MANIFEST, $data)) {
             if ($data[self::FIELD_DOCUMENT_MANIFEST] instanceof FHIRDocumentManifest) {
                 $this->setDocumentManifest($data[self::FIELD_DOCUMENT_MANIFEST]);
             } else {
                 $this->setDocumentManifest(new FHIRDocumentManifest($data[self::FIELD_DOCUMENT_MANIFEST]));
             }
         }
-        if (isset($data[self::FIELD_DOCUMENT_REFERENCE])) {
+        if (array_key_exists(self::FIELD_DOCUMENT_REFERENCE, $data)) {
             if ($data[self::FIELD_DOCUMENT_REFERENCE] instanceof FHIRDocumentReference) {
                 $this->setDocumentReference($data[self::FIELD_DOCUMENT_REFERENCE]);
             } else {
                 $this->setDocumentReference(new FHIRDocumentReference($data[self::FIELD_DOCUMENT_REFERENCE]));
             }
         }
-        if (isset($data[self::FIELD_EFFECT_EVIDENCE_SYNTHESIS])) {
+        if (array_key_exists(self::FIELD_EFFECT_EVIDENCE_SYNTHESIS, $data)) {
             if ($data[self::FIELD_EFFECT_EVIDENCE_SYNTHESIS] instanceof FHIREffectEvidenceSynthesis) {
                 $this->setEffectEvidenceSynthesis($data[self::FIELD_EFFECT_EVIDENCE_SYNTHESIS]);
             } else {
                 $this->setEffectEvidenceSynthesis(new FHIREffectEvidenceSynthesis($data[self::FIELD_EFFECT_EVIDENCE_SYNTHESIS]));
             }
         }
-        if (isset($data[self::FIELD_ENCOUNTER])) {
+        if (array_key_exists(self::FIELD_ENCOUNTER, $data)) {
             if ($data[self::FIELD_ENCOUNTER] instanceof FHIREncounter) {
                 $this->setEncounter($data[self::FIELD_ENCOUNTER]);
             } else {
                 $this->setEncounter(new FHIREncounter($data[self::FIELD_ENCOUNTER]));
             }
         }
-        if (isset($data[self::FIELD_ENDPOINT])) {
+        if (array_key_exists(self::FIELD_ENDPOINT, $data)) {
             if ($data[self::FIELD_ENDPOINT] instanceof FHIREndpoint) {
                 $this->setEndpoint($data[self::FIELD_ENDPOINT]);
             } else {
                 $this->setEndpoint(new FHIREndpoint($data[self::FIELD_ENDPOINT]));
             }
         }
-        if (isset($data[self::FIELD_ENROLLMENT_REQUEST])) {
+        if (array_key_exists(self::FIELD_ENROLLMENT_REQUEST, $data)) {
             if ($data[self::FIELD_ENROLLMENT_REQUEST] instanceof FHIREnrollmentRequest) {
                 $this->setEnrollmentRequest($data[self::FIELD_ENROLLMENT_REQUEST]);
             } else {
                 $this->setEnrollmentRequest(new FHIREnrollmentRequest($data[self::FIELD_ENROLLMENT_REQUEST]));
             }
         }
-        if (isset($data[self::FIELD_ENROLLMENT_RESPONSE])) {
+        if (array_key_exists(self::FIELD_ENROLLMENT_RESPONSE, $data)) {
             if ($data[self::FIELD_ENROLLMENT_RESPONSE] instanceof FHIREnrollmentResponse) {
                 $this->setEnrollmentResponse($data[self::FIELD_ENROLLMENT_RESPONSE]);
             } else {
                 $this->setEnrollmentResponse(new FHIREnrollmentResponse($data[self::FIELD_ENROLLMENT_RESPONSE]));
             }
         }
-        if (isset($data[self::FIELD_EPISODE_OF_CARE])) {
+        if (array_key_exists(self::FIELD_EPISODE_OF_CARE, $data)) {
             if ($data[self::FIELD_EPISODE_OF_CARE] instanceof FHIREpisodeOfCare) {
                 $this->setEpisodeOfCare($data[self::FIELD_EPISODE_OF_CARE]);
             } else {
                 $this->setEpisodeOfCare(new FHIREpisodeOfCare($data[self::FIELD_EPISODE_OF_CARE]));
             }
         }
-        if (isset($data[self::FIELD_EVENT_DEFINITION])) {
+        if (array_key_exists(self::FIELD_EVENT_DEFINITION, $data)) {
             if ($data[self::FIELD_EVENT_DEFINITION] instanceof FHIREventDefinition) {
                 $this->setEventDefinition($data[self::FIELD_EVENT_DEFINITION]);
             } else {
                 $this->setEventDefinition(new FHIREventDefinition($data[self::FIELD_EVENT_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_EVIDENCE])) {
+        if (array_key_exists(self::FIELD_EVIDENCE, $data)) {
             if ($data[self::FIELD_EVIDENCE] instanceof FHIREvidence) {
                 $this->setEvidence($data[self::FIELD_EVIDENCE]);
             } else {
                 $this->setEvidence(new FHIREvidence($data[self::FIELD_EVIDENCE]));
             }
         }
-        if (isset($data[self::FIELD_EVIDENCE_VARIABLE])) {
+        if (array_key_exists(self::FIELD_EVIDENCE_VARIABLE, $data)) {
             if ($data[self::FIELD_EVIDENCE_VARIABLE] instanceof FHIREvidenceVariable) {
                 $this->setEvidenceVariable($data[self::FIELD_EVIDENCE_VARIABLE]);
             } else {
                 $this->setEvidenceVariable(new FHIREvidenceVariable($data[self::FIELD_EVIDENCE_VARIABLE]));
             }
         }
-        if (isset($data[self::FIELD_EXAMPLE_SCENARIO])) {
+        if (array_key_exists(self::FIELD_EXAMPLE_SCENARIO, $data)) {
             if ($data[self::FIELD_EXAMPLE_SCENARIO] instanceof FHIRExampleScenario) {
                 $this->setExampleScenario($data[self::FIELD_EXAMPLE_SCENARIO]);
             } else {
                 $this->setExampleScenario(new FHIRExampleScenario($data[self::FIELD_EXAMPLE_SCENARIO]));
             }
         }
-        if (isset($data[self::FIELD_EXPLANATION_OF_BENEFIT])) {
+        if (array_key_exists(self::FIELD_EXPLANATION_OF_BENEFIT, $data)) {
             if ($data[self::FIELD_EXPLANATION_OF_BENEFIT] instanceof FHIRExplanationOfBenefit) {
                 $this->setExplanationOfBenefit($data[self::FIELD_EXPLANATION_OF_BENEFIT]);
             } else {
                 $this->setExplanationOfBenefit(new FHIRExplanationOfBenefit($data[self::FIELD_EXPLANATION_OF_BENEFIT]));
             }
         }
-        if (isset($data[self::FIELD_FAMILY_MEMBER_HISTORY])) {
+        if (array_key_exists(self::FIELD_FAMILY_MEMBER_HISTORY, $data)) {
             if ($data[self::FIELD_FAMILY_MEMBER_HISTORY] instanceof FHIRFamilyMemberHistory) {
                 $this->setFamilyMemberHistory($data[self::FIELD_FAMILY_MEMBER_HISTORY]);
             } else {
                 $this->setFamilyMemberHistory(new FHIRFamilyMemberHistory($data[self::FIELD_FAMILY_MEMBER_HISTORY]));
             }
         }
-        if (isset($data[self::FIELD_FLAG])) {
+        if (array_key_exists(self::FIELD_FLAG, $data)) {
             if ($data[self::FIELD_FLAG] instanceof FHIRFlag) {
                 $this->setFlag($data[self::FIELD_FLAG]);
             } else {
                 $this->setFlag(new FHIRFlag($data[self::FIELD_FLAG]));
             }
         }
-        if (isset($data[self::FIELD_GOAL])) {
+        if (array_key_exists(self::FIELD_GOAL, $data)) {
             if ($data[self::FIELD_GOAL] instanceof FHIRGoal) {
                 $this->setGoal($data[self::FIELD_GOAL]);
             } else {
                 $this->setGoal(new FHIRGoal($data[self::FIELD_GOAL]));
             }
         }
-        if (isset($data[self::FIELD_GRAPH_DEFINITION])) {
+        if (array_key_exists(self::FIELD_GRAPH_DEFINITION, $data)) {
             if ($data[self::FIELD_GRAPH_DEFINITION] instanceof FHIRGraphDefinition) {
                 $this->setGraphDefinition($data[self::FIELD_GRAPH_DEFINITION]);
             } else {
                 $this->setGraphDefinition(new FHIRGraphDefinition($data[self::FIELD_GRAPH_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_GROUP])) {
+        if (array_key_exists(self::FIELD_GROUP, $data)) {
             if ($data[self::FIELD_GROUP] instanceof FHIRGroup) {
                 $this->setGroup($data[self::FIELD_GROUP]);
             } else {
                 $this->setGroup(new FHIRGroup($data[self::FIELD_GROUP]));
             }
         }
-        if (isset($data[self::FIELD_GUIDANCE_RESPONSE])) {
+        if (array_key_exists(self::FIELD_GUIDANCE_RESPONSE, $data)) {
             if ($data[self::FIELD_GUIDANCE_RESPONSE] instanceof FHIRGuidanceResponse) {
                 $this->setGuidanceResponse($data[self::FIELD_GUIDANCE_RESPONSE]);
             } else {
                 $this->setGuidanceResponse(new FHIRGuidanceResponse($data[self::FIELD_GUIDANCE_RESPONSE]));
             }
         }
-        if (isset($data[self::FIELD_HEALTHCARE_SERVICE])) {
+        if (array_key_exists(self::FIELD_HEALTHCARE_SERVICE, $data)) {
             if ($data[self::FIELD_HEALTHCARE_SERVICE] instanceof FHIRHealthcareService) {
                 $this->setHealthcareService($data[self::FIELD_HEALTHCARE_SERVICE]);
             } else {
                 $this->setHealthcareService(new FHIRHealthcareService($data[self::FIELD_HEALTHCARE_SERVICE]));
             }
         }
-        if (isset($data[self::FIELD_IMAGING_STUDY])) {
+        if (array_key_exists(self::FIELD_IMAGING_STUDY, $data)) {
             if ($data[self::FIELD_IMAGING_STUDY] instanceof FHIRImagingStudy) {
                 $this->setImagingStudy($data[self::FIELD_IMAGING_STUDY]);
             } else {
                 $this->setImagingStudy(new FHIRImagingStudy($data[self::FIELD_IMAGING_STUDY]));
             }
         }
-        if (isset($data[self::FIELD_IMMUNIZATION])) {
+        if (array_key_exists(self::FIELD_IMMUNIZATION, $data)) {
             if ($data[self::FIELD_IMMUNIZATION] instanceof FHIRImmunization) {
                 $this->setImmunization($data[self::FIELD_IMMUNIZATION]);
             } else {
                 $this->setImmunization(new FHIRImmunization($data[self::FIELD_IMMUNIZATION]));
             }
         }
-        if (isset($data[self::FIELD_IMMUNIZATION_EVALUATION])) {
+        if (array_key_exists(self::FIELD_IMMUNIZATION_EVALUATION, $data)) {
             if ($data[self::FIELD_IMMUNIZATION_EVALUATION] instanceof FHIRImmunizationEvaluation) {
                 $this->setImmunizationEvaluation($data[self::FIELD_IMMUNIZATION_EVALUATION]);
             } else {
                 $this->setImmunizationEvaluation(new FHIRImmunizationEvaluation($data[self::FIELD_IMMUNIZATION_EVALUATION]));
             }
         }
-        if (isset($data[self::FIELD_IMMUNIZATION_RECOMMENDATION])) {
+        if (array_key_exists(self::FIELD_IMMUNIZATION_RECOMMENDATION, $data)) {
             if ($data[self::FIELD_IMMUNIZATION_RECOMMENDATION] instanceof FHIRImmunizationRecommendation) {
                 $this->setImmunizationRecommendation($data[self::FIELD_IMMUNIZATION_RECOMMENDATION]);
             } else {
                 $this->setImmunizationRecommendation(new FHIRImmunizationRecommendation($data[self::FIELD_IMMUNIZATION_RECOMMENDATION]));
             }
         }
-        if (isset($data[self::FIELD_IMPLEMENTATION_GUIDE])) {
+        if (array_key_exists(self::FIELD_IMPLEMENTATION_GUIDE, $data)) {
             if ($data[self::FIELD_IMPLEMENTATION_GUIDE] instanceof FHIRImplementationGuide) {
                 $this->setImplementationGuide($data[self::FIELD_IMPLEMENTATION_GUIDE]);
             } else {
                 $this->setImplementationGuide(new FHIRImplementationGuide($data[self::FIELD_IMPLEMENTATION_GUIDE]));
             }
         }
-        if (isset($data[self::FIELD_INSURANCE_PLAN])) {
+        if (array_key_exists(self::FIELD_INSURANCE_PLAN, $data)) {
             if ($data[self::FIELD_INSURANCE_PLAN] instanceof FHIRInsurancePlan) {
                 $this->setInsurancePlan($data[self::FIELD_INSURANCE_PLAN]);
             } else {
                 $this->setInsurancePlan(new FHIRInsurancePlan($data[self::FIELD_INSURANCE_PLAN]));
             }
         }
-        if (isset($data[self::FIELD_INVOICE])) {
+        if (array_key_exists(self::FIELD_INVOICE, $data)) {
             if ($data[self::FIELD_INVOICE] instanceof FHIRInvoice) {
                 $this->setInvoice($data[self::FIELD_INVOICE]);
             } else {
                 $this->setInvoice(new FHIRInvoice($data[self::FIELD_INVOICE]));
             }
         }
-        if (isset($data[self::FIELD_LIBRARY])) {
+        if (array_key_exists(self::FIELD_LIBRARY, $data)) {
             if ($data[self::FIELD_LIBRARY] instanceof FHIRLibrary) {
                 $this->setLibrary($data[self::FIELD_LIBRARY]);
             } else {
                 $this->setLibrary(new FHIRLibrary($data[self::FIELD_LIBRARY]));
             }
         }
-        if (isset($data[self::FIELD_LINKAGE])) {
+        if (array_key_exists(self::FIELD_LINKAGE, $data)) {
             if ($data[self::FIELD_LINKAGE] instanceof FHIRLinkage) {
                 $this->setLinkage($data[self::FIELD_LINKAGE]);
             } else {
                 $this->setLinkage(new FHIRLinkage($data[self::FIELD_LINKAGE]));
             }
         }
-        if (isset($data[self::FIELD_LIST])) {
+        if (array_key_exists(self::FIELD_LIST, $data)) {
             if ($data[self::FIELD_LIST] instanceof FHIRList) {
                 $this->setList($data[self::FIELD_LIST]);
             } else {
                 $this->setList(new FHIRList($data[self::FIELD_LIST]));
             }
         }
-        if (isset($data[self::FIELD_LOCATION])) {
+        if (array_key_exists(self::FIELD_LOCATION, $data)) {
             if ($data[self::FIELD_LOCATION] instanceof FHIRLocation) {
                 $this->setLocation($data[self::FIELD_LOCATION]);
             } else {
                 $this->setLocation(new FHIRLocation($data[self::FIELD_LOCATION]));
             }
         }
-        if (isset($data[self::FIELD_MEASURE])) {
+        if (array_key_exists(self::FIELD_MEASURE, $data)) {
             if ($data[self::FIELD_MEASURE] instanceof FHIRMeasure) {
                 $this->setMeasure($data[self::FIELD_MEASURE]);
             } else {
                 $this->setMeasure(new FHIRMeasure($data[self::FIELD_MEASURE]));
             }
         }
-        if (isset($data[self::FIELD_MEASURE_REPORT])) {
+        if (array_key_exists(self::FIELD_MEASURE_REPORT, $data)) {
             if ($data[self::FIELD_MEASURE_REPORT] instanceof FHIRMeasureReport) {
                 $this->setMeasureReport($data[self::FIELD_MEASURE_REPORT]);
             } else {
                 $this->setMeasureReport(new FHIRMeasureReport($data[self::FIELD_MEASURE_REPORT]));
             }
         }
-        if (isset($data[self::FIELD_MEDIA])) {
+        if (array_key_exists(self::FIELD_MEDIA, $data)) {
             if ($data[self::FIELD_MEDIA] instanceof FHIRMedia) {
                 $this->setMedia($data[self::FIELD_MEDIA]);
             } else {
                 $this->setMedia(new FHIRMedia($data[self::FIELD_MEDIA]));
             }
         }
-        if (isset($data[self::FIELD_MEDICATION])) {
+        if (array_key_exists(self::FIELD_MEDICATION, $data)) {
             if ($data[self::FIELD_MEDICATION] instanceof FHIRMedication) {
                 $this->setMedication($data[self::FIELD_MEDICATION]);
             } else {
                 $this->setMedication(new FHIRMedication($data[self::FIELD_MEDICATION]));
             }
         }
-        if (isset($data[self::FIELD_MEDICATION_ADMINISTRATION])) {
+        if (array_key_exists(self::FIELD_MEDICATION_ADMINISTRATION, $data)) {
             if ($data[self::FIELD_MEDICATION_ADMINISTRATION] instanceof FHIRMedicationAdministration) {
                 $this->setMedicationAdministration($data[self::FIELD_MEDICATION_ADMINISTRATION]);
             } else {
                 $this->setMedicationAdministration(new FHIRMedicationAdministration($data[self::FIELD_MEDICATION_ADMINISTRATION]));
             }
         }
-        if (isset($data[self::FIELD_MEDICATION_DISPENSE])) {
+        if (array_key_exists(self::FIELD_MEDICATION_DISPENSE, $data)) {
             if ($data[self::FIELD_MEDICATION_DISPENSE] instanceof FHIRMedicationDispense) {
                 $this->setMedicationDispense($data[self::FIELD_MEDICATION_DISPENSE]);
             } else {
                 $this->setMedicationDispense(new FHIRMedicationDispense($data[self::FIELD_MEDICATION_DISPENSE]));
             }
         }
-        if (isset($data[self::FIELD_MEDICATION_KNOWLEDGE])) {
+        if (array_key_exists(self::FIELD_MEDICATION_KNOWLEDGE, $data)) {
             if ($data[self::FIELD_MEDICATION_KNOWLEDGE] instanceof FHIRMedicationKnowledge) {
                 $this->setMedicationKnowledge($data[self::FIELD_MEDICATION_KNOWLEDGE]);
             } else {
                 $this->setMedicationKnowledge(new FHIRMedicationKnowledge($data[self::FIELD_MEDICATION_KNOWLEDGE]));
             }
         }
-        if (isset($data[self::FIELD_MEDICATION_REQUEST])) {
+        if (array_key_exists(self::FIELD_MEDICATION_REQUEST, $data)) {
             if ($data[self::FIELD_MEDICATION_REQUEST] instanceof FHIRMedicationRequest) {
                 $this->setMedicationRequest($data[self::FIELD_MEDICATION_REQUEST]);
             } else {
                 $this->setMedicationRequest(new FHIRMedicationRequest($data[self::FIELD_MEDICATION_REQUEST]));
             }
         }
-        if (isset($data[self::FIELD_MEDICATION_STATEMENT])) {
+        if (array_key_exists(self::FIELD_MEDICATION_STATEMENT, $data)) {
             if ($data[self::FIELD_MEDICATION_STATEMENT] instanceof FHIRMedicationStatement) {
                 $this->setMedicationStatement($data[self::FIELD_MEDICATION_STATEMENT]);
             } else {
                 $this->setMedicationStatement(new FHIRMedicationStatement($data[self::FIELD_MEDICATION_STATEMENT]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT] instanceof FHIRMedicinalProduct) {
                 $this->setMedicinalProduct($data[self::FIELD_MEDICINAL_PRODUCT]);
             } else {
                 $this->setMedicinalProduct(new FHIRMedicinalProduct($data[self::FIELD_MEDICINAL_PRODUCT]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_AUTHORIZATION])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_AUTHORIZATION, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_AUTHORIZATION] instanceof FHIRMedicinalProductAuthorization) {
                 $this->setMedicinalProductAuthorization($data[self::FIELD_MEDICINAL_PRODUCT_AUTHORIZATION]);
             } else {
                 $this->setMedicinalProductAuthorization(new FHIRMedicinalProductAuthorization($data[self::FIELD_MEDICINAL_PRODUCT_AUTHORIZATION]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_CONTRAINDICATION])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_CONTRAINDICATION, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_CONTRAINDICATION] instanceof FHIRMedicinalProductContraindication) {
                 $this->setMedicinalProductContraindication($data[self::FIELD_MEDICINAL_PRODUCT_CONTRAINDICATION]);
             } else {
                 $this->setMedicinalProductContraindication(new FHIRMedicinalProductContraindication($data[self::FIELD_MEDICINAL_PRODUCT_CONTRAINDICATION]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_INDICATION])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_INDICATION, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_INDICATION] instanceof FHIRMedicinalProductIndication) {
                 $this->setMedicinalProductIndication($data[self::FIELD_MEDICINAL_PRODUCT_INDICATION]);
             } else {
                 $this->setMedicinalProductIndication(new FHIRMedicinalProductIndication($data[self::FIELD_MEDICINAL_PRODUCT_INDICATION]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_INGREDIENT])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_INGREDIENT, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_INGREDIENT] instanceof FHIRMedicinalProductIngredient) {
                 $this->setMedicinalProductIngredient($data[self::FIELD_MEDICINAL_PRODUCT_INGREDIENT]);
             } else {
                 $this->setMedicinalProductIngredient(new FHIRMedicinalProductIngredient($data[self::FIELD_MEDICINAL_PRODUCT_INGREDIENT]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_INTERACTION])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_INTERACTION, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_INTERACTION] instanceof FHIRMedicinalProductInteraction) {
                 $this->setMedicinalProductInteraction($data[self::FIELD_MEDICINAL_PRODUCT_INTERACTION]);
             } else {
                 $this->setMedicinalProductInteraction(new FHIRMedicinalProductInteraction($data[self::FIELD_MEDICINAL_PRODUCT_INTERACTION]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_MANUFACTURED])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_MANUFACTURED, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_MANUFACTURED] instanceof FHIRMedicinalProductManufactured) {
                 $this->setMedicinalProductManufactured($data[self::FIELD_MEDICINAL_PRODUCT_MANUFACTURED]);
             } else {
                 $this->setMedicinalProductManufactured(new FHIRMedicinalProductManufactured($data[self::FIELD_MEDICINAL_PRODUCT_MANUFACTURED]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_PACKAGED])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_PACKAGED, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_PACKAGED] instanceof FHIRMedicinalProductPackaged) {
                 $this->setMedicinalProductPackaged($data[self::FIELD_MEDICINAL_PRODUCT_PACKAGED]);
             } else {
                 $this->setMedicinalProductPackaged(new FHIRMedicinalProductPackaged($data[self::FIELD_MEDICINAL_PRODUCT_PACKAGED]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_PHARMACEUTICAL])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_PHARMACEUTICAL, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_PHARMACEUTICAL] instanceof FHIRMedicinalProductPharmaceutical) {
                 $this->setMedicinalProductPharmaceutical($data[self::FIELD_MEDICINAL_PRODUCT_PHARMACEUTICAL]);
             } else {
                 $this->setMedicinalProductPharmaceutical(new FHIRMedicinalProductPharmaceutical($data[self::FIELD_MEDICINAL_PRODUCT_PHARMACEUTICAL]));
             }
         }
-        if (isset($data[self::FIELD_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT])) {
+        if (array_key_exists(self::FIELD_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT, $data)) {
             if ($data[self::FIELD_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT] instanceof FHIRMedicinalProductUndesirableEffect) {
                 $this->setMedicinalProductUndesirableEffect($data[self::FIELD_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT]);
             } else {
                 $this->setMedicinalProductUndesirableEffect(new FHIRMedicinalProductUndesirableEffect($data[self::FIELD_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT]));
             }
         }
-        if (isset($data[self::FIELD_MESSAGE_DEFINITION])) {
+        if (array_key_exists(self::FIELD_MESSAGE_DEFINITION, $data)) {
             if ($data[self::FIELD_MESSAGE_DEFINITION] instanceof FHIRMessageDefinition) {
                 $this->setMessageDefinition($data[self::FIELD_MESSAGE_DEFINITION]);
             } else {
                 $this->setMessageDefinition(new FHIRMessageDefinition($data[self::FIELD_MESSAGE_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_MESSAGE_HEADER])) {
+        if (array_key_exists(self::FIELD_MESSAGE_HEADER, $data)) {
             if ($data[self::FIELD_MESSAGE_HEADER] instanceof FHIRMessageHeader) {
                 $this->setMessageHeader($data[self::FIELD_MESSAGE_HEADER]);
             } else {
                 $this->setMessageHeader(new FHIRMessageHeader($data[self::FIELD_MESSAGE_HEADER]));
             }
         }
-        if (isset($data[self::FIELD_MOLECULAR_SEQUENCE])) {
+        if (array_key_exists(self::FIELD_MOLECULAR_SEQUENCE, $data)) {
             if ($data[self::FIELD_MOLECULAR_SEQUENCE] instanceof FHIRMolecularSequence) {
                 $this->setMolecularSequence($data[self::FIELD_MOLECULAR_SEQUENCE]);
             } else {
                 $this->setMolecularSequence(new FHIRMolecularSequence($data[self::FIELD_MOLECULAR_SEQUENCE]));
             }
         }
-        if (isset($data[self::FIELD_NAMING_SYSTEM])) {
+        if (array_key_exists(self::FIELD_NAMING_SYSTEM, $data)) {
             if ($data[self::FIELD_NAMING_SYSTEM] instanceof FHIRNamingSystem) {
                 $this->setNamingSystem($data[self::FIELD_NAMING_SYSTEM]);
             } else {
                 $this->setNamingSystem(new FHIRNamingSystem($data[self::FIELD_NAMING_SYSTEM]));
             }
         }
-        if (isset($data[self::FIELD_NUTRITION_ORDER])) {
+        if (array_key_exists(self::FIELD_NUTRITION_ORDER, $data)) {
             if ($data[self::FIELD_NUTRITION_ORDER] instanceof FHIRNutritionOrder) {
                 $this->setNutritionOrder($data[self::FIELD_NUTRITION_ORDER]);
             } else {
                 $this->setNutritionOrder(new FHIRNutritionOrder($data[self::FIELD_NUTRITION_ORDER]));
             }
         }
-        if (isset($data[self::FIELD_OBSERVATION])) {
+        if (array_key_exists(self::FIELD_OBSERVATION, $data)) {
             if ($data[self::FIELD_OBSERVATION] instanceof FHIRObservation) {
                 $this->setObservation($data[self::FIELD_OBSERVATION]);
             } else {
                 $this->setObservation(new FHIRObservation($data[self::FIELD_OBSERVATION]));
             }
         }
-        if (isset($data[self::FIELD_OBSERVATION_DEFINITION])) {
+        if (array_key_exists(self::FIELD_OBSERVATION_DEFINITION, $data)) {
             if ($data[self::FIELD_OBSERVATION_DEFINITION] instanceof FHIRObservationDefinition) {
                 $this->setObservationDefinition($data[self::FIELD_OBSERVATION_DEFINITION]);
             } else {
                 $this->setObservationDefinition(new FHIRObservationDefinition($data[self::FIELD_OBSERVATION_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_OPERATION_DEFINITION])) {
+        if (array_key_exists(self::FIELD_OPERATION_DEFINITION, $data)) {
             if ($data[self::FIELD_OPERATION_DEFINITION] instanceof FHIROperationDefinition) {
                 $this->setOperationDefinition($data[self::FIELD_OPERATION_DEFINITION]);
             } else {
                 $this->setOperationDefinition(new FHIROperationDefinition($data[self::FIELD_OPERATION_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_OPERATION_OUTCOME])) {
+        if (array_key_exists(self::FIELD_OPERATION_OUTCOME, $data)) {
             if ($data[self::FIELD_OPERATION_OUTCOME] instanceof FHIROperationOutcome) {
                 $this->setOperationOutcome($data[self::FIELD_OPERATION_OUTCOME]);
             } else {
                 $this->setOperationOutcome(new FHIROperationOutcome($data[self::FIELD_OPERATION_OUTCOME]));
             }
         }
-        if (isset($data[self::FIELD_ORGANIZATION])) {
+        if (array_key_exists(self::FIELD_ORGANIZATION, $data)) {
             if ($data[self::FIELD_ORGANIZATION] instanceof FHIROrganization) {
                 $this->setOrganization($data[self::FIELD_ORGANIZATION]);
             } else {
                 $this->setOrganization(new FHIROrganization($data[self::FIELD_ORGANIZATION]));
             }
         }
-        if (isset($data[self::FIELD_ORGANIZATION_AFFILIATION])) {
+        if (array_key_exists(self::FIELD_ORGANIZATION_AFFILIATION, $data)) {
             if ($data[self::FIELD_ORGANIZATION_AFFILIATION] instanceof FHIROrganizationAffiliation) {
                 $this->setOrganizationAffiliation($data[self::FIELD_ORGANIZATION_AFFILIATION]);
             } else {
                 $this->setOrganizationAffiliation(new FHIROrganizationAffiliation($data[self::FIELD_ORGANIZATION_AFFILIATION]));
             }
         }
-        if (isset($data[self::FIELD_PATIENT])) {
+        if (array_key_exists(self::FIELD_PATIENT, $data)) {
             if ($data[self::FIELD_PATIENT] instanceof FHIRPatient) {
                 $this->setPatient($data[self::FIELD_PATIENT]);
             } else {
                 $this->setPatient(new FHIRPatient($data[self::FIELD_PATIENT]));
             }
         }
-        if (isset($data[self::FIELD_PAYMENT_NOTICE])) {
+        if (array_key_exists(self::FIELD_PAYMENT_NOTICE, $data)) {
             if ($data[self::FIELD_PAYMENT_NOTICE] instanceof FHIRPaymentNotice) {
                 $this->setPaymentNotice($data[self::FIELD_PAYMENT_NOTICE]);
             } else {
                 $this->setPaymentNotice(new FHIRPaymentNotice($data[self::FIELD_PAYMENT_NOTICE]));
             }
         }
-        if (isset($data[self::FIELD_PAYMENT_RECONCILIATION])) {
+        if (array_key_exists(self::FIELD_PAYMENT_RECONCILIATION, $data)) {
             if ($data[self::FIELD_PAYMENT_RECONCILIATION] instanceof FHIRPaymentReconciliation) {
                 $this->setPaymentReconciliation($data[self::FIELD_PAYMENT_RECONCILIATION]);
             } else {
                 $this->setPaymentReconciliation(new FHIRPaymentReconciliation($data[self::FIELD_PAYMENT_RECONCILIATION]));
             }
         }
-        if (isset($data[self::FIELD_PERSON])) {
+        if (array_key_exists(self::FIELD_PERSON, $data)) {
             if ($data[self::FIELD_PERSON] instanceof FHIRPerson) {
                 $this->setPerson($data[self::FIELD_PERSON]);
             } else {
                 $this->setPerson(new FHIRPerson($data[self::FIELD_PERSON]));
             }
         }
-        if (isset($data[self::FIELD_PLAN_DEFINITION])) {
+        if (array_key_exists(self::FIELD_PLAN_DEFINITION, $data)) {
             if ($data[self::FIELD_PLAN_DEFINITION] instanceof FHIRPlanDefinition) {
                 $this->setPlanDefinition($data[self::FIELD_PLAN_DEFINITION]);
             } else {
                 $this->setPlanDefinition(new FHIRPlanDefinition($data[self::FIELD_PLAN_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_PRACTITIONER])) {
+        if (array_key_exists(self::FIELD_PRACTITIONER, $data)) {
             if ($data[self::FIELD_PRACTITIONER] instanceof FHIRPractitioner) {
                 $this->setPractitioner($data[self::FIELD_PRACTITIONER]);
             } else {
                 $this->setPractitioner(new FHIRPractitioner($data[self::FIELD_PRACTITIONER]));
             }
         }
-        if (isset($data[self::FIELD_PRACTITIONER_ROLE])) {
+        if (array_key_exists(self::FIELD_PRACTITIONER_ROLE, $data)) {
             if ($data[self::FIELD_PRACTITIONER_ROLE] instanceof FHIRPractitionerRole) {
                 $this->setPractitionerRole($data[self::FIELD_PRACTITIONER_ROLE]);
             } else {
                 $this->setPractitionerRole(new FHIRPractitionerRole($data[self::FIELD_PRACTITIONER_ROLE]));
             }
         }
-        if (isset($data[self::FIELD_PROCEDURE])) {
+        if (array_key_exists(self::FIELD_PROCEDURE, $data)) {
             if ($data[self::FIELD_PROCEDURE] instanceof FHIRProcedure) {
                 $this->setProcedure($data[self::FIELD_PROCEDURE]);
             } else {
                 $this->setProcedure(new FHIRProcedure($data[self::FIELD_PROCEDURE]));
             }
         }
-        if (isset($data[self::FIELD_PROVENANCE])) {
+        if (array_key_exists(self::FIELD_PROVENANCE, $data)) {
             if ($data[self::FIELD_PROVENANCE] instanceof FHIRProvenance) {
                 $this->setProvenance($data[self::FIELD_PROVENANCE]);
             } else {
                 $this->setProvenance(new FHIRProvenance($data[self::FIELD_PROVENANCE]));
             }
         }
-        if (isset($data[self::FIELD_QUESTIONNAIRE])) {
+        if (array_key_exists(self::FIELD_QUESTIONNAIRE, $data)) {
             if ($data[self::FIELD_QUESTIONNAIRE] instanceof FHIRQuestionnaire) {
                 $this->setQuestionnaire($data[self::FIELD_QUESTIONNAIRE]);
             } else {
                 $this->setQuestionnaire(new FHIRQuestionnaire($data[self::FIELD_QUESTIONNAIRE]));
             }
         }
-        if (isset($data[self::FIELD_QUESTIONNAIRE_RESPONSE])) {
+        if (array_key_exists(self::FIELD_QUESTIONNAIRE_RESPONSE, $data)) {
             if ($data[self::FIELD_QUESTIONNAIRE_RESPONSE] instanceof FHIRQuestionnaireResponse) {
                 $this->setQuestionnaireResponse($data[self::FIELD_QUESTIONNAIRE_RESPONSE]);
             } else {
                 $this->setQuestionnaireResponse(new FHIRQuestionnaireResponse($data[self::FIELD_QUESTIONNAIRE_RESPONSE]));
             }
         }
-        if (isset($data[self::FIELD_RELATED_PERSON])) {
+        if (array_key_exists(self::FIELD_RELATED_PERSON, $data)) {
             if ($data[self::FIELD_RELATED_PERSON] instanceof FHIRRelatedPerson) {
                 $this->setRelatedPerson($data[self::FIELD_RELATED_PERSON]);
             } else {
                 $this->setRelatedPerson(new FHIRRelatedPerson($data[self::FIELD_RELATED_PERSON]));
             }
         }
-        if (isset($data[self::FIELD_REQUEST_GROUP])) {
+        if (array_key_exists(self::FIELD_REQUEST_GROUP, $data)) {
             if ($data[self::FIELD_REQUEST_GROUP] instanceof FHIRRequestGroup) {
                 $this->setRequestGroup($data[self::FIELD_REQUEST_GROUP]);
             } else {
                 $this->setRequestGroup(new FHIRRequestGroup($data[self::FIELD_REQUEST_GROUP]));
             }
         }
-        if (isset($data[self::FIELD_RESEARCH_DEFINITION])) {
+        if (array_key_exists(self::FIELD_RESEARCH_DEFINITION, $data)) {
             if ($data[self::FIELD_RESEARCH_DEFINITION] instanceof FHIRResearchDefinition) {
                 $this->setResearchDefinition($data[self::FIELD_RESEARCH_DEFINITION]);
             } else {
                 $this->setResearchDefinition(new FHIRResearchDefinition($data[self::FIELD_RESEARCH_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_RESEARCH_ELEMENT_DEFINITION])) {
+        if (array_key_exists(self::FIELD_RESEARCH_ELEMENT_DEFINITION, $data)) {
             if ($data[self::FIELD_RESEARCH_ELEMENT_DEFINITION] instanceof FHIRResearchElementDefinition) {
                 $this->setResearchElementDefinition($data[self::FIELD_RESEARCH_ELEMENT_DEFINITION]);
             } else {
                 $this->setResearchElementDefinition(new FHIRResearchElementDefinition($data[self::FIELD_RESEARCH_ELEMENT_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_RESEARCH_STUDY])) {
+        if (array_key_exists(self::FIELD_RESEARCH_STUDY, $data)) {
             if ($data[self::FIELD_RESEARCH_STUDY] instanceof FHIRResearchStudy) {
                 $this->setResearchStudy($data[self::FIELD_RESEARCH_STUDY]);
             } else {
                 $this->setResearchStudy(new FHIRResearchStudy($data[self::FIELD_RESEARCH_STUDY]));
             }
         }
-        if (isset($data[self::FIELD_RESEARCH_SUBJECT])) {
+        if (array_key_exists(self::FIELD_RESEARCH_SUBJECT, $data)) {
             if ($data[self::FIELD_RESEARCH_SUBJECT] instanceof FHIRResearchSubject) {
                 $this->setResearchSubject($data[self::FIELD_RESEARCH_SUBJECT]);
             } else {
                 $this->setResearchSubject(new FHIRResearchSubject($data[self::FIELD_RESEARCH_SUBJECT]));
             }
         }
-        if (isset($data[self::FIELD_RISK_ASSESSMENT])) {
+        if (array_key_exists(self::FIELD_RISK_ASSESSMENT, $data)) {
             if ($data[self::FIELD_RISK_ASSESSMENT] instanceof FHIRRiskAssessment) {
                 $this->setRiskAssessment($data[self::FIELD_RISK_ASSESSMENT]);
             } else {
                 $this->setRiskAssessment(new FHIRRiskAssessment($data[self::FIELD_RISK_ASSESSMENT]));
             }
         }
-        if (isset($data[self::FIELD_RISK_EVIDENCE_SYNTHESIS])) {
+        if (array_key_exists(self::FIELD_RISK_EVIDENCE_SYNTHESIS, $data)) {
             if ($data[self::FIELD_RISK_EVIDENCE_SYNTHESIS] instanceof FHIRRiskEvidenceSynthesis) {
                 $this->setRiskEvidenceSynthesis($data[self::FIELD_RISK_EVIDENCE_SYNTHESIS]);
             } else {
                 $this->setRiskEvidenceSynthesis(new FHIRRiskEvidenceSynthesis($data[self::FIELD_RISK_EVIDENCE_SYNTHESIS]));
             }
         }
-        if (isset($data[self::FIELD_SCHEDULE])) {
+        if (array_key_exists(self::FIELD_SCHEDULE, $data)) {
             if ($data[self::FIELD_SCHEDULE] instanceof FHIRSchedule) {
                 $this->setSchedule($data[self::FIELD_SCHEDULE]);
             } else {
                 $this->setSchedule(new FHIRSchedule($data[self::FIELD_SCHEDULE]));
             }
         }
-        if (isset($data[self::FIELD_SEARCH_PARAMETER])) {
+        if (array_key_exists(self::FIELD_SEARCH_PARAMETER, $data)) {
             if ($data[self::FIELD_SEARCH_PARAMETER] instanceof FHIRSearchParameter) {
                 $this->setSearchParameter($data[self::FIELD_SEARCH_PARAMETER]);
             } else {
                 $this->setSearchParameter(new FHIRSearchParameter($data[self::FIELD_SEARCH_PARAMETER]));
             }
         }
-        if (isset($data[self::FIELD_SERVICE_REQUEST])) {
+        if (array_key_exists(self::FIELD_SERVICE_REQUEST, $data)) {
             if ($data[self::FIELD_SERVICE_REQUEST] instanceof FHIRServiceRequest) {
                 $this->setServiceRequest($data[self::FIELD_SERVICE_REQUEST]);
             } else {
                 $this->setServiceRequest(new FHIRServiceRequest($data[self::FIELD_SERVICE_REQUEST]));
             }
         }
-        if (isset($data[self::FIELD_SLOT])) {
+        if (array_key_exists(self::FIELD_SLOT, $data)) {
             if ($data[self::FIELD_SLOT] instanceof FHIRSlot) {
                 $this->setSlot($data[self::FIELD_SLOT]);
             } else {
                 $this->setSlot(new FHIRSlot($data[self::FIELD_SLOT]));
             }
         }
-        if (isset($data[self::FIELD_SPECIMEN])) {
+        if (array_key_exists(self::FIELD_SPECIMEN, $data)) {
             if ($data[self::FIELD_SPECIMEN] instanceof FHIRSpecimen) {
                 $this->setSpecimen($data[self::FIELD_SPECIMEN]);
             } else {
                 $this->setSpecimen(new FHIRSpecimen($data[self::FIELD_SPECIMEN]));
             }
         }
-        if (isset($data[self::FIELD_SPECIMEN_DEFINITION])) {
+        if (array_key_exists(self::FIELD_SPECIMEN_DEFINITION, $data)) {
             if ($data[self::FIELD_SPECIMEN_DEFINITION] instanceof FHIRSpecimenDefinition) {
                 $this->setSpecimenDefinition($data[self::FIELD_SPECIMEN_DEFINITION]);
             } else {
                 $this->setSpecimenDefinition(new FHIRSpecimenDefinition($data[self::FIELD_SPECIMEN_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_STRUCTURE_DEFINITION])) {
+        if (array_key_exists(self::FIELD_STRUCTURE_DEFINITION, $data)) {
             if ($data[self::FIELD_STRUCTURE_DEFINITION] instanceof FHIRStructureDefinition) {
                 $this->setStructureDefinition($data[self::FIELD_STRUCTURE_DEFINITION]);
             } else {
                 $this->setStructureDefinition(new FHIRStructureDefinition($data[self::FIELD_STRUCTURE_DEFINITION]));
             }
         }
-        if (isset($data[self::FIELD_STRUCTURE_MAP])) {
+        if (array_key_exists(self::FIELD_STRUCTURE_MAP, $data)) {
             if ($data[self::FIELD_STRUCTURE_MAP] instanceof FHIRStructureMap) {
                 $this->setStructureMap($data[self::FIELD_STRUCTURE_MAP]);
             } else {
                 $this->setStructureMap(new FHIRStructureMap($data[self::FIELD_STRUCTURE_MAP]));
             }
         }
-        if (isset($data[self::FIELD_SUBSCRIPTION])) {
+        if (array_key_exists(self::FIELD_SUBSCRIPTION, $data)) {
             if ($data[self::FIELD_SUBSCRIPTION] instanceof FHIRSubscription) {
                 $this->setSubscription($data[self::FIELD_SUBSCRIPTION]);
             } else {
                 $this->setSubscription(new FHIRSubscription($data[self::FIELD_SUBSCRIPTION]));
             }
         }
-        if (isset($data[self::FIELD_SUBSTANCE])) {
+        if (array_key_exists(self::FIELD_SUBSTANCE, $data)) {
             if ($data[self::FIELD_SUBSTANCE] instanceof FHIRSubstance) {
                 $this->setSubstance($data[self::FIELD_SUBSTANCE]);
             } else {
                 $this->setSubstance(new FHIRSubstance($data[self::FIELD_SUBSTANCE]));
             }
         }
-        if (isset($data[self::FIELD_SUBSTANCE_NUCLEIC_ACID])) {
+        if (array_key_exists(self::FIELD_SUBSTANCE_NUCLEIC_ACID, $data)) {
             if ($data[self::FIELD_SUBSTANCE_NUCLEIC_ACID] instanceof FHIRSubstanceNucleicAcid) {
                 $this->setSubstanceNucleicAcid($data[self::FIELD_SUBSTANCE_NUCLEIC_ACID]);
             } else {
                 $this->setSubstanceNucleicAcid(new FHIRSubstanceNucleicAcid($data[self::FIELD_SUBSTANCE_NUCLEIC_ACID]));
             }
         }
-        if (isset($data[self::FIELD_SUBSTANCE_POLYMER])) {
+        if (array_key_exists(self::FIELD_SUBSTANCE_POLYMER, $data)) {
             if ($data[self::FIELD_SUBSTANCE_POLYMER] instanceof FHIRSubstancePolymer) {
                 $this->setSubstancePolymer($data[self::FIELD_SUBSTANCE_POLYMER]);
             } else {
                 $this->setSubstancePolymer(new FHIRSubstancePolymer($data[self::FIELD_SUBSTANCE_POLYMER]));
             }
         }
-        if (isset($data[self::FIELD_SUBSTANCE_PROTEIN])) {
+        if (array_key_exists(self::FIELD_SUBSTANCE_PROTEIN, $data)) {
             if ($data[self::FIELD_SUBSTANCE_PROTEIN] instanceof FHIRSubstanceProtein) {
                 $this->setSubstanceProtein($data[self::FIELD_SUBSTANCE_PROTEIN]);
             } else {
                 $this->setSubstanceProtein(new FHIRSubstanceProtein($data[self::FIELD_SUBSTANCE_PROTEIN]));
             }
         }
-        if (isset($data[self::FIELD_SUBSTANCE_REFERENCE_INFORMATION])) {
+        if (array_key_exists(self::FIELD_SUBSTANCE_REFERENCE_INFORMATION, $data)) {
             if ($data[self::FIELD_SUBSTANCE_REFERENCE_INFORMATION] instanceof FHIRSubstanceReferenceInformation) {
                 $this->setSubstanceReferenceInformation($data[self::FIELD_SUBSTANCE_REFERENCE_INFORMATION]);
             } else {
                 $this->setSubstanceReferenceInformation(new FHIRSubstanceReferenceInformation($data[self::FIELD_SUBSTANCE_REFERENCE_INFORMATION]));
             }
         }
-        if (isset($data[self::FIELD_SUBSTANCE_SOURCE_MATERIAL])) {
+        if (array_key_exists(self::FIELD_SUBSTANCE_SOURCE_MATERIAL, $data)) {
             if ($data[self::FIELD_SUBSTANCE_SOURCE_MATERIAL] instanceof FHIRSubstanceSourceMaterial) {
                 $this->setSubstanceSourceMaterial($data[self::FIELD_SUBSTANCE_SOURCE_MATERIAL]);
             } else {
                 $this->setSubstanceSourceMaterial(new FHIRSubstanceSourceMaterial($data[self::FIELD_SUBSTANCE_SOURCE_MATERIAL]));
             }
         }
-        if (isset($data[self::FIELD_SUBSTANCE_SPECIFICATION])) {
+        if (array_key_exists(self::FIELD_SUBSTANCE_SPECIFICATION, $data)) {
             if ($data[self::FIELD_SUBSTANCE_SPECIFICATION] instanceof FHIRSubstanceSpecification) {
                 $this->setSubstanceSpecification($data[self::FIELD_SUBSTANCE_SPECIFICATION]);
             } else {
                 $this->setSubstanceSpecification(new FHIRSubstanceSpecification($data[self::FIELD_SUBSTANCE_SPECIFICATION]));
             }
         }
-        if (isset($data[self::FIELD_SUPPLY_DELIVERY])) {
+        if (array_key_exists(self::FIELD_SUPPLY_DELIVERY, $data)) {
             if ($data[self::FIELD_SUPPLY_DELIVERY] instanceof FHIRSupplyDelivery) {
                 $this->setSupplyDelivery($data[self::FIELD_SUPPLY_DELIVERY]);
             } else {
                 $this->setSupplyDelivery(new FHIRSupplyDelivery($data[self::FIELD_SUPPLY_DELIVERY]));
             }
         }
-        if (isset($data[self::FIELD_SUPPLY_REQUEST])) {
+        if (array_key_exists(self::FIELD_SUPPLY_REQUEST, $data)) {
             if ($data[self::FIELD_SUPPLY_REQUEST] instanceof FHIRSupplyRequest) {
                 $this->setSupplyRequest($data[self::FIELD_SUPPLY_REQUEST]);
             } else {
                 $this->setSupplyRequest(new FHIRSupplyRequest($data[self::FIELD_SUPPLY_REQUEST]));
             }
         }
-        if (isset($data[self::FIELD_TASK])) {
+        if (array_key_exists(self::FIELD_TASK, $data)) {
             if ($data[self::FIELD_TASK] instanceof FHIRTask) {
                 $this->setTask($data[self::FIELD_TASK]);
             } else {
                 $this->setTask(new FHIRTask($data[self::FIELD_TASK]));
             }
         }
-        if (isset($data[self::FIELD_TERMINOLOGY_CAPABILITIES])) {
+        if (array_key_exists(self::FIELD_TERMINOLOGY_CAPABILITIES, $data)) {
             if ($data[self::FIELD_TERMINOLOGY_CAPABILITIES] instanceof FHIRTerminologyCapabilities) {
                 $this->setTerminologyCapabilities($data[self::FIELD_TERMINOLOGY_CAPABILITIES]);
             } else {
                 $this->setTerminologyCapabilities(new FHIRTerminologyCapabilities($data[self::FIELD_TERMINOLOGY_CAPABILITIES]));
             }
         }
-        if (isset($data[self::FIELD_TEST_REPORT])) {
+        if (array_key_exists(self::FIELD_TEST_REPORT, $data)) {
             if ($data[self::FIELD_TEST_REPORT] instanceof FHIRTestReport) {
                 $this->setTestReport($data[self::FIELD_TEST_REPORT]);
             } else {
                 $this->setTestReport(new FHIRTestReport($data[self::FIELD_TEST_REPORT]));
             }
         }
-        if (isset($data[self::FIELD_TEST_SCRIPT])) {
+        if (array_key_exists(self::FIELD_TEST_SCRIPT, $data)) {
             if ($data[self::FIELD_TEST_SCRIPT] instanceof FHIRTestScript) {
                 $this->setTestScript($data[self::FIELD_TEST_SCRIPT]);
             } else {
                 $this->setTestScript(new FHIRTestScript($data[self::FIELD_TEST_SCRIPT]));
             }
         }
-        if (isset($data[self::FIELD_VALUE_SET])) {
+        if (array_key_exists(self::FIELD_VALUE_SET, $data)) {
             if ($data[self::FIELD_VALUE_SET] instanceof FHIRValueSet) {
                 $this->setValueSet($data[self::FIELD_VALUE_SET]);
             } else {
                 $this->setValueSet(new FHIRValueSet($data[self::FIELD_VALUE_SET]));
             }
         }
-        if (isset($data[self::FIELD_VERIFICATION_RESULT])) {
+        if (array_key_exists(self::FIELD_VERIFICATION_RESULT, $data)) {
             if ($data[self::FIELD_VERIFICATION_RESULT] instanceof FHIRVerificationResult) {
                 $this->setVerificationResult($data[self::FIELD_VERIFICATION_RESULT]);
             } else {
                 $this->setVerificationResult(new FHIRVerificationResult($data[self::FIELD_VERIFICATION_RESULT]));
             }
         }
-        if (isset($data[self::FIELD_VISION_PRESCRIPTION])) {
+        if (array_key_exists(self::FIELD_VISION_PRESCRIPTION, $data)) {
             if ($data[self::FIELD_VISION_PRESCRIPTION] instanceof FHIRVisionPrescription) {
                 $this->setVisionPrescription($data[self::FIELD_VISION_PRESCRIPTION]);
             } else {
                 $this->setVisionPrescription(new FHIRVisionPrescription($data[self::FIELD_VISION_PRESCRIPTION]));
             }
         }
-        if (isset($data[self::FIELD_PARAMETERS])) {
+        if (array_key_exists(self::FIELD_PARAMETERS, $data)) {
             if ($data[self::FIELD_PARAMETERS] instanceof FHIRParameters) {
                 $this->setParameters($data[self::FIELD_PARAMETERS]);
             } else {
@@ -2698,11 +2700,10 @@ class FHIRResourceContainer implements PHPFHIRCommentContainerInterface, PHPFHIR
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -8064,37 +8065,23 @@ class FHIRResourceContainer implements PHPFHIRCommentContainerInterface, PHPFHIR
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRResourceContainer $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRResourceContainer
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -8106,771 +8093,780 @@ class FHIRResourceContainer implements PHPFHIRCommentContainerInterface, PHPFHIR
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_ACCOUNT === $n->nodeName) {
-                $type->setAccount(FHIRAccount::xmlUnserialize($n));
-            } elseif (self::FIELD_ACTIVITY_DEFINITION === $n->nodeName) {
-                $type->setActivityDefinition(FHIRActivityDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_ADVERSE_EVENT === $n->nodeName) {
-                $type->setAdverseEvent(FHIRAdverseEvent::xmlUnserialize($n));
-            } elseif (self::FIELD_ALLERGY_INTOLERANCE === $n->nodeName) {
-                $type->setAllergyIntolerance(FHIRAllergyIntolerance::xmlUnserialize($n));
-            } elseif (self::FIELD_APPOINTMENT === $n->nodeName) {
-                $type->setAppointment(FHIRAppointment::xmlUnserialize($n));
-            } elseif (self::FIELD_APPOINTMENT_RESPONSE === $n->nodeName) {
-                $type->setAppointmentResponse(FHIRAppointmentResponse::xmlUnserialize($n));
-            } elseif (self::FIELD_AUDIT_EVENT === $n->nodeName) {
-                $type->setAuditEvent(FHIRAuditEvent::xmlUnserialize($n));
-            } elseif (self::FIELD_BASIC === $n->nodeName) {
-                $type->setBasic(FHIRBasic::xmlUnserialize($n));
-            } elseif (self::FIELD_BINARY === $n->nodeName) {
-                $type->setBinary(FHIRBinary::xmlUnserialize($n));
-            } elseif (self::FIELD_BIOLOGICALLY_DERIVED_PRODUCT === $n->nodeName) {
-                $type->setBiologicallyDerivedProduct(FHIRBiologicallyDerivedProduct::xmlUnserialize($n));
-            } elseif (self::FIELD_BODY_STRUCTURE === $n->nodeName) {
-                $type->setBodyStructure(FHIRBodyStructure::xmlUnserialize($n));
-            } elseif (self::FIELD_BUNDLE === $n->nodeName) {
-                $type->setBundle(FHIRBundle::xmlUnserialize($n));
-            } elseif (self::FIELD_CAPABILITY_STATEMENT === $n->nodeName) {
-                $type->setCapabilityStatement(FHIRCapabilityStatement::xmlUnserialize($n));
-            } elseif (self::FIELD_CARE_PLAN === $n->nodeName) {
-                $type->setCarePlan(FHIRCarePlan::xmlUnserialize($n));
-            } elseif (self::FIELD_CARE_TEAM === $n->nodeName) {
-                $type->setCareTeam(FHIRCareTeam::xmlUnserialize($n));
-            } elseif (self::FIELD_CATALOG_ENTRY === $n->nodeName) {
-                $type->setCatalogEntry(FHIRCatalogEntry::xmlUnserialize($n));
-            } elseif (self::FIELD_CHARGE_ITEM === $n->nodeName) {
-                $type->setChargeItem(FHIRChargeItem::xmlUnserialize($n));
-            } elseif (self::FIELD_CHARGE_ITEM_DEFINITION === $n->nodeName) {
-                $type->setChargeItemDefinition(FHIRChargeItemDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_CLAIM === $n->nodeName) {
-                $type->setClaim(FHIRClaim::xmlUnserialize($n));
-            } elseif (self::FIELD_CLAIM_RESPONSE === $n->nodeName) {
-                $type->setClaimResponse(FHIRClaimResponse::xmlUnserialize($n));
-            } elseif (self::FIELD_CLINICAL_IMPRESSION === $n->nodeName) {
-                $type->setClinicalImpression(FHIRClinicalImpression::xmlUnserialize($n));
-            } elseif (self::FIELD_CODE_SYSTEM === $n->nodeName) {
-                $type->setCodeSystem(FHIRCodeSystem::xmlUnserialize($n));
-            } elseif (self::FIELD_COMMUNICATION === $n->nodeName) {
-                $type->setCommunication(FHIRCommunication::xmlUnserialize($n));
-            } elseif (self::FIELD_COMMUNICATION_REQUEST === $n->nodeName) {
-                $type->setCommunicationRequest(FHIRCommunicationRequest::xmlUnserialize($n));
-            } elseif (self::FIELD_COMPARTMENT_DEFINITION === $n->nodeName) {
-                $type->setCompartmentDefinition(FHIRCompartmentDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_COMPOSITION === $n->nodeName) {
-                $type->setComposition(FHIRComposition::xmlUnserialize($n));
-            } elseif (self::FIELD_CONCEPT_MAP === $n->nodeName) {
-                $type->setConceptMap(FHIRConceptMap::xmlUnserialize($n));
-            } elseif (self::FIELD_CONDITION === $n->nodeName) {
-                $type->setCondition(FHIRCondition::xmlUnserialize($n));
-            } elseif (self::FIELD_CONSENT === $n->nodeName) {
-                $type->setConsent(FHIRConsent::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTRACT === $n->nodeName) {
-                $type->setContract(FHIRContract::xmlUnserialize($n));
-            } elseif (self::FIELD_COVERAGE === $n->nodeName) {
-                $type->setCoverage(FHIRCoverage::xmlUnserialize($n));
-            } elseif (self::FIELD_COVERAGE_ELIGIBILITY_REQUEST === $n->nodeName) {
-                $type->setCoverageEligibilityRequest(FHIRCoverageEligibilityRequest::xmlUnserialize($n));
-            } elseif (self::FIELD_COVERAGE_ELIGIBILITY_RESPONSE === $n->nodeName) {
-                $type->setCoverageEligibilityResponse(FHIRCoverageEligibilityResponse::xmlUnserialize($n));
-            } elseif (self::FIELD_DETECTED_ISSUE === $n->nodeName) {
-                $type->setDetectedIssue(FHIRDetectedIssue::xmlUnserialize($n));
-            } elseif (self::FIELD_DEVICE === $n->nodeName) {
-                $type->setDevice(FHIRDevice::xmlUnserialize($n));
-            } elseif (self::FIELD_DEVICE_DEFINITION === $n->nodeName) {
-                $type->setDeviceDefinition(FHIRDeviceDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_DEVICE_METRIC === $n->nodeName) {
-                $type->setDeviceMetric(FHIRDeviceMetric::xmlUnserialize($n));
-            } elseif (self::FIELD_DEVICE_REQUEST === $n->nodeName) {
-                $type->setDeviceRequest(FHIRDeviceRequest::xmlUnserialize($n));
-            } elseif (self::FIELD_DEVICE_USE_STATEMENT === $n->nodeName) {
-                $type->setDeviceUseStatement(FHIRDeviceUseStatement::xmlUnserialize($n));
-            } elseif (self::FIELD_DIAGNOSTIC_REPORT === $n->nodeName) {
-                $type->setDiagnosticReport(FHIRDiagnosticReport::xmlUnserialize($n));
-            } elseif (self::FIELD_DOCUMENT_MANIFEST === $n->nodeName) {
-                $type->setDocumentManifest(FHIRDocumentManifest::xmlUnserialize($n));
-            } elseif (self::FIELD_DOCUMENT_REFERENCE === $n->nodeName) {
-                $type->setDocumentReference(FHIRDocumentReference::xmlUnserialize($n));
-            } elseif (self::FIELD_EFFECT_EVIDENCE_SYNTHESIS === $n->nodeName) {
-                $type->setEffectEvidenceSynthesis(FHIREffectEvidenceSynthesis::xmlUnserialize($n));
-            } elseif (self::FIELD_ENCOUNTER === $n->nodeName) {
-                $type->setEncounter(FHIREncounter::xmlUnserialize($n));
-            } elseif (self::FIELD_ENDPOINT === $n->nodeName) {
-                $type->setEndpoint(FHIREndpoint::xmlUnserialize($n));
-            } elseif (self::FIELD_ENROLLMENT_REQUEST === $n->nodeName) {
-                $type->setEnrollmentRequest(FHIREnrollmentRequest::xmlUnserialize($n));
-            } elseif (self::FIELD_ENROLLMENT_RESPONSE === $n->nodeName) {
-                $type->setEnrollmentResponse(FHIREnrollmentResponse::xmlUnserialize($n));
-            } elseif (self::FIELD_EPISODE_OF_CARE === $n->nodeName) {
-                $type->setEpisodeOfCare(FHIREpisodeOfCare::xmlUnserialize($n));
-            } elseif (self::FIELD_EVENT_DEFINITION === $n->nodeName) {
-                $type->setEventDefinition(FHIREventDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_EVIDENCE === $n->nodeName) {
-                $type->setEvidence(FHIREvidence::xmlUnserialize($n));
-            } elseif (self::FIELD_EVIDENCE_VARIABLE === $n->nodeName) {
-                $type->setEvidenceVariable(FHIREvidenceVariable::xmlUnserialize($n));
-            } elseif (self::FIELD_EXAMPLE_SCENARIO === $n->nodeName) {
-                $type->setExampleScenario(FHIRExampleScenario::xmlUnserialize($n));
-            } elseif (self::FIELD_EXPLANATION_OF_BENEFIT === $n->nodeName) {
-                $type->setExplanationOfBenefit(FHIRExplanationOfBenefit::xmlUnserialize($n));
-            } elseif (self::FIELD_FAMILY_MEMBER_HISTORY === $n->nodeName) {
-                $type->setFamilyMemberHistory(FHIRFamilyMemberHistory::xmlUnserialize($n));
-            } elseif (self::FIELD_FLAG === $n->nodeName) {
-                $type->setFlag(FHIRFlag::xmlUnserialize($n));
-            } elseif (self::FIELD_GOAL === $n->nodeName) {
-                $type->setGoal(FHIRGoal::xmlUnserialize($n));
-            } elseif (self::FIELD_GRAPH_DEFINITION === $n->nodeName) {
-                $type->setGraphDefinition(FHIRGraphDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_GROUP === $n->nodeName) {
-                $type->setGroup(FHIRGroup::xmlUnserialize($n));
-            } elseif (self::FIELD_GUIDANCE_RESPONSE === $n->nodeName) {
-                $type->setGuidanceResponse(FHIRGuidanceResponse::xmlUnserialize($n));
-            } elseif (self::FIELD_HEALTHCARE_SERVICE === $n->nodeName) {
-                $type->setHealthcareService(FHIRHealthcareService::xmlUnserialize($n));
-            } elseif (self::FIELD_IMAGING_STUDY === $n->nodeName) {
-                $type->setImagingStudy(FHIRImagingStudy::xmlUnserialize($n));
-            } elseif (self::FIELD_IMMUNIZATION === $n->nodeName) {
-                $type->setImmunization(FHIRImmunization::xmlUnserialize($n));
-            } elseif (self::FIELD_IMMUNIZATION_EVALUATION === $n->nodeName) {
-                $type->setImmunizationEvaluation(FHIRImmunizationEvaluation::xmlUnserialize($n));
-            } elseif (self::FIELD_IMMUNIZATION_RECOMMENDATION === $n->nodeName) {
-                $type->setImmunizationRecommendation(FHIRImmunizationRecommendation::xmlUnserialize($n));
-            } elseif (self::FIELD_IMPLEMENTATION_GUIDE === $n->nodeName) {
-                $type->setImplementationGuide(FHIRImplementationGuide::xmlUnserialize($n));
-            } elseif (self::FIELD_INSURANCE_PLAN === $n->nodeName) {
-                $type->setInsurancePlan(FHIRInsurancePlan::xmlUnserialize($n));
-            } elseif (self::FIELD_INVOICE === $n->nodeName) {
-                $type->setInvoice(FHIRInvoice::xmlUnserialize($n));
-            } elseif (self::FIELD_LIBRARY === $n->nodeName) {
-                $type->setLibrary(FHIRLibrary::xmlUnserialize($n));
-            } elseif (self::FIELD_LINKAGE === $n->nodeName) {
-                $type->setLinkage(FHIRLinkage::xmlUnserialize($n));
-            } elseif (self::FIELD_LIST === $n->nodeName) {
-                $type->setList(FHIRList::xmlUnserialize($n));
-            } elseif (self::FIELD_LOCATION === $n->nodeName) {
-                $type->setLocation(FHIRLocation::xmlUnserialize($n));
-            } elseif (self::FIELD_MEASURE === $n->nodeName) {
-                $type->setMeasure(FHIRMeasure::xmlUnserialize($n));
-            } elseif (self::FIELD_MEASURE_REPORT === $n->nodeName) {
-                $type->setMeasureReport(FHIRMeasureReport::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDIA === $n->nodeName) {
-                $type->setMedia(FHIRMedia::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICATION === $n->nodeName) {
-                $type->setMedication(FHIRMedication::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICATION_ADMINISTRATION === $n->nodeName) {
-                $type->setMedicationAdministration(FHIRMedicationAdministration::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICATION_DISPENSE === $n->nodeName) {
-                $type->setMedicationDispense(FHIRMedicationDispense::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICATION_KNOWLEDGE === $n->nodeName) {
-                $type->setMedicationKnowledge(FHIRMedicationKnowledge::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICATION_REQUEST === $n->nodeName) {
-                $type->setMedicationRequest(FHIRMedicationRequest::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICATION_STATEMENT === $n->nodeName) {
-                $type->setMedicationStatement(FHIRMedicationStatement::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT === $n->nodeName) {
-                $type->setMedicinalProduct(FHIRMedicinalProduct::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_AUTHORIZATION === $n->nodeName) {
-                $type->setMedicinalProductAuthorization(FHIRMedicinalProductAuthorization::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_CONTRAINDICATION === $n->nodeName) {
-                $type->setMedicinalProductContraindication(FHIRMedicinalProductContraindication::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_INDICATION === $n->nodeName) {
-                $type->setMedicinalProductIndication(FHIRMedicinalProductIndication::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_INGREDIENT === $n->nodeName) {
-                $type->setMedicinalProductIngredient(FHIRMedicinalProductIngredient::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_INTERACTION === $n->nodeName) {
-                $type->setMedicinalProductInteraction(FHIRMedicinalProductInteraction::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_MANUFACTURED === $n->nodeName) {
-                $type->setMedicinalProductManufactured(FHIRMedicinalProductManufactured::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_PACKAGED === $n->nodeName) {
-                $type->setMedicinalProductPackaged(FHIRMedicinalProductPackaged::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_PHARMACEUTICAL === $n->nodeName) {
-                $type->setMedicinalProductPharmaceutical(FHIRMedicinalProductPharmaceutical::xmlUnserialize($n));
-            } elseif (self::FIELD_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT === $n->nodeName) {
-                $type->setMedicinalProductUndesirableEffect(FHIRMedicinalProductUndesirableEffect::xmlUnserialize($n));
-            } elseif (self::FIELD_MESSAGE_DEFINITION === $n->nodeName) {
-                $type->setMessageDefinition(FHIRMessageDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_MESSAGE_HEADER === $n->nodeName) {
-                $type->setMessageHeader(FHIRMessageHeader::xmlUnserialize($n));
-            } elseif (self::FIELD_MOLECULAR_SEQUENCE === $n->nodeName) {
-                $type->setMolecularSequence(FHIRMolecularSequence::xmlUnserialize($n));
-            } elseif (self::FIELD_NAMING_SYSTEM === $n->nodeName) {
-                $type->setNamingSystem(FHIRNamingSystem::xmlUnserialize($n));
-            } elseif (self::FIELD_NUTRITION_ORDER === $n->nodeName) {
-                $type->setNutritionOrder(FHIRNutritionOrder::xmlUnserialize($n));
-            } elseif (self::FIELD_OBSERVATION === $n->nodeName) {
-                $type->setObservation(FHIRObservation::xmlUnserialize($n));
-            } elseif (self::FIELD_OBSERVATION_DEFINITION === $n->nodeName) {
-                $type->setObservationDefinition(FHIRObservationDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_OPERATION_DEFINITION === $n->nodeName) {
-                $type->setOperationDefinition(FHIROperationDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_OPERATION_OUTCOME === $n->nodeName) {
-                $type->setOperationOutcome(FHIROperationOutcome::xmlUnserialize($n));
-            } elseif (self::FIELD_ORGANIZATION === $n->nodeName) {
-                $type->setOrganization(FHIROrganization::xmlUnserialize($n));
-            } elseif (self::FIELD_ORGANIZATION_AFFILIATION === $n->nodeName) {
-                $type->setOrganizationAffiliation(FHIROrganizationAffiliation::xmlUnserialize($n));
-            } elseif (self::FIELD_PATIENT === $n->nodeName) {
-                $type->setPatient(FHIRPatient::xmlUnserialize($n));
-            } elseif (self::FIELD_PAYMENT_NOTICE === $n->nodeName) {
-                $type->setPaymentNotice(FHIRPaymentNotice::xmlUnserialize($n));
-            } elseif (self::FIELD_PAYMENT_RECONCILIATION === $n->nodeName) {
-                $type->setPaymentReconciliation(FHIRPaymentReconciliation::xmlUnserialize($n));
-            } elseif (self::FIELD_PERSON === $n->nodeName) {
-                $type->setPerson(FHIRPerson::xmlUnserialize($n));
-            } elseif (self::FIELD_PLAN_DEFINITION === $n->nodeName) {
-                $type->setPlanDefinition(FHIRPlanDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_PRACTITIONER === $n->nodeName) {
-                $type->setPractitioner(FHIRPractitioner::xmlUnserialize($n));
-            } elseif (self::FIELD_PRACTITIONER_ROLE === $n->nodeName) {
-                $type->setPractitionerRole(FHIRPractitionerRole::xmlUnserialize($n));
-            } elseif (self::FIELD_PROCEDURE === $n->nodeName) {
-                $type->setProcedure(FHIRProcedure::xmlUnserialize($n));
-            } elseif (self::FIELD_PROVENANCE === $n->nodeName) {
-                $type->setProvenance(FHIRProvenance::xmlUnserialize($n));
-            } elseif (self::FIELD_QUESTIONNAIRE === $n->nodeName) {
-                $type->setQuestionnaire(FHIRQuestionnaire::xmlUnserialize($n));
-            } elseif (self::FIELD_QUESTIONNAIRE_RESPONSE === $n->nodeName) {
-                $type->setQuestionnaireResponse(FHIRQuestionnaireResponse::xmlUnserialize($n));
-            } elseif (self::FIELD_RELATED_PERSON === $n->nodeName) {
-                $type->setRelatedPerson(FHIRRelatedPerson::xmlUnserialize($n));
-            } elseif (self::FIELD_REQUEST_GROUP === $n->nodeName) {
-                $type->setRequestGroup(FHIRRequestGroup::xmlUnserialize($n));
-            } elseif (self::FIELD_RESEARCH_DEFINITION === $n->nodeName) {
-                $type->setResearchDefinition(FHIRResearchDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_RESEARCH_ELEMENT_DEFINITION === $n->nodeName) {
-                $type->setResearchElementDefinition(FHIRResearchElementDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_RESEARCH_STUDY === $n->nodeName) {
-                $type->setResearchStudy(FHIRResearchStudy::xmlUnserialize($n));
-            } elseif (self::FIELD_RESEARCH_SUBJECT === $n->nodeName) {
-                $type->setResearchSubject(FHIRResearchSubject::xmlUnserialize($n));
-            } elseif (self::FIELD_RISK_ASSESSMENT === $n->nodeName) {
-                $type->setRiskAssessment(FHIRRiskAssessment::xmlUnserialize($n));
-            } elseif (self::FIELD_RISK_EVIDENCE_SYNTHESIS === $n->nodeName) {
-                $type->setRiskEvidenceSynthesis(FHIRRiskEvidenceSynthesis::xmlUnserialize($n));
-            } elseif (self::FIELD_SCHEDULE === $n->nodeName) {
-                $type->setSchedule(FHIRSchedule::xmlUnserialize($n));
-            } elseif (self::FIELD_SEARCH_PARAMETER === $n->nodeName) {
-                $type->setSearchParameter(FHIRSearchParameter::xmlUnserialize($n));
-            } elseif (self::FIELD_SERVICE_REQUEST === $n->nodeName) {
-                $type->setServiceRequest(FHIRServiceRequest::xmlUnserialize($n));
-            } elseif (self::FIELD_SLOT === $n->nodeName) {
-                $type->setSlot(FHIRSlot::xmlUnserialize($n));
-            } elseif (self::FIELD_SPECIMEN === $n->nodeName) {
-                $type->setSpecimen(FHIRSpecimen::xmlUnserialize($n));
-            } elseif (self::FIELD_SPECIMEN_DEFINITION === $n->nodeName) {
-                $type->setSpecimenDefinition(FHIRSpecimenDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_STRUCTURE_DEFINITION === $n->nodeName) {
-                $type->setStructureDefinition(FHIRStructureDefinition::xmlUnserialize($n));
-            } elseif (self::FIELD_STRUCTURE_MAP === $n->nodeName) {
-                $type->setStructureMap(FHIRStructureMap::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSCRIPTION === $n->nodeName) {
-                $type->setSubscription(FHIRSubscription::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSTANCE === $n->nodeName) {
-                $type->setSubstance(FHIRSubstance::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSTANCE_NUCLEIC_ACID === $n->nodeName) {
-                $type->setSubstanceNucleicAcid(FHIRSubstanceNucleicAcid::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSTANCE_POLYMER === $n->nodeName) {
-                $type->setSubstancePolymer(FHIRSubstancePolymer::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSTANCE_PROTEIN === $n->nodeName) {
-                $type->setSubstanceProtein(FHIRSubstanceProtein::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSTANCE_REFERENCE_INFORMATION === $n->nodeName) {
-                $type->setSubstanceReferenceInformation(FHIRSubstanceReferenceInformation::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSTANCE_SOURCE_MATERIAL === $n->nodeName) {
-                $type->setSubstanceSourceMaterial(FHIRSubstanceSourceMaterial::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBSTANCE_SPECIFICATION === $n->nodeName) {
-                $type->setSubstanceSpecification(FHIRSubstanceSpecification::xmlUnserialize($n));
-            } elseif (self::FIELD_SUPPLY_DELIVERY === $n->nodeName) {
-                $type->setSupplyDelivery(FHIRSupplyDelivery::xmlUnserialize($n));
-            } elseif (self::FIELD_SUPPLY_REQUEST === $n->nodeName) {
-                $type->setSupplyRequest(FHIRSupplyRequest::xmlUnserialize($n));
-            } elseif (self::FIELD_TASK === $n->nodeName) {
-                $type->setTask(FHIRTask::xmlUnserialize($n));
-            } elseif (self::FIELD_TERMINOLOGY_CAPABILITIES === $n->nodeName) {
-                $type->setTerminologyCapabilities(FHIRTerminologyCapabilities::xmlUnserialize($n));
-            } elseif (self::FIELD_TEST_REPORT === $n->nodeName) {
-                $type->setTestReport(FHIRTestReport::xmlUnserialize($n));
-            } elseif (self::FIELD_TEST_SCRIPT === $n->nodeName) {
-                $type->setTestScript(FHIRTestScript::xmlUnserialize($n));
-            } elseif (self::FIELD_VALUE_SET === $n->nodeName) {
-                $type->setValueSet(FHIRValueSet::xmlUnserialize($n));
-            } elseif (self::FIELD_VERIFICATION_RESULT === $n->nodeName) {
-                $type->setVerificationResult(FHIRVerificationResult::xmlUnserialize($n));
-            } elseif (self::FIELD_VISION_PRESCRIPTION === $n->nodeName) {
-                $type->setVisionPrescription(FHIRVisionPrescription::xmlUnserialize($n));
-            } elseif (self::FIELD_PARAMETERS === $n->nodeName) {
-                $type->setParameters(FHIRParameters::xmlUnserialize($n));
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_ACCOUNT === $childName) {
+                $type->setAccount(FHIRAccount::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ACTIVITY_DEFINITION === $childName) {
+                $type->setActivityDefinition(FHIRActivityDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ADVERSE_EVENT === $childName) {
+                $type->setAdverseEvent(FHIRAdverseEvent::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ALLERGY_INTOLERANCE === $childName) {
+                $type->setAllergyIntolerance(FHIRAllergyIntolerance::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_APPOINTMENT === $childName) {
+                $type->setAppointment(FHIRAppointment::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_APPOINTMENT_RESPONSE === $childName) {
+                $type->setAppointmentResponse(FHIRAppointmentResponse::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_AUDIT_EVENT === $childName) {
+                $type->setAuditEvent(FHIRAuditEvent::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BASIC === $childName) {
+                $type->setBasic(FHIRBasic::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BINARY === $childName) {
+                $type->setBinary(FHIRBinary::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BIOLOGICALLY_DERIVED_PRODUCT === $childName) {
+                $type->setBiologicallyDerivedProduct(FHIRBiologicallyDerivedProduct::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BODY_STRUCTURE === $childName) {
+                $type->setBodyStructure(FHIRBodyStructure::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BUNDLE === $childName) {
+                $type->setBundle(FHIRBundle::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CAPABILITY_STATEMENT === $childName) {
+                $type->setCapabilityStatement(FHIRCapabilityStatement::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CARE_PLAN === $childName) {
+                $type->setCarePlan(FHIRCarePlan::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CARE_TEAM === $childName) {
+                $type->setCareTeam(FHIRCareTeam::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CATALOG_ENTRY === $childName) {
+                $type->setCatalogEntry(FHIRCatalogEntry::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CHARGE_ITEM === $childName) {
+                $type->setChargeItem(FHIRChargeItem::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CHARGE_ITEM_DEFINITION === $childName) {
+                $type->setChargeItemDefinition(FHIRChargeItemDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLAIM === $childName) {
+                $type->setClaim(FHIRClaim::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLAIM_RESPONSE === $childName) {
+                $type->setClaimResponse(FHIRClaimResponse::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLINICAL_IMPRESSION === $childName) {
+                $type->setClinicalImpression(FHIRClinicalImpression::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CODE_SYSTEM === $childName) {
+                $type->setCodeSystem(FHIRCodeSystem::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_COMMUNICATION === $childName) {
+                $type->setCommunication(FHIRCommunication::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_COMMUNICATION_REQUEST === $childName) {
+                $type->setCommunicationRequest(FHIRCommunicationRequest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_COMPARTMENT_DEFINITION === $childName) {
+                $type->setCompartmentDefinition(FHIRCompartmentDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_COMPOSITION === $childName) {
+                $type->setComposition(FHIRComposition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONCEPT_MAP === $childName) {
+                $type->setConceptMap(FHIRConceptMap::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONDITION === $childName) {
+                $type->setCondition(FHIRCondition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONSENT === $childName) {
+                $type->setConsent(FHIRConsent::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTRACT === $childName) {
+                $type->setContract(FHIRContract::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_COVERAGE === $childName) {
+                $type->setCoverage(FHIRCoverage::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_COVERAGE_ELIGIBILITY_REQUEST === $childName) {
+                $type->setCoverageEligibilityRequest(FHIRCoverageEligibilityRequest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_COVERAGE_ELIGIBILITY_RESPONSE === $childName) {
+                $type->setCoverageEligibilityResponse(FHIRCoverageEligibilityResponse::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DETECTED_ISSUE === $childName) {
+                $type->setDetectedIssue(FHIRDetectedIssue::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DEVICE === $childName) {
+                $type->setDevice(FHIRDevice::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DEVICE_DEFINITION === $childName) {
+                $type->setDeviceDefinition(FHIRDeviceDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DEVICE_METRIC === $childName) {
+                $type->setDeviceMetric(FHIRDeviceMetric::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DEVICE_REQUEST === $childName) {
+                $type->setDeviceRequest(FHIRDeviceRequest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DEVICE_USE_STATEMENT === $childName) {
+                $type->setDeviceUseStatement(FHIRDeviceUseStatement::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DIAGNOSTIC_REPORT === $childName) {
+                $type->setDiagnosticReport(FHIRDiagnosticReport::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DOCUMENT_MANIFEST === $childName) {
+                $type->setDocumentManifest(FHIRDocumentManifest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DOCUMENT_REFERENCE === $childName) {
+                $type->setDocumentReference(FHIRDocumentReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EFFECT_EVIDENCE_SYNTHESIS === $childName) {
+                $type->setEffectEvidenceSynthesis(FHIREffectEvidenceSynthesis::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ENCOUNTER === $childName) {
+                $type->setEncounter(FHIREncounter::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ENDPOINT === $childName) {
+                $type->setEndpoint(FHIREndpoint::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ENROLLMENT_REQUEST === $childName) {
+                $type->setEnrollmentRequest(FHIREnrollmentRequest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ENROLLMENT_RESPONSE === $childName) {
+                $type->setEnrollmentResponse(FHIREnrollmentResponse::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EPISODE_OF_CARE === $childName) {
+                $type->setEpisodeOfCare(FHIREpisodeOfCare::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EVENT_DEFINITION === $childName) {
+                $type->setEventDefinition(FHIREventDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EVIDENCE === $childName) {
+                $type->setEvidence(FHIREvidence::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EVIDENCE_VARIABLE === $childName) {
+                $type->setEvidenceVariable(FHIREvidenceVariable::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EXAMPLE_SCENARIO === $childName) {
+                $type->setExampleScenario(FHIRExampleScenario::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EXPLANATION_OF_BENEFIT === $childName) {
+                $type->setExplanationOfBenefit(FHIRExplanationOfBenefit::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FAMILY_MEMBER_HISTORY === $childName) {
+                $type->setFamilyMemberHistory(FHIRFamilyMemberHistory::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FLAG === $childName) {
+                $type->setFlag(FHIRFlag::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_GOAL === $childName) {
+                $type->setGoal(FHIRGoal::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_GRAPH_DEFINITION === $childName) {
+                $type->setGraphDefinition(FHIRGraphDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_GROUP === $childName) {
+                $type->setGroup(FHIRGroup::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_GUIDANCE_RESPONSE === $childName) {
+                $type->setGuidanceResponse(FHIRGuidanceResponse::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_HEALTHCARE_SERVICE === $childName) {
+                $type->setHealthcareService(FHIRHealthcareService::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMAGING_STUDY === $childName) {
+                $type->setImagingStudy(FHIRImagingStudy::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMMUNIZATION === $childName) {
+                $type->setImmunization(FHIRImmunization::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMMUNIZATION_EVALUATION === $childName) {
+                $type->setImmunizationEvaluation(FHIRImmunizationEvaluation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMMUNIZATION_RECOMMENDATION === $childName) {
+                $type->setImmunizationRecommendation(FHIRImmunizationRecommendation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMPLEMENTATION_GUIDE === $childName) {
+                $type->setImplementationGuide(FHIRImplementationGuide::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_INSURANCE_PLAN === $childName) {
+                $type->setInsurancePlan(FHIRInsurancePlan::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_INVOICE === $childName) {
+                $type->setInvoice(FHIRInvoice::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LIBRARY === $childName) {
+                $type->setLibrary(FHIRLibrary::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LINKAGE === $childName) {
+                $type->setLinkage(FHIRLinkage::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LIST === $childName) {
+                $type->setList(FHIRList::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LOCATION === $childName) {
+                $type->setLocation(FHIRLocation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEASURE === $childName) {
+                $type->setMeasure(FHIRMeasure::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEASURE_REPORT === $childName) {
+                $type->setMeasureReport(FHIRMeasureReport::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDIA === $childName) {
+                $type->setMedia(FHIRMedia::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICATION === $childName) {
+                $type->setMedication(FHIRMedication::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICATION_ADMINISTRATION === $childName) {
+                $type->setMedicationAdministration(FHIRMedicationAdministration::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICATION_DISPENSE === $childName) {
+                $type->setMedicationDispense(FHIRMedicationDispense::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICATION_KNOWLEDGE === $childName) {
+                $type->setMedicationKnowledge(FHIRMedicationKnowledge::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICATION_REQUEST === $childName) {
+                $type->setMedicationRequest(FHIRMedicationRequest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICATION_STATEMENT === $childName) {
+                $type->setMedicationStatement(FHIRMedicationStatement::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT === $childName) {
+                $type->setMedicinalProduct(FHIRMedicinalProduct::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_AUTHORIZATION === $childName) {
+                $type->setMedicinalProductAuthorization(FHIRMedicinalProductAuthorization::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_CONTRAINDICATION === $childName) {
+                $type->setMedicinalProductContraindication(FHIRMedicinalProductContraindication::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_INDICATION === $childName) {
+                $type->setMedicinalProductIndication(FHIRMedicinalProductIndication::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_INGREDIENT === $childName) {
+                $type->setMedicinalProductIngredient(FHIRMedicinalProductIngredient::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_INTERACTION === $childName) {
+                $type->setMedicinalProductInteraction(FHIRMedicinalProductInteraction::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_MANUFACTURED === $childName) {
+                $type->setMedicinalProductManufactured(FHIRMedicinalProductManufactured::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_PACKAGED === $childName) {
+                $type->setMedicinalProductPackaged(FHIRMedicinalProductPackaged::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_PHARMACEUTICAL === $childName) {
+                $type->setMedicinalProductPharmaceutical(FHIRMedicinalProductPharmaceutical::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT === $childName) {
+                $type->setMedicinalProductUndesirableEffect(FHIRMedicinalProductUndesirableEffect::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MESSAGE_DEFINITION === $childName) {
+                $type->setMessageDefinition(FHIRMessageDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MESSAGE_HEADER === $childName) {
+                $type->setMessageHeader(FHIRMessageHeader::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MOLECULAR_SEQUENCE === $childName) {
+                $type->setMolecularSequence(FHIRMolecularSequence::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_NAMING_SYSTEM === $childName) {
+                $type->setNamingSystem(FHIRNamingSystem::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_NUTRITION_ORDER === $childName) {
+                $type->setNutritionOrder(FHIRNutritionOrder::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_OBSERVATION === $childName) {
+                $type->setObservation(FHIRObservation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_OBSERVATION_DEFINITION === $childName) {
+                $type->setObservationDefinition(FHIRObservationDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_OPERATION_DEFINITION === $childName) {
+                $type->setOperationDefinition(FHIROperationDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_OPERATION_OUTCOME === $childName) {
+                $type->setOperationOutcome(FHIROperationOutcome::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ORGANIZATION === $childName) {
+                $type->setOrganization(FHIROrganization::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ORGANIZATION_AFFILIATION === $childName) {
+                $type->setOrganizationAffiliation(FHIROrganizationAffiliation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PATIENT === $childName) {
+                $type->setPatient(FHIRPatient::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PAYMENT_NOTICE === $childName) {
+                $type->setPaymentNotice(FHIRPaymentNotice::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PAYMENT_RECONCILIATION === $childName) {
+                $type->setPaymentReconciliation(FHIRPaymentReconciliation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PERSON === $childName) {
+                $type->setPerson(FHIRPerson::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PLAN_DEFINITION === $childName) {
+                $type->setPlanDefinition(FHIRPlanDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PRACTITIONER === $childName) {
+                $type->setPractitioner(FHIRPractitioner::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PRACTITIONER_ROLE === $childName) {
+                $type->setPractitionerRole(FHIRPractitionerRole::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PROCEDURE === $childName) {
+                $type->setProcedure(FHIRProcedure::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PROVENANCE === $childName) {
+                $type->setProvenance(FHIRProvenance::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_QUESTIONNAIRE === $childName) {
+                $type->setQuestionnaire(FHIRQuestionnaire::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_QUESTIONNAIRE_RESPONSE === $childName) {
+                $type->setQuestionnaireResponse(FHIRQuestionnaireResponse::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RELATED_PERSON === $childName) {
+                $type->setRelatedPerson(FHIRRelatedPerson::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_REQUEST_GROUP === $childName) {
+                $type->setRequestGroup(FHIRRequestGroup::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RESEARCH_DEFINITION === $childName) {
+                $type->setResearchDefinition(FHIRResearchDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RESEARCH_ELEMENT_DEFINITION === $childName) {
+                $type->setResearchElementDefinition(FHIRResearchElementDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RESEARCH_STUDY === $childName) {
+                $type->setResearchStudy(FHIRResearchStudy::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RESEARCH_SUBJECT === $childName) {
+                $type->setResearchSubject(FHIRResearchSubject::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RISK_ASSESSMENT === $childName) {
+                $type->setRiskAssessment(FHIRRiskAssessment::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RISK_EVIDENCE_SYNTHESIS === $childName) {
+                $type->setRiskEvidenceSynthesis(FHIRRiskEvidenceSynthesis::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SCHEDULE === $childName) {
+                $type->setSchedule(FHIRSchedule::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SEARCH_PARAMETER === $childName) {
+                $type->setSearchParameter(FHIRSearchParameter::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SERVICE_REQUEST === $childName) {
+                $type->setServiceRequest(FHIRServiceRequest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SLOT === $childName) {
+                $type->setSlot(FHIRSlot::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SPECIMEN === $childName) {
+                $type->setSpecimen(FHIRSpecimen::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SPECIMEN_DEFINITION === $childName) {
+                $type->setSpecimenDefinition(FHIRSpecimenDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_STRUCTURE_DEFINITION === $childName) {
+                $type->setStructureDefinition(FHIRStructureDefinition::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_STRUCTURE_MAP === $childName) {
+                $type->setStructureMap(FHIRStructureMap::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSCRIPTION === $childName) {
+                $type->setSubscription(FHIRSubscription::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSTANCE === $childName) {
+                $type->setSubstance(FHIRSubstance::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSTANCE_NUCLEIC_ACID === $childName) {
+                $type->setSubstanceNucleicAcid(FHIRSubstanceNucleicAcid::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSTANCE_POLYMER === $childName) {
+                $type->setSubstancePolymer(FHIRSubstancePolymer::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSTANCE_PROTEIN === $childName) {
+                $type->setSubstanceProtein(FHIRSubstanceProtein::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSTANCE_REFERENCE_INFORMATION === $childName) {
+                $type->setSubstanceReferenceInformation(FHIRSubstanceReferenceInformation::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSTANCE_SOURCE_MATERIAL === $childName) {
+                $type->setSubstanceSourceMaterial(FHIRSubstanceSourceMaterial::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBSTANCE_SPECIFICATION === $childName) {
+                $type->setSubstanceSpecification(FHIRSubstanceSpecification::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUPPLY_DELIVERY === $childName) {
+                $type->setSupplyDelivery(FHIRSupplyDelivery::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUPPLY_REQUEST === $childName) {
+                $type->setSupplyRequest(FHIRSupplyRequest::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TASK === $childName) {
+                $type->setTask(FHIRTask::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TERMINOLOGY_CAPABILITIES === $childName) {
+                $type->setTerminologyCapabilities(FHIRTerminologyCapabilities::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TEST_REPORT === $childName) {
+                $type->setTestReport(FHIRTestReport::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TEST_SCRIPT === $childName) {
+                $type->setTestScript(FHIRTestScript::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_VALUE_SET === $childName) {
+                $type->setValueSet(FHIRValueSet::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_VERIFICATION_RESULT === $childName) {
+                $type->setVerificationResult(FHIRVerificationResult::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_VISION_PRESCRIPTION === $childName) {
+                $type->setVisionPrescription(FHIRVisionPrescription::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PARAMETERS === $childName) {
+                $type->setParameters(FHIRParameters::xmlUnserialize($n, null, $config));
             }
         }
+        $attributes = $element->attributes();
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(null|\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null !== ($v = $this->getgetAccount())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        if (null !== ($v = $this->getgetActivityDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
         }
-        if (null !== ($v = $this->getgetAdverseEvent())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
         }
-        if (null !== ($v = $this->getgetAllergyIntolerance())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getAccount())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetAppointment())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getActivityDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetAppointmentResponse())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getAdverseEvent())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetAuditEvent())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getAllergyIntolerance())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetBasic())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getAppointment())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetBinary())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getAppointmentResponse())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetBiologicallyDerivedProduct())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getAuditEvent())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetBodyStructure())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getBasic())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetBundle())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getBinary())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCapabilityStatement())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getBiologicallyDerivedProduct())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCarePlan())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getBodyStructure())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCareTeam())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getBundle())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCatalogEntry())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCapabilityStatement())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetChargeItem())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCarePlan())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetChargeItemDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCareTeam())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetClaim())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCatalogEntry())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetClaimResponse())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getChargeItem())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetClinicalImpression())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getChargeItemDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCodeSystem())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getClaim())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCommunication())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getClaimResponse())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCommunicationRequest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getClinicalImpression())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCompartmentDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCodeSystem())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetComposition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCommunication())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetConceptMap())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCommunicationRequest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCondition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCompartmentDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetConsent())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getComposition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetContract())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getConceptMap())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCoverage())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCondition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCoverageEligibilityRequest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getConsent())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetCoverageEligibilityResponse())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getContract())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDetectedIssue())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCoverage())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDevice())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCoverageEligibilityRequest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDeviceDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getCoverageEligibilityResponse())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDeviceMetric())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDetectedIssue())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDeviceRequest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDevice())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDeviceUseStatement())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDeviceDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDiagnosticReport())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDeviceMetric())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDocumentManifest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDeviceRequest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetDocumentReference())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDeviceUseStatement())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEffectEvidenceSynthesis())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDiagnosticReport())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEncounter())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDocumentManifest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEndpoint())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getDocumentReference())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEnrollmentRequest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEffectEvidenceSynthesis())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEnrollmentResponse())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEncounter())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEpisodeOfCare())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEndpoint())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEventDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEnrollmentRequest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEvidence())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEnrollmentResponse())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetEvidenceVariable())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEpisodeOfCare())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetExampleScenario())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEventDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetExplanationOfBenefit())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEvidence())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetFamilyMemberHistory())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getEvidenceVariable())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetFlag())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getExampleScenario())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetGoal())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getExplanationOfBenefit())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetGraphDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getFamilyMemberHistory())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetGroup())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getFlag())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetGuidanceResponse())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getGoal())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetHealthcareService())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getGraphDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetImagingStudy())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getGroup())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetImmunization())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getGuidanceResponse())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetImmunizationEvaluation())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getHealthcareService())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetImmunizationRecommendation())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getImagingStudy())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetImplementationGuide())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getImmunization())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetInsurancePlan())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getImmunizationEvaluation())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetInvoice())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getImmunizationRecommendation())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetLibrary())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getImplementationGuide())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetLinkage())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getInsurancePlan())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetList())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getInvoice())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetLocation())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getLibrary())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMeasure())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getLinkage())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMeasureReport())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getList())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedia())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getLocation())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedication())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMeasure())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicationAdministration())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMeasureReport())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicationDispense())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedia())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicationKnowledge())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedication())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicationRequest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicationAdministration())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicationStatement())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicationDispense())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProduct())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicationKnowledge())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductAuthorization())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicationRequest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductContraindication())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicationStatement())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductIndication())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProduct())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductIngredient())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductAuthorization())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductInteraction())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductContraindication())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductManufactured())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductIndication())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductPackaged())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductIngredient())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductPharmaceutical())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductInteraction())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMedicinalProductUndesirableEffect())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductManufactured())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMessageDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductPackaged())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMessageHeader())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductPharmaceutical())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetMolecularSequence())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMedicinalProductUndesirableEffect())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetNamingSystem())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMessageDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetNutritionOrder())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMessageHeader())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetObservation())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getMolecularSequence())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetObservationDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getNamingSystem())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetOperationDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getNutritionOrder())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetOperationOutcome())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getObservation())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetOrganization())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getObservationDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetOrganizationAffiliation())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getOperationDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetPatient())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getOperationOutcome())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetPaymentNotice())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getOrganization())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetPaymentReconciliation())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getOrganizationAffiliation())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetPerson())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getPatient())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetPlanDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getPaymentNotice())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetPractitioner())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getPaymentReconciliation())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetPractitionerRole())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getPerson())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetProcedure())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getPlanDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetProvenance())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getPractitioner())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetQuestionnaire())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getPractitionerRole())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetQuestionnaireResponse())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getProcedure())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetRelatedPerson())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getProvenance())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetRequestGroup())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getQuestionnaire())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetResearchDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getQuestionnaireResponse())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetResearchElementDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getRelatedPerson())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetResearchStudy())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getRequestGroup())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetResearchSubject())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getResearchDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetRiskAssessment())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getResearchElementDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetRiskEvidenceSynthesis())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getResearchStudy())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSchedule())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getResearchSubject())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSearchParameter())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getRiskAssessment())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetServiceRequest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getRiskEvidenceSynthesis())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSlot())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSchedule())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSpecimen())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSearchParameter())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSpecimenDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getServiceRequest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetStructureDefinition())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSlot())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetStructureMap())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSpecimen())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubscription())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSpecimenDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubstance())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getStructureDefinition())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubstanceNucleicAcid())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getStructureMap())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubstancePolymer())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubscription())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubstanceProtein())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubstance())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubstanceReferenceInformation())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubstanceNucleicAcid())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubstanceSourceMaterial())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubstancePolymer())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSubstanceSpecification())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubstanceProtein())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSupplyDelivery())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubstanceReferenceInformation())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetSupplyRequest())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubstanceSourceMaterial())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetTask())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSubstanceSpecification())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetTerminologyCapabilities())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSupplyDelivery())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetTestReport())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getSupplyRequest())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetTestScript())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getTask())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetValueSet())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getTerminologyCapabilities())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetVerificationResult())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getTestReport())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetVisionPrescription())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getTestScript())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null !== ($v = $this->getgetParameters())) {
-            return $v->xmlSerialize($element, $libxmlOpts);
+        if (null !== ($v = $this->getValueSet())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition(ResourceContainer), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null !== ($v = $this->getVerificationResult())) {
+            return $v->xmlSerialize($xw, $config);
         }
-        return $element;
+        if (null !== ($v = $this->getVisionPrescription())) {
+            return $v->xmlSerialize($xw, $config);
+        }
+        if (null !== ($v = $this->getParameters())) {
+            return $v->xmlSerialize($xw, $config);
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'ResourceContainer', $this->_getSourceXmlns());
+        }
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**

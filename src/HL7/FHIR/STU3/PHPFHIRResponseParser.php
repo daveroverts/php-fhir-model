@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -100,6 +100,7 @@ class PHPFHIRResponseParser
      *
      * @param null|string|array|\stdClass|\SimpleXMLElement|\DOMDocument $input
      * @return null|\HL7\FHIR\STU3\PHPFHIRTypeInterface
+     * @throws \Exception
      */
     public function parse(null|string|array|\stdClass|\SimpleXMLElement|\DOMDocument $input): null|PHPFHIRTypeInterface
     {
@@ -157,16 +158,7 @@ class PHPFHIRResponseParser
      */
     public function parseSimpleXMLElement(\SimpleXMLElement $input): null|PHPFHIRTypeInterface
     {
-        return $this->parseDOMDocument(dom_import_simplexml($input)->ownerDocument);
-    }
-
-    /**
-     * @param \DOMDocument $input
-     * @return null|\HL7\FHIR\STU3\PHPFHIRTypeInterface
-     */
-    public function parseDOMDocument(\DOMDocument $input): null|PHPFHIRTypeInterface
-    {
-        $elementName = $input->documentElement->nodeName;
+        $elementName = $input->getName();
         /** @var \HL7\FHIR\STU3\PHPFHIRTypeInterface $fhirType */
         $fhirType = PHPFHIRTypeMap::getTypeClass($elementName);
         if (null === $fhirType) {
@@ -176,7 +168,16 @@ class PHPFHIRResponseParser
                 $this->getPrintableStringInput($input->saveXML())
             ));
         }
-        return $fhirType::xmlUnserialize($input->documentElement, $this->config);
+        return $fhirType::xmlUnserialize($input, $this->config);
+    }
+
+    /**
+     * @param \DOMDocument $input
+     * @return null|\HL7\FHIR\STU3\PHPFHIRTypeInterface
+     */
+    public function parseDOMDocument(\DOMDocument $input): null|PHPFHIRTypeInterface
+    {
+        return $this->parseSimpleXMLElement(simplexml_import_dom($input));
     }
 
     /**
@@ -197,22 +198,11 @@ class PHPFHIRResponseParser
     /**
      * @param string $input
      * @return null|\HL7\FHIR\STU3\PHPFHIRTypeInterface
+     * @throws \Exception
      */
     public function parseXml(string $input): null|PHPFHIRTypeInterface
     {
-        libxml_use_internal_errors(true);
-        $dom = $this->config->newDOMDocment();
-        $dom->loadXML($input, $this->config->getLibxmlOpts());
-        $err = libxml_get_last_error();
-        libxml_use_internal_errors(false);
-        if (false === $err) {
-            return $this->parseDOMDocument($dom);
-        }
-        throw new \DomainException(sprintf(
-            'Unable to parse provided input as XML.  Error: %s; Input: %s',
-            $err ? $err->message : 'Unknown',
-            $this->getPrintableStringInput($input)
-        ));
+        return $this->parseSimpleXMLElement(new \SimpleXMLElement($input, $this->config->getLibxmlOpts()));
     }
 
     /**
@@ -237,6 +227,7 @@ class PHPFHIRResponseParser
     /**
      * @param string $input
      * @return null|\HL7\FHIR\STU3\PHPFHIRTypeInterface
+     * @throws \Exception
      */
     public function parseString(string $input): null|PHPFHIRTypeInterface
     {

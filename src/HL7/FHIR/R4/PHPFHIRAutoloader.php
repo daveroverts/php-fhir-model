@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -64,6 +64,24 @@ namespace HL7\FHIR\R4;
 
 // if this class is used, assume not using Composer...
 
+// constants
+if (!class_exists('\HL7\FHIR\R4\PHPFHIRConstants', false)) {
+    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRConstants.php';
+}
+
+// config
+if (!enum_exists('\HL7\FHIR\R4\PHPFHIRConfigKeyEnum', false)) {
+    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRConfigKeyEnum.php';
+}
+if (!class_exists('\HL7\FHIR\R4\PHPFHIRConfig', false)) {
+    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRConfig.php';
+}
+
+// xml writer
+if (!class_exists('\HL7\FHIR\R4\PHPFHIRXmlWriter', false)) {
+    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRXmlWriter.php';
+}
+
 // interfaces
 if (!interface_exists('\HL7\FHIR\R4\PHPFHIRTypeInterface', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRTypeInterface.php';
@@ -77,12 +95,6 @@ if (!interface_exists('\HL7\FHIR\R4\PHPFHIRContainedTypeInterface', false)) {
 if (!interface_exists('\HL7\FHIR\R4\PHPFHIRCommentContainerInterface', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRCommentContainerInterface.php';
 }
-if (!interface_exists('\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface', false)) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRXmlSerializableConfigInterface.php';
-}
-if (!interface_exists('\HL7\FHIR\R4\PHPFHIRXmlSerializableInterface', false)) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRXmlSerializableInterface.php';
-}
 
 // traits
 if (!trait_exists('\HL7\FHIR\R4\PHPFHIRCommentContainerTrait', false)) {
@@ -94,37 +106,31 @@ if (!trait_exists('\HL7\FHIR\R4\PHPFHIRValidationAssertionsTrait', false)) {
 if (!trait_exists('\HL7\FHIR\R4\PHPFHIRChangeTrackingTrait', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRChangeTrackingTrait.php';
 }
-if (!trait_exists('\HL7\FHIR\R4\PHPFHIRXmlNamespaceTrait', false)) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRXmlNamespaceTrait.php';
-}
-if (!trait_exists('\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigTrait', false)) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRXmlSerializableConfigTrait.php';
+if (!trait_exists('\HL7\FHIR\R4\PHPFHIRSourceXmlNamespaceTrait', false)) {
+    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRSourceXmlNamespaceTrait.php';
 }
 
 // enums
-if (!enum_exists('\HL7\FHIR\R4\PHPFHIRConfigKeyEnum', false)) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRConfigKeyEnum.php';
-}
 if (!enum_exists('\HL7\FHIR\R4\PHPFHIRTypeEnum', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRTypeEnum.php';
 }
 if (!enum_exists('\HL7\FHIR\R4\PHPFHIRApiFormatEnum', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRApiFormatEnum.php';
 }
-
-// classes
-if (!class_exists('\HL7\FHIR\R4\PHPFHIRConstants', false)) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRConstants.php';
+if (!enum_exists('\HL7\FHIR\R4\PHPFHIRXmlLocationEnum', false)) {
+    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRXmlLocationEnum.php';
 }
+
+
+// parser classes
 if (!class_exists('\HL7\FHIR\R4\PHPFHIRTypeMap', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRTypeMap.php';
-}
-if (!class_exists('\HL7\FHIR\R4\PHPFHIRConfig', false)) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRConfig.php';
 }
 if (!class_exists('\HL7\FHIR\R4\PHPFHIRResponseParser', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRResponseParser.php';
 }
+
+// debug client
 if (!class_exists('\HL7\FHIR\R4\PHPFHIRDebugClientResponse', false)) {
     require __DIR__ . DIRECTORY_SEPARATOR . 'PHPFHIRDebugClientResponse.php';
 }

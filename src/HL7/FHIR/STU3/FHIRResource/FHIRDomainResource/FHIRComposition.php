@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3\FHIRResource\FHIRDomainResource;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -86,12 +86,13 @@ use HL7\FHIR\STU3\FHIRResource\FHIRDomainResource;
 use HL7\FHIR\STU3\FHIRStringPrimitive;
 use HL7\FHIR\STU3\FHIRUriPrimitive;
 use HL7\FHIR\STU3\PHPFHIRConfig;
+use HL7\FHIR\STU3\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\STU3\PHPFHIRConstants;
 use HL7\FHIR\STU3\PHPFHIRContainedTypeInterface;
 use HL7\FHIR\STU3\PHPFHIRTypeInterface;
 use HL7\FHIR\STU3\PHPFHIRTypeMap;
-use HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\STU3\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\STU3\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\STU3\PHPFHIRXmlWriter;
 
 /**
  * A set of healthcare-related information that is assembled together into a single
@@ -321,10 +322,12 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
         ],
     ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRComposition Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -332,14 +335,14 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_IDENTIFIER])) {
+        if (array_key_exists(self::FIELD_IDENTIFIER, $data)) {
             if ($data[self::FIELD_IDENTIFIER] instanceof FHIRIdentifier) {
                 $this->setIdentifier($data[self::FIELD_IDENTIFIER]);
             } else {
                 $this->setIdentifier(new FHIRIdentifier($data[self::FIELD_IDENTIFIER]));
             }
         }
-        if (isset($data[self::FIELD_STATUS]) || isset($data[self::FIELD_STATUS_EXT])) {
+        if (array_key_exists(self::FIELD_STATUS, $data) || array_key_exists(self::FIELD_STATUS_EXT, $data)) {
             $value = $data[self::FIELD_STATUS] ?? null;
             $ext = (isset($data[self::FIELD_STATUS_EXT]) && is_array($data[self::FIELD_STATUS_EXT])) ? $data[self::FIELD_STATUS_EXT] : [];
             if (null !== $value) {
@@ -352,37 +355,39 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 }
             } elseif ([] !== $ext) {
                 $this->setStatus(new FHIRCompositionStatus($ext));
+            } else {
+                $this->setStatus(new FHIRCompositionStatus(null));
             }
         }
-        if (isset($data[self::FIELD_TYPE])) {
+        if (array_key_exists(self::FIELD_TYPE, $data)) {
             if ($data[self::FIELD_TYPE] instanceof FHIRCodeableConcept) {
                 $this->setType($data[self::FIELD_TYPE]);
             } else {
                 $this->setType(new FHIRCodeableConcept($data[self::FIELD_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_CLASS])) {
+        if (array_key_exists(self::FIELD_CLASS, $data)) {
             if ($data[self::FIELD_CLASS] instanceof FHIRCodeableConcept) {
                 $this->setClass($data[self::FIELD_CLASS]);
             } else {
                 $this->setClass(new FHIRCodeableConcept($data[self::FIELD_CLASS]));
             }
         }
-        if (isset($data[self::FIELD_SUBJECT])) {
+        if (array_key_exists(self::FIELD_SUBJECT, $data)) {
             if ($data[self::FIELD_SUBJECT] instanceof FHIRReference) {
                 $this->setSubject($data[self::FIELD_SUBJECT]);
             } else {
                 $this->setSubject(new FHIRReference($data[self::FIELD_SUBJECT]));
             }
         }
-        if (isset($data[self::FIELD_ENCOUNTER])) {
+        if (array_key_exists(self::FIELD_ENCOUNTER, $data)) {
             if ($data[self::FIELD_ENCOUNTER] instanceof FHIRReference) {
                 $this->setEncounter($data[self::FIELD_ENCOUNTER]);
             } else {
                 $this->setEncounter(new FHIRReference($data[self::FIELD_ENCOUNTER]));
             }
         }
-        if (isset($data[self::FIELD_DATE]) || isset($data[self::FIELD_DATE_EXT])) {
+        if (array_key_exists(self::FIELD_DATE, $data) || array_key_exists(self::FIELD_DATE_EXT, $data)) {
             $value = $data[self::FIELD_DATE] ?? null;
             $ext = (isset($data[self::FIELD_DATE_EXT]) && is_array($data[self::FIELD_DATE_EXT])) ? $data[self::FIELD_DATE_EXT] : [];
             if (null !== $value) {
@@ -395,14 +400,13 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 }
             } elseif ([] !== $ext) {
                 $this->setDate(new FHIRDateTime($ext));
+            } else {
+                $this->setDate(new FHIRDateTime(null));
             }
         }
-        if (isset($data[self::FIELD_AUTHOR])) {
+        if (array_key_exists(self::FIELD_AUTHOR, $data)) {
             if (is_array($data[self::FIELD_AUTHOR])) {
                 foreach($data[self::FIELD_AUTHOR] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addAuthor($v);
                     } else {
@@ -415,7 +419,7 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 $this->addAuthor(new FHIRReference($data[self::FIELD_AUTHOR]));
             }
         }
-        if (isset($data[self::FIELD_TITLE]) || isset($data[self::FIELD_TITLE_EXT])) {
+        if (array_key_exists(self::FIELD_TITLE, $data) || array_key_exists(self::FIELD_TITLE_EXT, $data)) {
             $value = $data[self::FIELD_TITLE] ?? null;
             $ext = (isset($data[self::FIELD_TITLE_EXT]) && is_array($data[self::FIELD_TITLE_EXT])) ? $data[self::FIELD_TITLE_EXT] : [];
             if (null !== $value) {
@@ -428,9 +432,11 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 }
             } elseif ([] !== $ext) {
                 $this->setTitle(new FHIRString($ext));
+            } else {
+                $this->setTitle(new FHIRString(null));
             }
         }
-        if (isset($data[self::FIELD_CONFIDENTIALITY]) || isset($data[self::FIELD_CONFIDENTIALITY_EXT])) {
+        if (array_key_exists(self::FIELD_CONFIDENTIALITY, $data) || array_key_exists(self::FIELD_CONFIDENTIALITY_EXT, $data)) {
             $value = $data[self::FIELD_CONFIDENTIALITY] ?? null;
             $ext = (isset($data[self::FIELD_CONFIDENTIALITY_EXT]) && is_array($data[self::FIELD_CONFIDENTIALITY_EXT])) ? $data[self::FIELD_CONFIDENTIALITY_EXT] : [];
             if (null !== $value) {
@@ -443,14 +449,13 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 }
             } elseif ([] !== $ext) {
                 $this->setConfidentiality(new FHIRConfidentialityClassification($ext));
+            } else {
+                $this->setConfidentiality(new FHIRConfidentialityClassification(null));
             }
         }
-        if (isset($data[self::FIELD_ATTESTER])) {
+        if (array_key_exists(self::FIELD_ATTESTER, $data)) {
             if (is_array($data[self::FIELD_ATTESTER])) {
                 foreach($data[self::FIELD_ATTESTER] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCompositionAttester) {
                         $this->addAttester($v);
                     } else {
@@ -463,19 +468,16 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 $this->addAttester(new FHIRCompositionAttester($data[self::FIELD_ATTESTER]));
             }
         }
-        if (isset($data[self::FIELD_CUSTODIAN])) {
+        if (array_key_exists(self::FIELD_CUSTODIAN, $data)) {
             if ($data[self::FIELD_CUSTODIAN] instanceof FHIRReference) {
                 $this->setCustodian($data[self::FIELD_CUSTODIAN]);
             } else {
                 $this->setCustodian(new FHIRReference($data[self::FIELD_CUSTODIAN]));
             }
         }
-        if (isset($data[self::FIELD_RELATES_TO])) {
+        if (array_key_exists(self::FIELD_RELATES_TO, $data)) {
             if (is_array($data[self::FIELD_RELATES_TO])) {
                 foreach($data[self::FIELD_RELATES_TO] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCompositionRelatesTo) {
                         $this->addRelatesTo($v);
                     } else {
@@ -488,12 +490,9 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 $this->addRelatesTo(new FHIRCompositionRelatesTo($data[self::FIELD_RELATES_TO]));
             }
         }
-        if (isset($data[self::FIELD_EVENT])) {
+        if (array_key_exists(self::FIELD_EVENT, $data)) {
             if (is_array($data[self::FIELD_EVENT])) {
                 foreach($data[self::FIELD_EVENT] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCompositionEvent) {
                         $this->addEvent($v);
                     } else {
@@ -506,12 +505,9 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 $this->addEvent(new FHIRCompositionEvent($data[self::FIELD_EVENT]));
             }
         }
-        if (isset($data[self::FIELD_SECTION])) {
+        if (array_key_exists(self::FIELD_SECTION, $data)) {
             if (is_array($data[self::FIELD_SECTION])) {
                 foreach($data[self::FIELD_SECTION] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCompositionSection) {
                         $this->addSection($v);
                     } else {
@@ -526,11 +522,10 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -542,7 +537,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
     {
         return static::FHIR_TYPE_NAME;
     }
-
 
     /**
      * A technical identifier - identifies some entity uniquely and unambiguously.
@@ -800,14 +794,19 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
      * the author.
      *
      * @param null|string|\DateTimeInterface|\HL7\FHIR\STU3\FHIRDateTimePrimitive|\HL7\FHIR\STU3\FHIRElement\FHIRDateTime $date
+     * @param \HL7\FHIR\STU3\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setDate(null|string|\DateTimeInterface|FHIRDateTimePrimitive|FHIRDateTime $date = null): self
+    public function setDate(null|string|\DateTimeInterface|FHIRDateTimePrimitive|FHIRDateTime $date = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $date && !($date instanceof FHIRDateTime)) {
             $date = new FHIRDateTime($date);
         }
         $this->_trackValueSet($this->date, $date);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_DATE])) {
+            $this->_primitiveXmlLocations[self::FIELD_DATE] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_DATE][0] = $xmlLocation;
         $this->date = $date;
         return $this;
     }
@@ -849,36 +848,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
     }
 
     /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Identifies who is responsible for the information in the composition, not
-     * necessarily who typed it in.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRReference[] $author
-     * @return static
-     */
-    public function setAuthor(array $author = []): self
-    {
-        if ([] !== $this->author) {
-            $this->_trackValuesRemoved(count($this->author));
-            $this->author = [];
-        }
-        if ([] === $author) {
-            return $this;
-        }
-        foreach($author as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addAuthor($v);
-            } else {
-                $this->addAuthor(new FHIRReference($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A sequence of Unicode characters
      * Note that FHIR strings may not exceed 1MB in size
      * If the element is present, it must have either a \@value, an \@id, or extensions
@@ -900,14 +869,19 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
      * Official human-readable label for the composition.
      *
      * @param null|string|\HL7\FHIR\STU3\FHIRStringPrimitive|\HL7\FHIR\STU3\FHIRElement\FHIRString $title
+     * @param \HL7\FHIR\STU3\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setTitle(null|string|FHIRStringPrimitive|FHIRString $title = null): self
+    public function setTitle(null|string|FHIRStringPrimitive|FHIRString $title = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $title && !($title instanceof FHIRString)) {
             $title = new FHIRString($title);
         }
         $this->_trackValueSet($this->title, $title);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_TITLE])) {
+            $this->_primitiveXmlLocations[self::FIELD_TITLE] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_TITLE][0] = $xmlLocation;
         $this->title = $title;
         return $this;
     }
@@ -981,38 +955,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
         }
         $this->_trackValueAdded();
         $this->attester[] = $attester;
-        return $this;
-    }
-
-    /**
-     * A set of healthcare-related information that is assembled together into a single
-     * logical document that provides a single coherent statement of meaning,
-     * establishes its own context and that has clinical attestation with regard to who
-     * is making the statement. While a Composition defines the structure, it does not
-     * actually contain the content: rather the full content of a document is contained
-     * in a Bundle, of which the Composition is the first resource contained.
-     *
-     * A participant who has attested to the accuracy of the composition/document.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRComposition\FHIRCompositionAttester[] $attester
-     * @return static
-     */
-    public function setAttester(array $attester = []): self
-    {
-        if ([] !== $this->attester) {
-            $this->_trackValuesRemoved(count($this->attester));
-            $this->attester = [];
-        }
-        if ([] === $attester) {
-            return $this;
-        }
-        foreach($attester as $v) {
-            if ($v instanceof FHIRCompositionAttester) {
-                $this->addAttester($v);
-            } else {
-                $this->addAttester(new FHIRCompositionAttester($v));
-            }
-        }
         return $this;
     }
 
@@ -1102,39 +1044,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
      * actually contain the content: rather the full content of a document is contained
      * in a Bundle, of which the Composition is the first resource contained.
      *
-     * Relationships that this composition has with other compositions or documents
-     * that already exist.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRComposition\FHIRCompositionRelatesTo[] $relatesTo
-     * @return static
-     */
-    public function setRelatesTo(array $relatesTo = []): self
-    {
-        if ([] !== $this->relatesTo) {
-            $this->_trackValuesRemoved(count($this->relatesTo));
-            $this->relatesTo = [];
-        }
-        if ([] === $relatesTo) {
-            return $this;
-        }
-        foreach($relatesTo as $v) {
-            if ($v instanceof FHIRCompositionRelatesTo) {
-                $this->addRelatesTo($v);
-            } else {
-                $this->addRelatesTo(new FHIRCompositionRelatesTo($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A set of healthcare-related information that is assembled together into a single
-     * logical document that provides a single coherent statement of meaning,
-     * establishes its own context and that has clinical attestation with regard to who
-     * is making the statement. While a Composition defines the structure, it does not
-     * actually contain the content: rather the full content of a document is contained
-     * in a Bundle, of which the Composition is the first resource contained.
-     *
      * The clinical service, such as a colonoscopy or an appendectomy, being
      * documented.
      *
@@ -1177,39 +1086,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
      * actually contain the content: rather the full content of a document is contained
      * in a Bundle, of which the Composition is the first resource contained.
      *
-     * The clinical service, such as a colonoscopy or an appendectomy, being
-     * documented.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRComposition\FHIRCompositionEvent[] $event
-     * @return static
-     */
-    public function setEvent(array $event = []): self
-    {
-        if ([] !== $this->event) {
-            $this->_trackValuesRemoved(count($this->event));
-            $this->event = [];
-        }
-        if ([] === $event) {
-            return $this;
-        }
-        foreach($event as $v) {
-            if ($v instanceof FHIRCompositionEvent) {
-                $this->addEvent($v);
-            } else {
-                $this->addEvent(new FHIRCompositionEvent($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A set of healthcare-related information that is assembled together into a single
-     * logical document that provides a single coherent statement of meaning,
-     * establishes its own context and that has clinical attestation with regard to who
-     * is making the statement. While a Composition defines the structure, it does not
-     * actually contain the content: rather the full content of a document is contained
-     * in a Bundle, of which the Composition is the first resource contained.
-     *
      * The root of the sections that make up the composition.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRComposition\FHIRCompositionSection[]
@@ -1239,38 +1115,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
         }
         $this->_trackValueAdded();
         $this->section[] = $section;
-        return $this;
-    }
-
-    /**
-     * A set of healthcare-related information that is assembled together into a single
-     * logical document that provides a single coherent statement of meaning,
-     * establishes its own context and that has clinical attestation with regard to who
-     * is making the statement. While a Composition defines the structure, it does not
-     * actually contain the content: rather the full content of a document is contained
-     * in a Bundle, of which the Composition is the first resource contained.
-     *
-     * The root of the sections that make up the composition.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRComposition\FHIRCompositionSection[] $section
-     * @return static
-     */
-    public function setSection(array $section = []): self
-    {
-        if ([] !== $this->section) {
-            $this->_trackValuesRemoved(count($this->section));
-            $this->section = [];
-        }
-        if ([] === $section) {
-            return $this;
-        }
-        foreach($section as $v) {
-            if ($v instanceof FHIRCompositionSection) {
-                $this->addSection($v);
-            } else {
-                $this->addSection(new FHIRCompositionSection($v));
-            }
-        }
         return $this;
     }
 
@@ -1660,37 +1504,23 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\STU3\FHIRResource\FHIRDomainResource\FHIRComposition $type
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\STU3\FHIRResource\FHIRDomainResource\FHIRComposition
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -1702,239 +1532,224 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_IDENTIFIER === $n->nodeName) {
-                $type->setIdentifier(FHIRIdentifier::xmlUnserialize($n));
-            } elseif (self::FIELD_STATUS === $n->nodeName) {
-                $type->setStatus(FHIRCompositionStatus::xmlUnserialize($n));
-            } elseif (self::FIELD_TYPE === $n->nodeName) {
-                $type->setType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_CLASS === $n->nodeName) {
-                $type->setClass(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBJECT === $n->nodeName) {
-                $type->setSubject(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_ENCOUNTER === $n->nodeName) {
-                $type->setEncounter(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_DATE === $n->nodeName) {
-                $type->setDate(FHIRDateTime::xmlUnserialize($n));
-            } elseif (self::FIELD_AUTHOR === $n->nodeName) {
-                $type->addAuthor(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_TITLE === $n->nodeName) {
-                $type->setTitle(FHIRString::xmlUnserialize($n));
-            } elseif (self::FIELD_CONFIDENTIALITY === $n->nodeName) {
-                $type->setConfidentiality(FHIRConfidentialityClassification::xmlUnserialize($n));
-            } elseif (self::FIELD_ATTESTER === $n->nodeName) {
-                $type->addAttester(FHIRCompositionAttester::xmlUnserialize($n));
-            } elseif (self::FIELD_CUSTODIAN === $n->nodeName) {
-                $type->setCustodian(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_RELATES_TO === $n->nodeName) {
-                $type->addRelatesTo(FHIRCompositionRelatesTo::xmlUnserialize($n));
-            } elseif (self::FIELD_EVENT === $n->nodeName) {
-                $type->addEvent(FHIRCompositionEvent::xmlUnserialize($n));
-            } elseif (self::FIELD_SECTION === $n->nodeName) {
-                $type->addSection(FHIRCompositionSection::xmlUnserialize($n));
-            } elseif (self::FIELD_TEXT === $n->nodeName) {
-                $type->setText(FHIRNarrative::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTAINED === $n->nodeName) {
-                for ($ni = 0; $ni < $n->childNodes->length; $ni++) {
-                    $nn = $n->childNodes->item($ni);
-                    if ($nn instanceof \DOMElement) {
-                        $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn));
-                    }
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_IDENTIFIER === $childName) {
+                $type->setIdentifier(FHIRIdentifier::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_STATUS === $childName) {
+                $type->setStatus(FHIRCompositionStatus::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TYPE === $childName) {
+                $type->setType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLASS === $childName) {
+                $type->setClass(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBJECT === $childName) {
+                $type->setSubject(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ENCOUNTER === $childName) {
+                $type->setEncounter(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DATE === $childName) {
+                $type->setDate(FHIRDateTime::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_AUTHOR === $childName) {
+                $type->addAuthor(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TITLE === $childName) {
+                $type->setTitle(FHIRString::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_CONFIDENTIALITY === $childName) {
+                $type->setConfidentiality(FHIRConfidentialityClassification::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ATTESTER === $childName) {
+                $type->addAttester(FHIRCompositionAttester::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CUSTODIAN === $childName) {
+                $type->setCustodian(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RELATES_TO === $childName) {
+                $type->addRelatesTo(FHIRCompositionRelatesTo::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EVENT === $childName) {
+                $type->addEvent(FHIRCompositionEvent::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SECTION === $childName) {
+                $type->addSection(FHIRCompositionSection::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TEXT === $childName) {
+                $type->setText(FHIRNarrative::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTAINED === $childName) {
+                foreach ($n->children() as $nn) {
+                    $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn, $config));
                 }
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRId::xmlUnserialize($n));
-            } elseif (self::FIELD_META === $n->nodeName) {
-                $type->setMeta(FHIRMeta::xmlUnserialize($n));
-            } elseif (self::FIELD_IMPLICIT_RULES === $n->nodeName) {
-                $type->setImplicitRules(FHIRUri::xmlUnserialize($n));
-            } elseif (self::FIELD_LANGUAGE === $n->nodeName) {
-                $type->setLanguage(FHIRCode::xmlUnserialize($n));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRId::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_META === $childName) {
+                $type->setMeta(FHIRMeta::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMPLICIT_RULES === $childName) {
+                $type->setImplicitRules(FHIRUri::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_LANGUAGE === $childName) {
+                $type->setLanguage(FHIRCode::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_DATE);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_DATE])) {
             $pt = $type->getDate();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_DATE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setDate($n->nodeValue);
+                $type->setDate((string)$attributes[self::FIELD_DATE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_TITLE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_TITLE])) {
             $pt = $type->getTitle();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_TITLE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setTitle($n->nodeValue);
+                $type->setTitle((string)$attributes[self::FIELD_TITLE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_IMPLICIT_RULES);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_IMPLICIT_RULES])) {
             $pt = $type->getImplicitRules();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setImplicitRules($n->nodeValue);
+                $type->setImplicitRules((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_LANGUAGE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_LANGUAGE])) {
             $pt = $type->getLanguage();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setLanguage($n->nodeValue);
+                $type->setLanguage((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\STU3\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\STU3\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('Composition'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'Composition', $this->_getSourceXmlns());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_DATE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getDate())) {
+            $xw->writeAttribute(self::FIELD_DATE, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_TITLE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getTitle())) {
+            $xw->writeAttribute(self::FIELD_TITLE, $v->getValue()?->getFormattedValue());
+        }
+        parent::xmlSerialize($xw, $config);
         if (null !== ($v = $this->getIdentifier())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_IDENTIFIER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_IDENTIFIER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getStatus())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_STATUS);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_STATUS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getClass())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CLASS);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CLASS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getSubject())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SUBJECT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_SUBJECT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getEncounter())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_ENCOUNTER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_ENCOUNTER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getDate())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_DATE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_DATE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getDate())) {
+            $xw->startElement(self::FIELD_DATE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAuthor())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_AUTHOR);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAuthor() as $v) {
+            $xw->startElement(self::FIELD_AUTHOR);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getTitle())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_TITLE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_TITLE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getTitle())) {
+            $xw->startElement(self::FIELD_TITLE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getConfidentiality())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CONFIDENTIALITY);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CONFIDENTIALITY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAttester())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ATTESTER);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAttester() as $v) {
+            $xw->startElement(self::FIELD_ATTESTER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getCustodian())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CUSTODIAN);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CUSTODIAN);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getRelatesTo())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_RELATES_TO);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getRelatesTo() as $v) {
+            $xw->startElement(self::FIELD_RELATES_TO);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getEvent())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_EVENT);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getEvent() as $v) {
+            $xw->startElement(self::FIELD_EVENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSection())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SECTION);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSection() as $v) {
+            $xw->startElement(self::FIELD_SECTION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -1981,9 +1796,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
         if ([] !== ($vs = $this->getAuthor())) {
             $out->{self::FIELD_AUTHOR} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_AUTHOR}[] = $v;
             }
         }
@@ -2010,9 +1822,6 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
         if ([] !== ($vs = $this->getAttester())) {
             $out->{self::FIELD_ATTESTER} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ATTESTER}[] = $v;
             }
         }
@@ -2022,27 +1831,18 @@ class FHIRComposition extends FHIRDomainResource implements PHPFHIRContainedType
         if ([] !== ($vs = $this->getRelatesTo())) {
             $out->{self::FIELD_RELATES_TO} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_RELATES_TO}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getEvent())) {
             $out->{self::FIELD_EVENT} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_EVENT}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getSection())) {
             $out->{self::FIELD_SECTION} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SECTION}[] = $v;
             }
         }

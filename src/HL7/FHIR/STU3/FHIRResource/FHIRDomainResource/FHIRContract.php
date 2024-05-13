@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3\FHIRResource\FHIRDomainResource;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -89,12 +89,13 @@ use HL7\FHIR\STU3\FHIRIdPrimitive;
 use HL7\FHIR\STU3\FHIRResource\FHIRDomainResource;
 use HL7\FHIR\STU3\FHIRUriPrimitive;
 use HL7\FHIR\STU3\PHPFHIRConfig;
+use HL7\FHIR\STU3\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\STU3\PHPFHIRConstants;
 use HL7\FHIR\STU3\PHPFHIRContainedTypeInterface;
 use HL7\FHIR\STU3\PHPFHIRTypeInterface;
 use HL7\FHIR\STU3\PHPFHIRTypeMap;
-use HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\STU3\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\STU3\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\STU3\PHPFHIRXmlWriter;
 
 /**
  * A formal agreement between parties regarding the conduct of business, exchange
@@ -413,10 +414,12 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRContract Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -424,14 +427,14 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_IDENTIFIER])) {
+        if (array_key_exists(self::FIELD_IDENTIFIER, $data)) {
             if ($data[self::FIELD_IDENTIFIER] instanceof FHIRIdentifier) {
                 $this->setIdentifier($data[self::FIELD_IDENTIFIER]);
             } else {
                 $this->setIdentifier(new FHIRIdentifier($data[self::FIELD_IDENTIFIER]));
             }
         }
-        if (isset($data[self::FIELD_STATUS]) || isset($data[self::FIELD_STATUS_EXT])) {
+        if (array_key_exists(self::FIELD_STATUS, $data) || array_key_exists(self::FIELD_STATUS_EXT, $data)) {
             $value = $data[self::FIELD_STATUS] ?? null;
             $ext = (isset($data[self::FIELD_STATUS_EXT]) && is_array($data[self::FIELD_STATUS_EXT])) ? $data[self::FIELD_STATUS_EXT] : [];
             if (null !== $value) {
@@ -444,9 +447,11 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 }
             } elseif ([] !== $ext) {
                 $this->setStatus(new FHIRContractResourceStatusCodes($ext));
+            } else {
+                $this->setStatus(new FHIRContractResourceStatusCodes(null));
             }
         }
-        if (isset($data[self::FIELD_ISSUED]) || isset($data[self::FIELD_ISSUED_EXT])) {
+        if (array_key_exists(self::FIELD_ISSUED, $data) || array_key_exists(self::FIELD_ISSUED_EXT, $data)) {
             $value = $data[self::FIELD_ISSUED] ?? null;
             $ext = (isset($data[self::FIELD_ISSUED_EXT]) && is_array($data[self::FIELD_ISSUED_EXT])) ? $data[self::FIELD_ISSUED_EXT] : [];
             if (null !== $value) {
@@ -459,21 +464,20 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 }
             } elseif ([] !== $ext) {
                 $this->setIssued(new FHIRDateTime($ext));
+            } else {
+                $this->setIssued(new FHIRDateTime(null));
             }
         }
-        if (isset($data[self::FIELD_APPLIES])) {
+        if (array_key_exists(self::FIELD_APPLIES, $data)) {
             if ($data[self::FIELD_APPLIES] instanceof FHIRPeriod) {
                 $this->setApplies($data[self::FIELD_APPLIES]);
             } else {
                 $this->setApplies(new FHIRPeriod($data[self::FIELD_APPLIES]));
             }
         }
-        if (isset($data[self::FIELD_SUBJECT])) {
+        if (array_key_exists(self::FIELD_SUBJECT, $data)) {
             if (is_array($data[self::FIELD_SUBJECT])) {
                 foreach($data[self::FIELD_SUBJECT] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addSubject($v);
                     } else {
@@ -486,12 +490,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addSubject(new FHIRReference($data[self::FIELD_SUBJECT]));
             }
         }
-        if (isset($data[self::FIELD_TOPIC])) {
+        if (array_key_exists(self::FIELD_TOPIC, $data)) {
             if (is_array($data[self::FIELD_TOPIC])) {
                 foreach($data[self::FIELD_TOPIC] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addTopic($v);
                     } else {
@@ -504,12 +505,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addTopic(new FHIRReference($data[self::FIELD_TOPIC]));
             }
         }
-        if (isset($data[self::FIELD_AUTHORITY])) {
+        if (array_key_exists(self::FIELD_AUTHORITY, $data)) {
             if (is_array($data[self::FIELD_AUTHORITY])) {
                 foreach($data[self::FIELD_AUTHORITY] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addAuthority($v);
                     } else {
@@ -522,12 +520,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addAuthority(new FHIRReference($data[self::FIELD_AUTHORITY]));
             }
         }
-        if (isset($data[self::FIELD_DOMAIN])) {
+        if (array_key_exists(self::FIELD_DOMAIN, $data)) {
             if (is_array($data[self::FIELD_DOMAIN])) {
                 foreach($data[self::FIELD_DOMAIN] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addDomain($v);
                     } else {
@@ -540,19 +535,16 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addDomain(new FHIRReference($data[self::FIELD_DOMAIN]));
             }
         }
-        if (isset($data[self::FIELD_TYPE])) {
+        if (array_key_exists(self::FIELD_TYPE, $data)) {
             if ($data[self::FIELD_TYPE] instanceof FHIRCodeableConcept) {
                 $this->setType($data[self::FIELD_TYPE]);
             } else {
                 $this->setType(new FHIRCodeableConcept($data[self::FIELD_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_SUB_TYPE])) {
+        if (array_key_exists(self::FIELD_SUB_TYPE, $data)) {
             if (is_array($data[self::FIELD_SUB_TYPE])) {
                 foreach($data[self::FIELD_SUB_TYPE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCodeableConcept) {
                         $this->addSubType($v);
                     } else {
@@ -565,12 +557,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addSubType(new FHIRCodeableConcept($data[self::FIELD_SUB_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_ACTION])) {
+        if (array_key_exists(self::FIELD_ACTION, $data)) {
             if (is_array($data[self::FIELD_ACTION])) {
                 foreach($data[self::FIELD_ACTION] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCodeableConcept) {
                         $this->addAction($v);
                     } else {
@@ -583,12 +572,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addAction(new FHIRCodeableConcept($data[self::FIELD_ACTION]));
             }
         }
-        if (isset($data[self::FIELD_ACTION_REASON])) {
+        if (array_key_exists(self::FIELD_ACTION_REASON, $data)) {
             if (is_array($data[self::FIELD_ACTION_REASON])) {
                 foreach($data[self::FIELD_ACTION_REASON] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCodeableConcept) {
                         $this->addActionReason($v);
                     } else {
@@ -601,26 +587,23 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addActionReason(new FHIRCodeableConcept($data[self::FIELD_ACTION_REASON]));
             }
         }
-        if (isset($data[self::FIELD_DECISION_TYPE])) {
+        if (array_key_exists(self::FIELD_DECISION_TYPE, $data)) {
             if ($data[self::FIELD_DECISION_TYPE] instanceof FHIRCodeableConcept) {
                 $this->setDecisionType($data[self::FIELD_DECISION_TYPE]);
             } else {
                 $this->setDecisionType(new FHIRCodeableConcept($data[self::FIELD_DECISION_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_CONTENT_DERIVATIVE])) {
+        if (array_key_exists(self::FIELD_CONTENT_DERIVATIVE, $data)) {
             if ($data[self::FIELD_CONTENT_DERIVATIVE] instanceof FHIRCodeableConcept) {
                 $this->setContentDerivative($data[self::FIELD_CONTENT_DERIVATIVE]);
             } else {
                 $this->setContentDerivative(new FHIRCodeableConcept($data[self::FIELD_CONTENT_DERIVATIVE]));
             }
         }
-        if (isset($data[self::FIELD_SECURITY_LABEL])) {
+        if (array_key_exists(self::FIELD_SECURITY_LABEL, $data)) {
             if (is_array($data[self::FIELD_SECURITY_LABEL])) {
                 foreach($data[self::FIELD_SECURITY_LABEL] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCoding) {
                         $this->addSecurityLabel($v);
                     } else {
@@ -633,12 +616,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addSecurityLabel(new FHIRCoding($data[self::FIELD_SECURITY_LABEL]));
             }
         }
-        if (isset($data[self::FIELD_AGENT])) {
+        if (array_key_exists(self::FIELD_AGENT, $data)) {
             if (is_array($data[self::FIELD_AGENT])) {
                 foreach($data[self::FIELD_AGENT] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRContractAgent) {
                         $this->addAgent($v);
                     } else {
@@ -651,12 +631,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addAgent(new FHIRContractAgent($data[self::FIELD_AGENT]));
             }
         }
-        if (isset($data[self::FIELD_SIGNER])) {
+        if (array_key_exists(self::FIELD_SIGNER, $data)) {
             if (is_array($data[self::FIELD_SIGNER])) {
                 foreach($data[self::FIELD_SIGNER] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRContractSigner) {
                         $this->addSigner($v);
                     } else {
@@ -669,12 +646,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addSigner(new FHIRContractSigner($data[self::FIELD_SIGNER]));
             }
         }
-        if (isset($data[self::FIELD_VALUED_ITEM])) {
+        if (array_key_exists(self::FIELD_VALUED_ITEM, $data)) {
             if (is_array($data[self::FIELD_VALUED_ITEM])) {
                 foreach($data[self::FIELD_VALUED_ITEM] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRContractValuedItem) {
                         $this->addValuedItem($v);
                     } else {
@@ -687,12 +661,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addValuedItem(new FHIRContractValuedItem($data[self::FIELD_VALUED_ITEM]));
             }
         }
-        if (isset($data[self::FIELD_TERM])) {
+        if (array_key_exists(self::FIELD_TERM, $data)) {
             if (is_array($data[self::FIELD_TERM])) {
                 foreach($data[self::FIELD_TERM] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRContractTerm) {
                         $this->addTerm($v);
                     } else {
@@ -705,26 +676,23 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addTerm(new FHIRContractTerm($data[self::FIELD_TERM]));
             }
         }
-        if (isset($data[self::FIELD_BINDING_ATTACHMENT])) {
+        if (array_key_exists(self::FIELD_BINDING_ATTACHMENT, $data)) {
             if ($data[self::FIELD_BINDING_ATTACHMENT] instanceof FHIRAttachment) {
                 $this->setBindingAttachment($data[self::FIELD_BINDING_ATTACHMENT]);
             } else {
                 $this->setBindingAttachment(new FHIRAttachment($data[self::FIELD_BINDING_ATTACHMENT]));
             }
         }
-        if (isset($data[self::FIELD_BINDING_REFERENCE])) {
+        if (array_key_exists(self::FIELD_BINDING_REFERENCE, $data)) {
             if ($data[self::FIELD_BINDING_REFERENCE] instanceof FHIRReference) {
                 $this->setBindingReference($data[self::FIELD_BINDING_REFERENCE]);
             } else {
                 $this->setBindingReference(new FHIRReference($data[self::FIELD_BINDING_REFERENCE]));
             }
         }
-        if (isset($data[self::FIELD_FRIENDLY])) {
+        if (array_key_exists(self::FIELD_FRIENDLY, $data)) {
             if (is_array($data[self::FIELD_FRIENDLY])) {
                 foreach($data[self::FIELD_FRIENDLY] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRContractFriendly) {
                         $this->addFriendly($v);
                     } else {
@@ -737,12 +705,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addFriendly(new FHIRContractFriendly($data[self::FIELD_FRIENDLY]));
             }
         }
-        if (isset($data[self::FIELD_LEGAL])) {
+        if (array_key_exists(self::FIELD_LEGAL, $data)) {
             if (is_array($data[self::FIELD_LEGAL])) {
                 foreach($data[self::FIELD_LEGAL] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRContractLegal) {
                         $this->addLegal($v);
                     } else {
@@ -755,12 +720,9 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 $this->addLegal(new FHIRContractLegal($data[self::FIELD_LEGAL]));
             }
         }
-        if (isset($data[self::FIELD_RULE])) {
+        if (array_key_exists(self::FIELD_RULE, $data)) {
             if (is_array($data[self::FIELD_RULE])) {
                 foreach($data[self::FIELD_RULE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRContractRule) {
                         $this->addRule($v);
                     } else {
@@ -775,11 +737,10 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -791,7 +752,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
     {
         return static::FHIR_TYPE_NAME;
     }
-
 
     /**
      * A technical identifier - identifies some entity uniquely and unambiguously.
@@ -887,14 +847,19 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * When this Contract was issued.
      *
      * @param null|string|\DateTimeInterface|\HL7\FHIR\STU3\FHIRDateTimePrimitive|\HL7\FHIR\STU3\FHIRElement\FHIRDateTime $issued
+     * @param \HL7\FHIR\STU3\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setIssued(null|string|\DateTimeInterface|FHIRDateTimePrimitive|FHIRDateTime $issued = null): self
+    public function setIssued(null|string|\DateTimeInterface|FHIRDateTimePrimitive|FHIRDateTime $issued = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $issued && !($issued instanceof FHIRDateTime)) {
             $issued = new FHIRDateTime($issued);
         }
         $this->_trackValueSet($this->issued, $issued);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_ISSUED])) {
+            $this->_primitiveXmlLocations[self::FIELD_ISSUED] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_ISSUED][0] = $xmlLocation;
         $this->issued = $issued;
         return $this;
     }
@@ -972,35 +937,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * The target entity impacted by or of interest to parties to the agreement.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRReference[] $subject
-     * @return static
-     */
-    public function setSubject(array $subject = []): self
-    {
-        if ([] !== $this->subject) {
-            $this->_trackValuesRemoved(count($this->subject));
-            $this->subject = [];
-        }
-        if ([] === $subject) {
-            return $this;
-        }
-        foreach($subject as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addSubject($v);
-            } else {
-                $this->addSubject(new FHIRReference($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * The matter of concern in the context of this agreement.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRReference[]
@@ -1027,35 +963,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
         $this->_trackValueAdded();
         $this->topic[] = $topic;
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * The matter of concern in the context of this agreement.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRReference[] $topic
-     * @return static
-     */
-    public function setTopic(array $topic = []): self
-    {
-        if ([] !== $this->topic) {
-            $this->_trackValuesRemoved(count($this->topic));
-            $this->topic = [];
-        }
-        if ([] === $topic) {
-            return $this;
-        }
-        foreach($topic as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addTopic($v);
-            } else {
-                $this->addTopic(new FHIRReference($v));
-            }
-        }
         return $this;
     }
 
@@ -1104,38 +1011,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * A formally or informally recognized grouping of people, principals,
-     * organizations, or jurisdictions formed for the purpose of achieving some form of
-     * collective action such as the promulgation, administration and enforcement of
-     * contracts and policies.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRReference[] $authority
-     * @return static
-     */
-    public function setAuthority(array $authority = []): self
-    {
-        if ([] !== $this->authority) {
-            $this->_trackValuesRemoved(count($this->authority));
-            $this->authority = [];
-        }
-        if ([] === $authority) {
-            return $this;
-        }
-        foreach($authority as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addAuthority($v);
-            } else {
-                $this->addAuthority(new FHIRReference($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * Recognized governance framework or system operating with a circumscribed scope
      * in accordance with specified principles, policies, processes or procedures for
      * managing rights, actions, or behaviors of parties or principals relative to
@@ -1168,38 +1043,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
         $this->_trackValueAdded();
         $this->domain[] = $domain;
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Recognized governance framework or system operating with a circumscribed scope
-     * in accordance with specified principles, policies, processes or procedures for
-     * managing rights, actions, or behaviors of parties or principals relative to
-     * resources.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRReference[] $domain
-     * @return static
-     */
-    public function setDomain(array $domain = []): self
-    {
-        if ([] !== $this->domain) {
-            $this->_trackValuesRemoved(count($this->domain));
-            $this->domain = [];
-        }
-        if ([] === $domain) {
-            return $this;
-        }
-        foreach($domain as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addDomain($v);
-            } else {
-                $this->addDomain(new FHIRReference($v));
-            }
-        }
         return $this;
     }
 
@@ -1287,38 +1130,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * More specific type or specialization of an overarching or more general contract
-     * such as auto insurance, home owner insurance, prenupial agreement,
-     * Advanced-Directive, or privacy consent.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCodeableConcept[] $subType
-     * @return static
-     */
-    public function setSubType(array $subType = []): self
-    {
-        if ([] !== $this->subType) {
-            $this->_trackValuesRemoved(count($this->subType));
-            $this->subType = [];
-        }
-        if ([] === $subType) {
-            return $this;
-        }
-        foreach($subType as $v) {
-            if ($v instanceof FHIRCodeableConcept) {
-                $this->addSubType($v);
-            } else {
-                $this->addSubType(new FHIRCodeableConcept($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A concept that may be defined by a formal reference to a terminology or ontology
-     * or may be provided by text.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * Action stipulated by this Contract.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRCodeableConcept[]
@@ -1355,36 +1166,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * Action stipulated by this Contract.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCodeableConcept[] $action
-     * @return static
-     */
-    public function setAction(array $action = []): self
-    {
-        if ([] !== $this->action) {
-            $this->_trackValuesRemoved(count($this->action));
-            $this->action = [];
-        }
-        if ([] === $action) {
-            return $this;
-        }
-        foreach($action as $v) {
-            if ($v instanceof FHIRCodeableConcept) {
-                $this->addAction($v);
-            } else {
-                $this->addAction(new FHIRCodeableConcept($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A concept that may be defined by a formal reference to a terminology or ontology
-     * or may be provided by text.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * Reason for action stipulated by this Contract.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRCodeableConcept[]
@@ -1412,36 +1193,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
         $this->_trackValueAdded();
         $this->actionReason[] = $actionReason;
-        return $this;
-    }
-
-    /**
-     * A concept that may be defined by a formal reference to a terminology or ontology
-     * or may be provided by text.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Reason for action stipulated by this Contract.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCodeableConcept[] $actionReason
-     * @return static
-     */
-    public function setActionReason(array $actionReason = []): self
-    {
-        if ([] !== $this->actionReason) {
-            $this->_trackValuesRemoved(count($this->actionReason));
-            $this->actionReason = [];
-        }
-        if ([] === $actionReason) {
-            return $this;
-        }
-        foreach($actionReason as $v) {
-            if ($v instanceof FHIRCodeableConcept) {
-                $this->addActionReason($v);
-            } else {
-                $this->addActionReason(new FHIRCodeableConcept($v));
-            }
-        }
         return $this;
     }
 
@@ -1560,37 +1311,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
     }
 
     /**
-     * A reference to a code defined by a terminology system.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * A set of security labels that define which resources are controlled by this
-     * consent. If more than one label is specified, all resources must have all the
-     * specified labels.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCoding[] $securityLabel
-     * @return static
-     */
-    public function setSecurityLabel(array $securityLabel = []): self
-    {
-        if ([] !== $this->securityLabel) {
-            $this->_trackValuesRemoved(count($this->securityLabel));
-            $this->securityLabel = [];
-        }
-        if ([] === $securityLabel) {
-            return $this;
-        }
-        foreach($securityLabel as $v) {
-            if ($v instanceof FHIRCoding) {
-                $this->addSecurityLabel($v);
-            } else {
-                $this->addSecurityLabel(new FHIRCoding($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A formal agreement between parties regarding the conduct of business, exchange
      * of information or other matters.
      *
@@ -1621,35 +1341,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
         $this->_trackValueAdded();
         $this->agent[] = $agent;
-        return $this;
-    }
-
-    /**
-     * A formal agreement between parties regarding the conduct of business, exchange
-     * of information or other matters.
-     *
-     * An actor taking a role in an activity for which it can be assigned some degree
-     * of responsibility for the activity taking place.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractAgent[] $agent
-     * @return static
-     */
-    public function setAgent(array $agent = []): self
-    {
-        if ([] !== $this->agent) {
-            $this->_trackValuesRemoved(count($this->agent));
-            $this->agent = [];
-        }
-        if ([] === $agent) {
-            return $this;
-        }
-        foreach($agent as $v) {
-            if ($v instanceof FHIRContractAgent) {
-                $this->addAgent($v);
-            } else {
-                $this->addAgent(new FHIRContractAgent($v));
-            }
-        }
         return $this;
     }
 
@@ -1695,37 +1386,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * A formal agreement between parties regarding the conduct of business, exchange
      * of information or other matters.
      *
-     * Parties with legal standing in the Contract, including the principal parties,
-     * the grantor(s) and grantee(s), which are any person or organization bound by the
-     * contract, and any ancillary parties, which facilitate the execution of the
-     * contract such as a notary or witness.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractSigner[] $signer
-     * @return static
-     */
-    public function setSigner(array $signer = []): self
-    {
-        if ([] !== $this->signer) {
-            $this->_trackValuesRemoved(count($this->signer));
-            $this->signer = [];
-        }
-        if ([] === $signer) {
-            return $this;
-        }
-        foreach($signer as $v) {
-            if ($v instanceof FHIRContractSigner) {
-                $this->addSigner($v);
-            } else {
-                $this->addSigner(new FHIRContractSigner($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A formal agreement between parties regarding the conduct of business, exchange
-     * of information or other matters.
-     *
      * Contract Valued Item List.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractValuedItem[]
@@ -1751,34 +1411,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
         $this->_trackValueAdded();
         $this->valuedItem[] = $valuedItem;
-        return $this;
-    }
-
-    /**
-     * A formal agreement between parties regarding the conduct of business, exchange
-     * of information or other matters.
-     *
-     * Contract Valued Item List.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractValuedItem[] $valuedItem
-     * @return static
-     */
-    public function setValuedItem(array $valuedItem = []): self
-    {
-        if ([] !== $this->valuedItem) {
-            $this->_trackValuesRemoved(count($this->valuedItem));
-            $this->valuedItem = [];
-        }
-        if ([] === $valuedItem) {
-            return $this;
-        }
-        foreach($valuedItem as $v) {
-            if ($v instanceof FHIRContractValuedItem) {
-                $this->addValuedItem($v);
-            } else {
-                $this->addValuedItem(new FHIRContractValuedItem($v));
-            }
-        }
         return $this;
     }
 
@@ -1813,35 +1445,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
         $this->_trackValueAdded();
         $this->term[] = $term;
-        return $this;
-    }
-
-    /**
-     * A formal agreement between parties regarding the conduct of business, exchange
-     * of information or other matters.
-     *
-     * One or more Contract Provisions, which may be related and conveyed as a group,
-     * and may contain nested groups.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractTerm[] $term
-     * @return static
-     */
-    public function setTerm(array $term = []): self
-    {
-        if ([] !== $this->term) {
-            $this->_trackValuesRemoved(count($this->term));
-            $this->term = [];
-        }
-        if ([] === $term) {
-            return $this;
-        }
-        foreach($term as $v) {
-            if ($v instanceof FHIRContractTerm) {
-                $this->addTerm($v);
-            } else {
-                $this->addTerm(new FHIRContractTerm($v));
-            }
-        }
         return $this;
     }
 
@@ -1971,39 +1574,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * A formal agreement between parties regarding the conduct of business, exchange
      * of information or other matters.
      *
-     * The "patient friendly language" versionof the Contract in whole or in parts.
-     * "Patient friendly language" means the representation of the Contract and
-     * Contract Provisions in a manner that is readily accessible and understandable by
-     * a layperson in accordance with best practices for communication styles that
-     * ensure that those agreeing to or signing the Contract understand the roles,
-     * actions, obligations, responsibilities, and implication of the agreement.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractFriendly[] $friendly
-     * @return static
-     */
-    public function setFriendly(array $friendly = []): self
-    {
-        if ([] !== $this->friendly) {
-            $this->_trackValuesRemoved(count($this->friendly));
-            $this->friendly = [];
-        }
-        if ([] === $friendly) {
-            return $this;
-        }
-        foreach($friendly as $v) {
-            if ($v instanceof FHIRContractFriendly) {
-                $this->addFriendly($v);
-            } else {
-                $this->addFriendly(new FHIRContractFriendly($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A formal agreement between parties regarding the conduct of business, exchange
-     * of information or other matters.
-     *
      * List of Legal expressions or representations of this Contract.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractLegal[]
@@ -2036,34 +1606,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
      * A formal agreement between parties regarding the conduct of business, exchange
      * of information or other matters.
      *
-     * List of Legal expressions or representations of this Contract.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractLegal[] $legal
-     * @return static
-     */
-    public function setLegal(array $legal = []): self
-    {
-        if ([] !== $this->legal) {
-            $this->_trackValuesRemoved(count($this->legal));
-            $this->legal = [];
-        }
-        if ([] === $legal) {
-            return $this;
-        }
-        foreach($legal as $v) {
-            if ($v instanceof FHIRContractLegal) {
-                $this->addLegal($v);
-            } else {
-                $this->addLegal(new FHIRContractLegal($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A formal agreement between parties regarding the conduct of business, exchange
-     * of information or other matters.
-     *
      * List of Computable Policy Rule Language Representations of this Contract.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractRule[]
@@ -2089,34 +1631,6 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         }
         $this->_trackValueAdded();
         $this->rule[] = $rule;
-        return $this;
-    }
-
-    /**
-     * A formal agreement between parties regarding the conduct of business, exchange
-     * of information or other matters.
-     *
-     * List of Computable Policy Rule Language Representations of this Contract.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRContract\FHIRContractRule[] $rule
-     * @return static
-     */
-    public function setRule(array $rule = []): self
-    {
-        if ([] !== $this->rule) {
-            $this->_trackValuesRemoved(count($this->rule));
-            $this->rule = [];
-        }
-        if ([] === $rule) {
-            return $this;
-        }
-        foreach($rule as $v) {
-            if ($v instanceof FHIRContractRule) {
-                $this->addRule($v);
-            } else {
-                $this->addRule(new FHIRContractRule($v));
-            }
-        }
         return $this;
     }
 
@@ -2679,37 +2193,23 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\STU3\FHIRResource\FHIRDomainResource\FHIRContract $type
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\STU3\FHIRResource\FHIRDomainResource\FHIRContract
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -2721,343 +2221,274 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_IDENTIFIER === $n->nodeName) {
-                $type->setIdentifier(FHIRIdentifier::xmlUnserialize($n));
-            } elseif (self::FIELD_STATUS === $n->nodeName) {
-                $type->setStatus(FHIRContractResourceStatusCodes::xmlUnserialize($n));
-            } elseif (self::FIELD_ISSUED === $n->nodeName) {
-                $type->setIssued(FHIRDateTime::xmlUnserialize($n));
-            } elseif (self::FIELD_APPLIES === $n->nodeName) {
-                $type->setApplies(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_SUBJECT === $n->nodeName) {
-                $type->addSubject(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_TOPIC === $n->nodeName) {
-                $type->addTopic(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_AUTHORITY === $n->nodeName) {
-                $type->addAuthority(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_DOMAIN === $n->nodeName) {
-                $type->addDomain(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_TYPE === $n->nodeName) {
-                $type->setType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_SUB_TYPE === $n->nodeName) {
-                $type->addSubType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_ACTION === $n->nodeName) {
-                $type->addAction(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_ACTION_REASON === $n->nodeName) {
-                $type->addActionReason(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_DECISION_TYPE === $n->nodeName) {
-                $type->setDecisionType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTENT_DERIVATIVE === $n->nodeName) {
-                $type->setContentDerivative(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_SECURITY_LABEL === $n->nodeName) {
-                $type->addSecurityLabel(FHIRCoding::xmlUnserialize($n));
-            } elseif (self::FIELD_AGENT === $n->nodeName) {
-                $type->addAgent(FHIRContractAgent::xmlUnserialize($n));
-            } elseif (self::FIELD_SIGNER === $n->nodeName) {
-                $type->addSigner(FHIRContractSigner::xmlUnserialize($n));
-            } elseif (self::FIELD_VALUED_ITEM === $n->nodeName) {
-                $type->addValuedItem(FHIRContractValuedItem::xmlUnserialize($n));
-            } elseif (self::FIELD_TERM === $n->nodeName) {
-                $type->addTerm(FHIRContractTerm::xmlUnserialize($n));
-            } elseif (self::FIELD_BINDING_ATTACHMENT === $n->nodeName) {
-                $type->setBindingAttachment(FHIRAttachment::xmlUnserialize($n));
-            } elseif (self::FIELD_BINDING_REFERENCE === $n->nodeName) {
-                $type->setBindingReference(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_FRIENDLY === $n->nodeName) {
-                $type->addFriendly(FHIRContractFriendly::xmlUnserialize($n));
-            } elseif (self::FIELD_LEGAL === $n->nodeName) {
-                $type->addLegal(FHIRContractLegal::xmlUnserialize($n));
-            } elseif (self::FIELD_RULE === $n->nodeName) {
-                $type->addRule(FHIRContractRule::xmlUnserialize($n));
-            } elseif (self::FIELD_TEXT === $n->nodeName) {
-                $type->setText(FHIRNarrative::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTAINED === $n->nodeName) {
-                for ($ni = 0; $ni < $n->childNodes->length; $ni++) {
-                    $nn = $n->childNodes->item($ni);
-                    if ($nn instanceof \DOMElement) {
-                        $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn));
-                    }
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_IDENTIFIER === $childName) {
+                $type->setIdentifier(FHIRIdentifier::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_STATUS === $childName) {
+                $type->setStatus(FHIRContractResourceStatusCodes::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ISSUED === $childName) {
+                $type->setIssued(FHIRDateTime::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_APPLIES === $childName) {
+                $type->setApplies(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUBJECT === $childName) {
+                $type->addSubject(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TOPIC === $childName) {
+                $type->addTopic(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_AUTHORITY === $childName) {
+                $type->addAuthority(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DOMAIN === $childName) {
+                $type->addDomain(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TYPE === $childName) {
+                $type->setType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUB_TYPE === $childName) {
+                $type->addSubType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ACTION === $childName) {
+                $type->addAction(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ACTION_REASON === $childName) {
+                $type->addActionReason(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DECISION_TYPE === $childName) {
+                $type->setDecisionType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTENT_DERIVATIVE === $childName) {
+                $type->setContentDerivative(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SECURITY_LABEL === $childName) {
+                $type->addSecurityLabel(FHIRCoding::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_AGENT === $childName) {
+                $type->addAgent(FHIRContractAgent::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SIGNER === $childName) {
+                $type->addSigner(FHIRContractSigner::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_VALUED_ITEM === $childName) {
+                $type->addValuedItem(FHIRContractValuedItem::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TERM === $childName) {
+                $type->addTerm(FHIRContractTerm::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BINDING_ATTACHMENT === $childName) {
+                $type->setBindingAttachment(FHIRAttachment::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BINDING_REFERENCE === $childName) {
+                $type->setBindingReference(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FRIENDLY === $childName) {
+                $type->addFriendly(FHIRContractFriendly::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LEGAL === $childName) {
+                $type->addLegal(FHIRContractLegal::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RULE === $childName) {
+                $type->addRule(FHIRContractRule::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TEXT === $childName) {
+                $type->setText(FHIRNarrative::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTAINED === $childName) {
+                foreach ($n->children() as $nn) {
+                    $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn, $config));
                 }
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRId::xmlUnserialize($n));
-            } elseif (self::FIELD_META === $n->nodeName) {
-                $type->setMeta(FHIRMeta::xmlUnserialize($n));
-            } elseif (self::FIELD_IMPLICIT_RULES === $n->nodeName) {
-                $type->setImplicitRules(FHIRUri::xmlUnserialize($n));
-            } elseif (self::FIELD_LANGUAGE === $n->nodeName) {
-                $type->setLanguage(FHIRCode::xmlUnserialize($n));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRId::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_META === $childName) {
+                $type->setMeta(FHIRMeta::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMPLICIT_RULES === $childName) {
+                $type->setImplicitRules(FHIRUri::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_LANGUAGE === $childName) {
+                $type->setLanguage(FHIRCode::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ISSUED);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_ISSUED])) {
             $pt = $type->getIssued();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ISSUED], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setIssued($n->nodeValue);
+                $type->setIssued((string)$attributes[self::FIELD_ISSUED], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_IMPLICIT_RULES);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_IMPLICIT_RULES])) {
             $pt = $type->getImplicitRules();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setImplicitRules($n->nodeValue);
+                $type->setImplicitRules((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_LANGUAGE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_LANGUAGE])) {
             $pt = $type->getLanguage();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setLanguage($n->nodeValue);
+                $type->setLanguage((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\STU3\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\STU3\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('Contract'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'Contract', $this->_getSourceXmlns());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_ISSUED] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getIssued())) {
+            $xw->writeAttribute(self::FIELD_ISSUED, $v->getValue()?->getFormattedValue());
+        }
+        parent::xmlSerialize($xw, $config);
         if (null !== ($v = $this->getIdentifier())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_IDENTIFIER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_IDENTIFIER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getStatus())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_STATUS);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_STATUS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getIssued())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_ISSUED);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_ISSUED] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getIssued())) {
+            $xw->startElement(self::FIELD_ISSUED);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getApplies())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_APPLIES);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_APPLIES);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSubject())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SUBJECT);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSubject() as $v) {
+            $xw->startElement(self::FIELD_SUBJECT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getTopic())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_TOPIC);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getTopic() as $v) {
+            $xw->startElement(self::FIELD_TOPIC);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAuthority())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_AUTHORITY);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAuthority() as $v) {
+            $xw->startElement(self::FIELD_AUTHORITY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getDomain())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_DOMAIN);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getDomain() as $v) {
+            $xw->startElement(self::FIELD_DOMAIN);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSubType())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SUB_TYPE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSubType() as $v) {
+            $xw->startElement(self::FIELD_SUB_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAction())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ACTION);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAction() as $v) {
+            $xw->startElement(self::FIELD_ACTION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getActionReason())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ACTION_REASON);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getActionReason() as $v) {
+            $xw->startElement(self::FIELD_ACTION_REASON);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getDecisionType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_DECISION_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_DECISION_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getContentDerivative())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CONTENT_DERIVATIVE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CONTENT_DERIVATIVE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSecurityLabel())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SECURITY_LABEL);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSecurityLabel() as $v) {
+            $xw->startElement(self::FIELD_SECURITY_LABEL);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAgent())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_AGENT);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAgent() as $v) {
+            $xw->startElement(self::FIELD_AGENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSigner())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SIGNER);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSigner() as $v) {
+            $xw->startElement(self::FIELD_SIGNER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getValuedItem())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_VALUED_ITEM);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getValuedItem() as $v) {
+            $xw->startElement(self::FIELD_VALUED_ITEM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getTerm())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_TERM);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getTerm() as $v) {
+            $xw->startElement(self::FIELD_TERM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getBindingAttachment())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_BINDING_ATTACHMENT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_BINDING_ATTACHMENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getBindingReference())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_BINDING_REFERENCE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_BINDING_REFERENCE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getFriendly())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_FRIENDLY);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getFriendly() as $v) {
+            $xw->startElement(self::FIELD_FRIENDLY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getLegal())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_LEGAL);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getLegal() as $v) {
+            $xw->startElement(self::FIELD_LEGAL);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getRule())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_RULE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getRule() as $v) {
+            $xw->startElement(self::FIELD_RULE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -3095,36 +2526,24 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         if ([] !== ($vs = $this->getSubject())) {
             $out->{self::FIELD_SUBJECT} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SUBJECT}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getTopic())) {
             $out->{self::FIELD_TOPIC} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_TOPIC}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAuthority())) {
             $out->{self::FIELD_AUTHORITY} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_AUTHORITY}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getDomain())) {
             $out->{self::FIELD_DOMAIN} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_DOMAIN}[] = $v;
             }
         }
@@ -3134,27 +2553,18 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         if ([] !== ($vs = $this->getSubType())) {
             $out->{self::FIELD_SUB_TYPE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SUB_TYPE}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAction())) {
             $out->{self::FIELD_ACTION} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ACTION}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getActionReason())) {
             $out->{self::FIELD_ACTION_REASON} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ACTION_REASON}[] = $v;
             }
         }
@@ -3167,45 +2577,30 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         if ([] !== ($vs = $this->getSecurityLabel())) {
             $out->{self::FIELD_SECURITY_LABEL} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SECURITY_LABEL}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAgent())) {
             $out->{self::FIELD_AGENT} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_AGENT}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getSigner())) {
             $out->{self::FIELD_SIGNER} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SIGNER}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getValuedItem())) {
             $out->{self::FIELD_VALUED_ITEM} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_VALUED_ITEM}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getTerm())) {
             $out->{self::FIELD_TERM} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_TERM}[] = $v;
             }
         }
@@ -3218,27 +2613,18 @@ class FHIRContract extends FHIRDomainResource implements PHPFHIRContainedTypeInt
         if ([] !== ($vs = $this->getFriendly())) {
             $out->{self::FIELD_FRIENDLY} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_FRIENDLY}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getLegal())) {
             $out->{self::FIELD_LEGAL} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_LEGAL}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getRule())) {
             $out->{self::FIELD_RULE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_RULE}[] = $v;
             }
         }

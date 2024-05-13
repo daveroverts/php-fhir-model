@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRRiskAssessment;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -72,10 +72,11 @@ use HL7\FHIR\R4\FHIRElement\FHIRRange;
 use HL7\FHIR\R4\FHIRElement\FHIRString;
 use HL7\FHIR\R4\FHIRStringPrimitive;
 use HL7\FHIR\R4\PHPFHIRConfig;
+use HL7\FHIR\R4\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\R4\PHPFHIRConstants;
 use HL7\FHIR\R4\PHPFHIRTypeInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\R4\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\R4\PHPFHIRXmlWriter;
 
 /**
  * An assessment of the likely outcome(s) for a patient or other subject as well as
@@ -199,10 +200,12 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRRiskAssessmentPrediction Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -210,14 +213,14 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_OUTCOME])) {
+        if (array_key_exists(self::FIELD_OUTCOME, $data)) {
             if ($data[self::FIELD_OUTCOME] instanceof FHIRCodeableConcept) {
                 $this->setOutcome($data[self::FIELD_OUTCOME]);
             } else {
                 $this->setOutcome(new FHIRCodeableConcept($data[self::FIELD_OUTCOME]));
             }
         }
-        if (isset($data[self::FIELD_PROBABILITY_DECIMAL]) || isset($data[self::FIELD_PROBABILITY_DECIMAL_EXT])) {
+        if (array_key_exists(self::FIELD_PROBABILITY_DECIMAL, $data) || array_key_exists(self::FIELD_PROBABILITY_DECIMAL_EXT, $data)) {
             $value = $data[self::FIELD_PROBABILITY_DECIMAL] ?? null;
             $ext = (isset($data[self::FIELD_PROBABILITY_DECIMAL_EXT]) && is_array($data[self::FIELD_PROBABILITY_DECIMAL_EXT])) ? $data[self::FIELD_PROBABILITY_DECIMAL_EXT] : [];
             if (null !== $value) {
@@ -230,23 +233,25 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setProbabilityDecimal(new FHIRDecimal($ext));
+            } else {
+                $this->setProbabilityDecimal(new FHIRDecimal(null));
             }
         }
-        if (isset($data[self::FIELD_PROBABILITY_RANGE])) {
+        if (array_key_exists(self::FIELD_PROBABILITY_RANGE, $data)) {
             if ($data[self::FIELD_PROBABILITY_RANGE] instanceof FHIRRange) {
                 $this->setProbabilityRange($data[self::FIELD_PROBABILITY_RANGE]);
             } else {
                 $this->setProbabilityRange(new FHIRRange($data[self::FIELD_PROBABILITY_RANGE]));
             }
         }
-        if (isset($data[self::FIELD_QUALITATIVE_RISK])) {
+        if (array_key_exists(self::FIELD_QUALITATIVE_RISK, $data)) {
             if ($data[self::FIELD_QUALITATIVE_RISK] instanceof FHIRCodeableConcept) {
                 $this->setQualitativeRisk($data[self::FIELD_QUALITATIVE_RISK]);
             } else {
                 $this->setQualitativeRisk(new FHIRCodeableConcept($data[self::FIELD_QUALITATIVE_RISK]));
             }
         }
-        if (isset($data[self::FIELD_RELATIVE_RISK]) || isset($data[self::FIELD_RELATIVE_RISK_EXT])) {
+        if (array_key_exists(self::FIELD_RELATIVE_RISK, $data) || array_key_exists(self::FIELD_RELATIVE_RISK_EXT, $data)) {
             $value = $data[self::FIELD_RELATIVE_RISK] ?? null;
             $ext = (isset($data[self::FIELD_RELATIVE_RISK_EXT]) && is_array($data[self::FIELD_RELATIVE_RISK_EXT])) ? $data[self::FIELD_RELATIVE_RISK_EXT] : [];
             if (null !== $value) {
@@ -259,23 +264,25 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setRelativeRisk(new FHIRDecimal($ext));
+            } else {
+                $this->setRelativeRisk(new FHIRDecimal(null));
             }
         }
-        if (isset($data[self::FIELD_WHEN_PERIOD])) {
+        if (array_key_exists(self::FIELD_WHEN_PERIOD, $data)) {
             if ($data[self::FIELD_WHEN_PERIOD] instanceof FHIRPeriod) {
                 $this->setWhenPeriod($data[self::FIELD_WHEN_PERIOD]);
             } else {
                 $this->setWhenPeriod(new FHIRPeriod($data[self::FIELD_WHEN_PERIOD]));
             }
         }
-        if (isset($data[self::FIELD_WHEN_RANGE])) {
+        if (array_key_exists(self::FIELD_WHEN_RANGE, $data)) {
             if ($data[self::FIELD_WHEN_RANGE] instanceof FHIRRange) {
                 $this->setWhenRange($data[self::FIELD_WHEN_RANGE]);
             } else {
                 $this->setWhenRange(new FHIRRange($data[self::FIELD_WHEN_RANGE]));
             }
         }
-        if (isset($data[self::FIELD_RATIONALE]) || isset($data[self::FIELD_RATIONALE_EXT])) {
+        if (array_key_exists(self::FIELD_RATIONALE, $data) || array_key_exists(self::FIELD_RATIONALE_EXT, $data)) {
             $value = $data[self::FIELD_RATIONALE] ?? null;
             $ext = (isset($data[self::FIELD_RATIONALE_EXT]) && is_array($data[self::FIELD_RATIONALE_EXT])) ? $data[self::FIELD_RATIONALE_EXT] : [];
             if (null !== $value) {
@@ -288,15 +295,16 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setRationale(new FHIRString($ext));
+            } else {
+                $this->setRationale(new FHIRString(null));
             }
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -363,14 +371,19 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
      * Indicates how likely the outcome is (in the specified timeframe).
      *
      * @param null|string|float|int|\HL7\FHIR\R4\FHIRDecimalPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRDecimal $probabilityDecimal
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setProbabilityDecimal(null|string|float|int|FHIRDecimalPrimitive|FHIRDecimal $probabilityDecimal = null): self
+    public function setProbabilityDecimal(null|string|float|int|FHIRDecimalPrimitive|FHIRDecimal $probabilityDecimal = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $probabilityDecimal && !($probabilityDecimal instanceof FHIRDecimal)) {
             $probabilityDecimal = new FHIRDecimal($probabilityDecimal);
         }
         $this->_trackValueSet($this->probabilityDecimal, $probabilityDecimal);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_PROBABILITY_DECIMAL])) {
+            $this->_primitiveXmlLocations[self::FIELD_PROBABILITY_DECIMAL] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_PROBABILITY_DECIMAL][0] = $xmlLocation;
         $this->probabilityDecimal = $probabilityDecimal;
         return $this;
     }
@@ -477,14 +490,19 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
      * risk.).
      *
      * @param null|string|float|int|\HL7\FHIR\R4\FHIRDecimalPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRDecimal $relativeRisk
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setRelativeRisk(null|string|float|int|FHIRDecimalPrimitive|FHIRDecimal $relativeRisk = null): self
+    public function setRelativeRisk(null|string|float|int|FHIRDecimalPrimitive|FHIRDecimal $relativeRisk = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $relativeRisk && !($relativeRisk instanceof FHIRDecimal)) {
             $relativeRisk = new FHIRDecimal($relativeRisk);
         }
         $this->_trackValueSet($this->relativeRisk, $relativeRisk);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_RELATIVE_RISK])) {
+            $this->_primitiveXmlLocations[self::FIELD_RELATIVE_RISK] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_RELATIVE_RISK][0] = $xmlLocation;
         $this->relativeRisk = $relativeRisk;
         return $this;
     }
@@ -583,14 +601,19 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
      * Additional information explaining the basis for the prediction.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRStringPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRString $rationale
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setRationale(null|string|FHIRStringPrimitive|FHIRString $rationale = null): self
+    public function setRationale(null|string|FHIRStringPrimitive|FHIRString $rationale = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $rationale && !($rationale instanceof FHIRString)) {
             $rationale = new FHIRString($rationale);
         }
         $this->_trackValueSet($this->rationale, $rationale);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_RATIONALE])) {
+            $this->_primitiveXmlLocations[self::FIELD_RATIONALE] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_RATIONALE][0] = $xmlLocation;
         $this->rationale = $rationale;
         return $this;
     }
@@ -792,37 +815,23 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRRiskAssessment\FHIRRiskAssessmentPrediction $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRRiskAssessment\FHIRRiskAssessmentPrediction
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -834,141 +843,160 @@ class FHIRRiskAssessmentPrediction extends FHIRBackboneElement
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_OUTCOME === $n->nodeName) {
-                $type->setOutcome(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_PROBABILITY_DECIMAL === $n->nodeName) {
-                $type->setProbabilityDecimal(FHIRDecimal::xmlUnserialize($n));
-            } elseif (self::FIELD_PROBABILITY_RANGE === $n->nodeName) {
-                $type->setProbabilityRange(FHIRRange::xmlUnserialize($n));
-            } elseif (self::FIELD_QUALITATIVE_RISK === $n->nodeName) {
-                $type->setQualitativeRisk(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_RELATIVE_RISK === $n->nodeName) {
-                $type->setRelativeRisk(FHIRDecimal::xmlUnserialize($n));
-            } elseif (self::FIELD_WHEN_PERIOD === $n->nodeName) {
-                $type->setWhenPeriod(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_WHEN_RANGE === $n->nodeName) {
-                $type->setWhenRange(FHIRRange::xmlUnserialize($n));
-            } elseif (self::FIELD_RATIONALE === $n->nodeName) {
-                $type->setRationale(FHIRString::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRStringPrimitive::xmlUnserialize($n));
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_OUTCOME === $childName) {
+                $type->setOutcome(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PROBABILITY_DECIMAL === $childName) {
+                $type->setProbabilityDecimal(FHIRDecimal::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_PROBABILITY_RANGE === $childName) {
+                $type->setProbabilityRange(FHIRRange::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_QUALITATIVE_RISK === $childName) {
+                $type->setQualitativeRisk(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RELATIVE_RISK === $childName) {
+                $type->setRelativeRisk(FHIRDecimal::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_WHEN_PERIOD === $childName) {
+                $type->setWhenPeriod(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_WHEN_RANGE === $childName) {
+                $type->setWhenRange(FHIRRange::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RATIONALE === $childName) {
+                $type->setRationale(FHIRString::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRStringPrimitive::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_PROBABILITY_DECIMAL);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_PROBABILITY_DECIMAL])) {
             $pt = $type->getProbabilityDecimal();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_PROBABILITY_DECIMAL], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setProbabilityDecimal($n->nodeValue);
+                $type->setProbabilityDecimal((string)$attributes[self::FIELD_PROBABILITY_DECIMAL], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_RELATIVE_RISK);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_RELATIVE_RISK])) {
             $pt = $type->getRelativeRisk();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_RELATIVE_RISK], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setRelativeRisk($n->nodeValue);
+                $type->setRelativeRisk((string)$attributes[self::FIELD_RELATIVE_RISK], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_RATIONALE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_RATIONALE])) {
             $pt = $type->getRationale();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_RATIONALE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setRationale($n->nodeValue);
+                $type->setRationale((string)$attributes[self::FIELD_RATIONALE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('RiskAssessmentPrediction'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'RiskAssessmentPrediction', $this->_getSourceXmlns());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PROBABILITY_DECIMAL] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getProbabilityDecimal())) {
+            $xw->writeAttribute(self::FIELD_PROBABILITY_DECIMAL, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_RELATIVE_RISK] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getRelativeRisk())) {
+            $xw->writeAttribute(self::FIELD_RELATIVE_RISK, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_RATIONALE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getRationale())) {
+            $xw->writeAttribute(self::FIELD_RATIONALE, $v->getValue()?->getFormattedValue());
+        }
+        parent::xmlSerialize($xw, $config);
         if (null !== ($v = $this->getOutcome())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_OUTCOME);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_OUTCOME);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getProbabilityDecimal())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PROBABILITY_DECIMAL);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PROBABILITY_DECIMAL] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getProbabilityDecimal())) {
+            $xw->startElement(self::FIELD_PROBABILITY_DECIMAL);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getProbabilityRange())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PROBABILITY_RANGE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PROBABILITY_RANGE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getQualitativeRisk())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_QUALITATIVE_RISK);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_QUALITATIVE_RISK);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getRelativeRisk())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_RELATIVE_RISK);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_RELATIVE_RISK] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getRelativeRisk())) {
+            $xw->startElement(self::FIELD_RELATIVE_RISK);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getWhenPeriod())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_WHEN_PERIOD);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_WHEN_PERIOD);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getWhenRange())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_WHEN_RANGE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_WHEN_RANGE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getRationale())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_RATIONALE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_RATIONALE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getRationale())) {
+            $xw->startElement(self::FIELD_RATIONALE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**

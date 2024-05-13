@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -66,13 +66,21 @@ namespace HL7\FHIR\STU3;
  * Interface PHPFHIRTypeInterface
  * @package \HL7\FHIR\STU3
  */
-interface PHPFHIRTypeInterface extends PHPFHIRXmlSerializableInterface, \JsonSerializable
+interface PHPFHIRTypeInterface extends \JsonSerializable
 {
     /**
      * Returns the FHIR name represented by this Type
      * @return string
      */
-    public function _getFHIRTypeName(): string;
+    public function _getFhirTypeName(): string;
+
+    /**
+     * Returns the root Xmlns value found in the source.  Null indicates no "xmlns" was found.  Only defined when
+     * unserializing XML, and only used when serializing XML.
+     *
+     * @return null|string
+     */
+    public function _getSourceXmlns(): null|string;
 
     /**
      * Must return an associative array in structure ["field" => ["rule" => {constraint}]] to be used during validation
@@ -92,6 +100,21 @@ interface PHPFHIRTypeInterface extends PHPFHIRXmlSerializableInterface, \JsonSer
      * @return bool
      */
     public function _isValued(): bool;
+
+    /**
+     * @param null|string|\SimpleXMLElement $element
+     * @param null|static $type
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return null|static
+     */
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self;
+
+    /**
+     * @param null|\HL7\FHIR\STU3\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\STU3\PHPFHIRXmlWriter
+     */
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter;
 
     /**
      * @return string

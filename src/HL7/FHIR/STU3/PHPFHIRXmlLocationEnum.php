@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -62,48 +62,12 @@ namespace HL7\FHIR\STU3;
  * 
  */
 
-    /**
-    * Trait PHPFHIRXmlNamespaceTrait
-    * @package \HL7\FHIR\STU3
-    */
-trait PHPFHIRXmlNamespaceTrait
+/**
+ * Enum PHPFHIRXmlLocationEnum
+ * @package \HL7\FHIR\STU3
+ */
+enum PHPFHIRXmlLocationEnum : string
 {
-    /** @var string */
-    protected string $_xmlns = '';
-
-    /**
-     * @param null|string $xmlNamespace
-     * @return static
-     */
-    public function _setFHIRXMLNamespace(null|string $xmlNamespace): self
-    {
-        $this->_xmlns = trim((string)$xmlNamespace);
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function _getFHIRXMLNamespace(): string
-    {
-        return $this->_xmlns;
-    }
-
-    /**
-     * @param string $elementName Name to use for the element
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function _getFHIRXMLElementDefinition(string $elementName): string
-    {
-        if ('' === $elementName) {
-            throw new \InvalidArgumentException(sprintf('%s::_getFHIRXMLElementDefinition - $elementName is required', get_called_class()));
-        }
-        $xmlns = $this->_getFHIRXMLNamespace();
-        if ('' !==  $xmlns) {
-            $xmlns = sprintf(' xmlns="%s"', $xmlns);
-        }
-        return sprintf('<%1$s%2$s></%1$s>', $elementName, $xmlns);
-    }
+    case ATTRIBUTE = 'attribute';
+    case ELEMENT = 'element';
 }
-

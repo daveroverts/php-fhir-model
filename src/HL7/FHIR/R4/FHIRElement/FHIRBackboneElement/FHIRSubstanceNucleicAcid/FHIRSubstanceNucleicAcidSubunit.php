@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSubstanceNucleicAcid;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -71,10 +71,11 @@ use HL7\FHIR\R4\FHIRElement\FHIRString;
 use HL7\FHIR\R4\FHIRIntegerPrimitive;
 use HL7\FHIR\R4\FHIRStringPrimitive;
 use HL7\FHIR\R4\PHPFHIRConfig;
+use HL7\FHIR\R4\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\R4\PHPFHIRConstants;
 use HL7\FHIR\R4\PHPFHIRTypeInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\R4\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\R4\PHPFHIRXmlWriter;
 
 /**
  * Nucleic acids are defined by three distinct elements: the base, sugar and
@@ -203,10 +204,12 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRSubstanceNucleicAcidSubunit Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -214,7 +217,7 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_SUBUNIT]) || isset($data[self::FIELD_SUBUNIT_EXT])) {
+        if (array_key_exists(self::FIELD_SUBUNIT, $data) || array_key_exists(self::FIELD_SUBUNIT_EXT, $data)) {
             $value = $data[self::FIELD_SUBUNIT] ?? null;
             $ext = (isset($data[self::FIELD_SUBUNIT_EXT]) && is_array($data[self::FIELD_SUBUNIT_EXT])) ? $data[self::FIELD_SUBUNIT_EXT] : [];
             if (null !== $value) {
@@ -227,9 +230,11 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setSubunit(new FHIRInteger($ext));
+            } else {
+                $this->setSubunit(new FHIRInteger(null));
             }
         }
-        if (isset($data[self::FIELD_SEQUENCE]) || isset($data[self::FIELD_SEQUENCE_EXT])) {
+        if (array_key_exists(self::FIELD_SEQUENCE, $data) || array_key_exists(self::FIELD_SEQUENCE_EXT, $data)) {
             $value = $data[self::FIELD_SEQUENCE] ?? null;
             $ext = (isset($data[self::FIELD_SEQUENCE_EXT]) && is_array($data[self::FIELD_SEQUENCE_EXT])) ? $data[self::FIELD_SEQUENCE_EXT] : [];
             if (null !== $value) {
@@ -242,9 +247,11 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setSequence(new FHIRString($ext));
+            } else {
+                $this->setSequence(new FHIRString(null));
             }
         }
-        if (isset($data[self::FIELD_LENGTH]) || isset($data[self::FIELD_LENGTH_EXT])) {
+        if (array_key_exists(self::FIELD_LENGTH, $data) || array_key_exists(self::FIELD_LENGTH_EXT, $data)) {
             $value = $data[self::FIELD_LENGTH] ?? null;
             $ext = (isset($data[self::FIELD_LENGTH_EXT]) && is_array($data[self::FIELD_LENGTH_EXT])) ? $data[self::FIELD_LENGTH_EXT] : [];
             if (null !== $value) {
@@ -257,35 +264,34 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setLength(new FHIRInteger($ext));
+            } else {
+                $this->setLength(new FHIRInteger(null));
             }
         }
-        if (isset($data[self::FIELD_SEQUENCE_ATTACHMENT])) {
+        if (array_key_exists(self::FIELD_SEQUENCE_ATTACHMENT, $data)) {
             if ($data[self::FIELD_SEQUENCE_ATTACHMENT] instanceof FHIRAttachment) {
                 $this->setSequenceAttachment($data[self::FIELD_SEQUENCE_ATTACHMENT]);
             } else {
                 $this->setSequenceAttachment(new FHIRAttachment($data[self::FIELD_SEQUENCE_ATTACHMENT]));
             }
         }
-        if (isset($data[self::FIELD_FIVE_PRIME])) {
+        if (array_key_exists(self::FIELD_FIVE_PRIME, $data)) {
             if ($data[self::FIELD_FIVE_PRIME] instanceof FHIRCodeableConcept) {
                 $this->setFivePrime($data[self::FIELD_FIVE_PRIME]);
             } else {
                 $this->setFivePrime(new FHIRCodeableConcept($data[self::FIELD_FIVE_PRIME]));
             }
         }
-        if (isset($data[self::FIELD_THREE_PRIME])) {
+        if (array_key_exists(self::FIELD_THREE_PRIME, $data)) {
             if ($data[self::FIELD_THREE_PRIME] instanceof FHIRCodeableConcept) {
                 $this->setThreePrime($data[self::FIELD_THREE_PRIME]);
             } else {
                 $this->setThreePrime(new FHIRCodeableConcept($data[self::FIELD_THREE_PRIME]));
             }
         }
-        if (isset($data[self::FIELD_LINKAGE])) {
+        if (array_key_exists(self::FIELD_LINKAGE, $data)) {
             if (is_array($data[self::FIELD_LINKAGE])) {
                 foreach($data[self::FIELD_LINKAGE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRSubstanceNucleicAcidLinkage) {
                         $this->addLinkage($v);
                     } else {
@@ -298,12 +304,9 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
                 $this->addLinkage(new FHIRSubstanceNucleicAcidLinkage($data[self::FIELD_LINKAGE]));
             }
         }
-        if (isset($data[self::FIELD_SUGAR])) {
+        if (array_key_exists(self::FIELD_SUGAR, $data)) {
             if (is_array($data[self::FIELD_SUGAR])) {
                 foreach($data[self::FIELD_SUGAR] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRSubstanceNucleicAcidSugar) {
                         $this->addSugar($v);
                     } else {
@@ -318,11 +321,10 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -353,14 +355,19 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
      * have identical sequences will be repeated and have sequential subscripts.
      *
      * @param null|string|int|float|\HL7\FHIR\R4\FHIRIntegerPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRInteger $subunit
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setSubunit(null|string|int|float|FHIRIntegerPrimitive|FHIRInteger $subunit = null): self
+    public function setSubunit(null|string|int|float|FHIRIntegerPrimitive|FHIRInteger $subunit = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $subunit && !($subunit instanceof FHIRInteger)) {
             $subunit = new FHIRInteger($subunit);
         }
         $this->_trackValueSet($this->subunit, $subunit);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_SUBUNIT])) {
+            $this->_primitiveXmlLocations[self::FIELD_SUBUNIT] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_SUBUNIT][0] = $xmlLocation;
         $this->subunit = $subunit;
         return $this;
     }
@@ -391,14 +398,19 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
      * non-phosphate linkage should also be captured.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRStringPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRString $sequence
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setSequence(null|string|FHIRStringPrimitive|FHIRString $sequence = null): self
+    public function setSequence(null|string|FHIRStringPrimitive|FHIRString $sequence = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $sequence && !($sequence instanceof FHIRString)) {
             $sequence = new FHIRString($sequence);
         }
         $this->_trackValueSet($this->sequence, $sequence);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_SEQUENCE])) {
+            $this->_primitiveXmlLocations[self::FIELD_SEQUENCE] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_SEQUENCE][0] = $xmlLocation;
         $this->sequence = $sequence;
         return $this;
     }
@@ -425,14 +437,19 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
      * The length of the sequence shall be captured.
      *
      * @param null|string|int|float|\HL7\FHIR\R4\FHIRIntegerPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRInteger $length
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setLength(null|string|int|float|FHIRIntegerPrimitive|FHIRInteger $length = null): self
+    public function setLength(null|string|int|float|FHIRIntegerPrimitive|FHIRInteger $length = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $length && !($length instanceof FHIRInteger)) {
             $length = new FHIRInteger($length);
         }
         $this->_trackValueSet($this->length, $length);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_LENGTH])) {
+            $this->_primitiveXmlLocations[self::FIELD_LENGTH] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_LENGTH][0] = $xmlLocation;
         $this->length = $length;
         return $this;
     }
@@ -597,36 +614,6 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
      * elements. The nucleotide sequence will be always entered in the 5’-3’
      * direction.
      *
-     * The linkages between sugar residues will also be captured.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSubstanceNucleicAcid\FHIRSubstanceNucleicAcidLinkage[] $linkage
-     * @return static
-     */
-    public function setLinkage(array $linkage = []): self
-    {
-        if ([] !== $this->linkage) {
-            $this->_trackValuesRemoved(count($this->linkage));
-            $this->linkage = [];
-        }
-        if ([] === $linkage) {
-            return $this;
-        }
-        foreach($linkage as $v) {
-            if ($v instanceof FHIRSubstanceNucleicAcidLinkage) {
-                $this->addLinkage($v);
-            } else {
-                $this->addLinkage(new FHIRSubstanceNucleicAcidLinkage($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Nucleic acids are defined by three distinct elements: the base, sugar and
-     * linkage. Individual substance/moiety IDs will be created for each of these
-     * elements. The nucleotide sequence will be always entered in the 5’-3’
-     * direction.
-     *
      * 5.3.6.8.1 Sugar ID (Mandatory).
      *
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSubstanceNucleicAcid\FHIRSubstanceNucleicAcidSugar[]
@@ -654,36 +641,6 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
         }
         $this->_trackValueAdded();
         $this->sugar[] = $sugar;
-        return $this;
-    }
-
-    /**
-     * Nucleic acids are defined by three distinct elements: the base, sugar and
-     * linkage. Individual substance/moiety IDs will be created for each of these
-     * elements. The nucleotide sequence will be always entered in the 5’-3’
-     * direction.
-     *
-     * 5.3.6.8.1 Sugar ID (Mandatory).
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSubstanceNucleicAcid\FHIRSubstanceNucleicAcidSugar[] $sugar
-     * @return static
-     */
-    public function setSugar(array $sugar = []): self
-    {
-        if ([] !== $this->sugar) {
-            $this->_trackValuesRemoved(count($this->sugar));
-            $this->sugar = [];
-        }
-        if ([] === $sugar) {
-            return $this;
-        }
-        foreach($sugar as $v) {
-            if ($v instanceof FHIRSubstanceNucleicAcidSugar) {
-                $this->addSugar($v);
-            } else {
-                $this->addSugar(new FHIRSubstanceNucleicAcidSugar($v));
-            }
-        }
         return $this;
     }
 
@@ -888,37 +845,23 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSubstanceNucleicAcid\FHIRSubstanceNucleicAcidSubunit $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSubstanceNucleicAcid\FHIRSubstanceNucleicAcidSubunit
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -930,151 +873,160 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_SUBUNIT === $n->nodeName) {
-                $type->setSubunit(FHIRInteger::xmlUnserialize($n));
-            } elseif (self::FIELD_SEQUENCE === $n->nodeName) {
-                $type->setSequence(FHIRString::xmlUnserialize($n));
-            } elseif (self::FIELD_LENGTH === $n->nodeName) {
-                $type->setLength(FHIRInteger::xmlUnserialize($n));
-            } elseif (self::FIELD_SEQUENCE_ATTACHMENT === $n->nodeName) {
-                $type->setSequenceAttachment(FHIRAttachment::xmlUnserialize($n));
-            } elseif (self::FIELD_FIVE_PRIME === $n->nodeName) {
-                $type->setFivePrime(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_THREE_PRIME === $n->nodeName) {
-                $type->setThreePrime(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_LINKAGE === $n->nodeName) {
-                $type->addLinkage(FHIRSubstanceNucleicAcidLinkage::xmlUnserialize($n));
-            } elseif (self::FIELD_SUGAR === $n->nodeName) {
-                $type->addSugar(FHIRSubstanceNucleicAcidSugar::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRStringPrimitive::xmlUnserialize($n));
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_SUBUNIT === $childName) {
+                $type->setSubunit(FHIRInteger::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_SEQUENCE === $childName) {
+                $type->setSequence(FHIRString::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_LENGTH === $childName) {
+                $type->setLength(FHIRInteger::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_SEQUENCE_ATTACHMENT === $childName) {
+                $type->setSequenceAttachment(FHIRAttachment::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FIVE_PRIME === $childName) {
+                $type->setFivePrime(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_THREE_PRIME === $childName) {
+                $type->setThreePrime(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_LINKAGE === $childName) {
+                $type->addLinkage(FHIRSubstanceNucleicAcidLinkage::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUGAR === $childName) {
+                $type->addSugar(FHIRSubstanceNucleicAcidSugar::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRStringPrimitive::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_SUBUNIT);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_SUBUNIT])) {
             $pt = $type->getSubunit();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_SUBUNIT], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setSubunit($n->nodeValue);
+                $type->setSubunit((string)$attributes[self::FIELD_SUBUNIT], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_SEQUENCE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_SEQUENCE])) {
             $pt = $type->getSequence();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_SEQUENCE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setSequence($n->nodeValue);
+                $type->setSequence((string)$attributes[self::FIELD_SEQUENCE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_LENGTH);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_LENGTH])) {
             $pt = $type->getLength();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_LENGTH], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setLength($n->nodeValue);
+                $type->setLength((string)$attributes[self::FIELD_LENGTH], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('SubstanceNucleicAcidSubunit'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
-        if (null !== ($v = $this->getSubunit())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SUBUNIT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
         }
-        if (null !== ($v = $this->getSequence())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SEQUENCE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
         }
-        if (null !== ($v = $this->getLength())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_LENGTH);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'SubstanceNucleicAcidSubunit', $this->_getSourceXmlns());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_SUBUNIT] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getSubunit())) {
+            $xw->writeAttribute(self::FIELD_SUBUNIT, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_SEQUENCE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getSequence())) {
+            $xw->writeAttribute(self::FIELD_SEQUENCE, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_LENGTH] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getLength())) {
+            $xw->writeAttribute(self::FIELD_LENGTH, $v->getValue()?->getFormattedValue());
+        }
+        parent::xmlSerialize($xw, $config);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_SUBUNIT] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getSubunit())) {
+            $xw->startElement(self::FIELD_SUBUNIT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_SEQUENCE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getSequence())) {
+            $xw->startElement(self::FIELD_SEQUENCE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_LENGTH] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getLength())) {
+            $xw->startElement(self::FIELD_LENGTH);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getSequenceAttachment())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SEQUENCE_ATTACHMENT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_SEQUENCE_ATTACHMENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getFivePrime())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_FIVE_PRIME);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_FIVE_PRIME);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getThreePrime())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_THREE_PRIME);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_THREE_PRIME);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getLinkage())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_LINKAGE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getLinkage() as $v) {
+            $xw->startElement(self::FIELD_LINKAGE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSugar())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SUGAR);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSugar() as $v) {
+            $xw->startElement(self::FIELD_SUGAR);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -1125,18 +1077,12 @@ class FHIRSubstanceNucleicAcidSubunit extends FHIRBackboneElement
         if ([] !== ($vs = $this->getLinkage())) {
             $out->{self::FIELD_LINKAGE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_LINKAGE}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getSugar())) {
             $out->{self::FIELD_SUGAR} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SUGAR}[] = $v;
             }
         }

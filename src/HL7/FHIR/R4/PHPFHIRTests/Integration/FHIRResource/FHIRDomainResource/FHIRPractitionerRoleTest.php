@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\PHPFHIRTests\Integration\FHIRResource\FHIRDomainResource;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -97,7 +97,13 @@ class FHIRPractitionerRoleTest extends TestCase
         }
         $rc = $this->client->get(sprintf('/%s', PHPFHIRTypeEnum::PRACTITIONER_ROLE->value), ['_count' => '1', '_format' => $format]);
         $this->assertEmpty($rc->err, sprintf('curl error seen: %s', $rc->err));
-        $this->assertEquals(200, $rc->code, 'Expected 200 OK');
+        if (404 === $rc->code) {
+            $this->markTestSkipped(sprintf('Endpoint "%s" has no resources of type "%s"', $this->client->_getBaseUrl(), PHPFHIRTypeEnum::PRACTITIONER_ROLE->value));
+        } else if (500 === $rc->code) {
+            $this->markTestSkipped(sprintf('Endpoint "%s" is experiencing issues', $this->client->_getBaseUrl()));
+        } else {
+            $this->assertEquals(200, $rc->code, 'Expected 200 OK');
+        }
         $this->assertIsString($rc->resp);
         $this->_fetchedResources[$format] = $rc->resp;
         $fname = sprintf('%s%sPractitionerRole-v4.0.1-source.%s', PHPFHIR_OUTPUT_TMP_DIR, DIRECTORY_SEPARATOR, $format);
@@ -150,26 +156,26 @@ class FHIRPractitionerRoleTest extends TestCase
         }
         $this->assertCount(1, $entry);
         $resource = $entry[0]->getResource();
-        $resourceElement = $resource->xmlSerialize();
-        $resourceXML = $resourceElement->ownerDocument->saveXML($resourceElement);
+        $resourceXmlWriter = $resource->xmlSerialize();
+        $resourceXml = $resourceXmlWriter->outputMemory();
         try {
-            $type = FHIRPractitionerRole::xmlUnserialize($resourceXML);
+            $type = FHIRPractitionerRole::xmlUnserialize($resourceXml);
         } catch (\Exception $e) {
             throw new AssertionFailedError(
                 sprintf(
                     'Error building type "PractitionerRole" from XML: %s; XML: %s',
                     $e->getMessage(),
-                    $resourceXML
+                    $resourceXml
                 ),
                 $e->getCode(),
                 $e
             );
         }
         $this->assertInstanceOf(FHIRPractitionerRole::class, $type);
-        $typeElement = $type->xmlSerialize();
-        $this->assertEquals($resourceXML, $typeElement->ownerDocument->saveXML($typeElement));
-        $bundleElement = $bundle->xmlSerialize();
-        $this->assertXmlStringEqualsXmlString($sourceXML, $bundleElement->ownerDocument->saveXML());
+        $typeXmlWriter = $type->xmlSerialize();
+        $this->assertEquals($resourceXml, $typeXmlWriter->outputMemory());
+        $bundleXmlWriter = $bundle->xmlSerialize();
+        $this->assertXmlStringEqualsXmlString($sourceXML, $bundleXmlWriter->outputMemory());
     }
 
     public function testJSON(): void

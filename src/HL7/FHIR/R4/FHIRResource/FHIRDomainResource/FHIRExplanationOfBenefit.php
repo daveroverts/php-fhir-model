@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\FHIRResource\FHIRDomainResource;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -102,12 +102,13 @@ use HL7\FHIR\R4\FHIRResource\FHIRDomainResource;
 use HL7\FHIR\R4\FHIRStringPrimitive;
 use HL7\FHIR\R4\FHIRUriPrimitive;
 use HL7\FHIR\R4\PHPFHIRConfig;
+use HL7\FHIR\R4\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\R4\PHPFHIRConstants;
 use HL7\FHIR\R4\PHPFHIRContainedTypeInterface;
 use HL7\FHIR\R4\PHPFHIRTypeInterface;
 use HL7\FHIR\R4\PHPFHIRTypeMap;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\R4\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\R4\PHPFHIRXmlWriter;
 
 /**
  * This resource provides: the claim details; adjudication details from the
@@ -647,10 +648,12 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         ],
     ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRExplanationOfBenefit Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -658,12 +661,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_IDENTIFIER])) {
+        if (array_key_exists(self::FIELD_IDENTIFIER, $data)) {
             if (is_array($data[self::FIELD_IDENTIFIER])) {
                 foreach($data[self::FIELD_IDENTIFIER] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRIdentifier) {
                         $this->addIdentifier($v);
                     } else {
@@ -676,7 +676,7 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addIdentifier(new FHIRIdentifier($data[self::FIELD_IDENTIFIER]));
             }
         }
-        if (isset($data[self::FIELD_STATUS]) || isset($data[self::FIELD_STATUS_EXT])) {
+        if (array_key_exists(self::FIELD_STATUS, $data) || array_key_exists(self::FIELD_STATUS_EXT, $data)) {
             $value = $data[self::FIELD_STATUS] ?? null;
             $ext = (isset($data[self::FIELD_STATUS_EXT]) && is_array($data[self::FIELD_STATUS_EXT])) ? $data[self::FIELD_STATUS_EXT] : [];
             if (null !== $value) {
@@ -689,23 +689,25 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 }
             } elseif ([] !== $ext) {
                 $this->setStatus(new FHIRExplanationOfBenefitStatus($ext));
+            } else {
+                $this->setStatus(new FHIRExplanationOfBenefitStatus(null));
             }
         }
-        if (isset($data[self::FIELD_TYPE])) {
+        if (array_key_exists(self::FIELD_TYPE, $data)) {
             if ($data[self::FIELD_TYPE] instanceof FHIRCodeableConcept) {
                 $this->setType($data[self::FIELD_TYPE]);
             } else {
                 $this->setType(new FHIRCodeableConcept($data[self::FIELD_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_SUB_TYPE])) {
+        if (array_key_exists(self::FIELD_SUB_TYPE, $data)) {
             if ($data[self::FIELD_SUB_TYPE] instanceof FHIRCodeableConcept) {
                 $this->setSubType($data[self::FIELD_SUB_TYPE]);
             } else {
                 $this->setSubType(new FHIRCodeableConcept($data[self::FIELD_SUB_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_USE]) || isset($data[self::FIELD_USE_EXT])) {
+        if (array_key_exists(self::FIELD_USE, $data) || array_key_exists(self::FIELD_USE_EXT, $data)) {
             $value = $data[self::FIELD_USE] ?? null;
             $ext = (isset($data[self::FIELD_USE_EXT]) && is_array($data[self::FIELD_USE_EXT])) ? $data[self::FIELD_USE_EXT] : [];
             if (null !== $value) {
@@ -718,23 +720,25 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 }
             } elseif ([] !== $ext) {
                 $this->setUse(new FHIRUse($ext));
+            } else {
+                $this->setUse(new FHIRUse(null));
             }
         }
-        if (isset($data[self::FIELD_PATIENT])) {
+        if (array_key_exists(self::FIELD_PATIENT, $data)) {
             if ($data[self::FIELD_PATIENT] instanceof FHIRReference) {
                 $this->setPatient($data[self::FIELD_PATIENT]);
             } else {
                 $this->setPatient(new FHIRReference($data[self::FIELD_PATIENT]));
             }
         }
-        if (isset($data[self::FIELD_BILLABLE_PERIOD])) {
+        if (array_key_exists(self::FIELD_BILLABLE_PERIOD, $data)) {
             if ($data[self::FIELD_BILLABLE_PERIOD] instanceof FHIRPeriod) {
                 $this->setBillablePeriod($data[self::FIELD_BILLABLE_PERIOD]);
             } else {
                 $this->setBillablePeriod(new FHIRPeriod($data[self::FIELD_BILLABLE_PERIOD]));
             }
         }
-        if (isset($data[self::FIELD_CREATED]) || isset($data[self::FIELD_CREATED_EXT])) {
+        if (array_key_exists(self::FIELD_CREATED, $data) || array_key_exists(self::FIELD_CREATED_EXT, $data)) {
             $value = $data[self::FIELD_CREATED] ?? null;
             $ext = (isset($data[self::FIELD_CREATED_EXT]) && is_array($data[self::FIELD_CREATED_EXT])) ? $data[self::FIELD_CREATED_EXT] : [];
             if (null !== $value) {
@@ -747,56 +751,55 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 }
             } elseif ([] !== $ext) {
                 $this->setCreated(new FHIRDateTime($ext));
+            } else {
+                $this->setCreated(new FHIRDateTime(null));
             }
         }
-        if (isset($data[self::FIELD_ENTERER])) {
+        if (array_key_exists(self::FIELD_ENTERER, $data)) {
             if ($data[self::FIELD_ENTERER] instanceof FHIRReference) {
                 $this->setEnterer($data[self::FIELD_ENTERER]);
             } else {
                 $this->setEnterer(new FHIRReference($data[self::FIELD_ENTERER]));
             }
         }
-        if (isset($data[self::FIELD_INSURER])) {
+        if (array_key_exists(self::FIELD_INSURER, $data)) {
             if ($data[self::FIELD_INSURER] instanceof FHIRReference) {
                 $this->setInsurer($data[self::FIELD_INSURER]);
             } else {
                 $this->setInsurer(new FHIRReference($data[self::FIELD_INSURER]));
             }
         }
-        if (isset($data[self::FIELD_PROVIDER])) {
+        if (array_key_exists(self::FIELD_PROVIDER, $data)) {
             if ($data[self::FIELD_PROVIDER] instanceof FHIRReference) {
                 $this->setProvider($data[self::FIELD_PROVIDER]);
             } else {
                 $this->setProvider(new FHIRReference($data[self::FIELD_PROVIDER]));
             }
         }
-        if (isset($data[self::FIELD_PRIORITY])) {
+        if (array_key_exists(self::FIELD_PRIORITY, $data)) {
             if ($data[self::FIELD_PRIORITY] instanceof FHIRCodeableConcept) {
                 $this->setPriority($data[self::FIELD_PRIORITY]);
             } else {
                 $this->setPriority(new FHIRCodeableConcept($data[self::FIELD_PRIORITY]));
             }
         }
-        if (isset($data[self::FIELD_FUNDS_RESERVE_REQUESTED])) {
+        if (array_key_exists(self::FIELD_FUNDS_RESERVE_REQUESTED, $data)) {
             if ($data[self::FIELD_FUNDS_RESERVE_REQUESTED] instanceof FHIRCodeableConcept) {
                 $this->setFundsReserveRequested($data[self::FIELD_FUNDS_RESERVE_REQUESTED]);
             } else {
                 $this->setFundsReserveRequested(new FHIRCodeableConcept($data[self::FIELD_FUNDS_RESERVE_REQUESTED]));
             }
         }
-        if (isset($data[self::FIELD_FUNDS_RESERVE])) {
+        if (array_key_exists(self::FIELD_FUNDS_RESERVE, $data)) {
             if ($data[self::FIELD_FUNDS_RESERVE] instanceof FHIRCodeableConcept) {
                 $this->setFundsReserve($data[self::FIELD_FUNDS_RESERVE]);
             } else {
                 $this->setFundsReserve(new FHIRCodeableConcept($data[self::FIELD_FUNDS_RESERVE]));
             }
         }
-        if (isset($data[self::FIELD_RELATED])) {
+        if (array_key_exists(self::FIELD_RELATED, $data)) {
             if (is_array($data[self::FIELD_RELATED])) {
                 foreach($data[self::FIELD_RELATED] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitRelated) {
                         $this->addRelated($v);
                     } else {
@@ -809,56 +812,56 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addRelated(new FHIRExplanationOfBenefitRelated($data[self::FIELD_RELATED]));
             }
         }
-        if (isset($data[self::FIELD_PRESCRIPTION])) {
+        if (array_key_exists(self::FIELD_PRESCRIPTION, $data)) {
             if ($data[self::FIELD_PRESCRIPTION] instanceof FHIRReference) {
                 $this->setPrescription($data[self::FIELD_PRESCRIPTION]);
             } else {
                 $this->setPrescription(new FHIRReference($data[self::FIELD_PRESCRIPTION]));
             }
         }
-        if (isset($data[self::FIELD_ORIGINAL_PRESCRIPTION])) {
+        if (array_key_exists(self::FIELD_ORIGINAL_PRESCRIPTION, $data)) {
             if ($data[self::FIELD_ORIGINAL_PRESCRIPTION] instanceof FHIRReference) {
                 $this->setOriginalPrescription($data[self::FIELD_ORIGINAL_PRESCRIPTION]);
             } else {
                 $this->setOriginalPrescription(new FHIRReference($data[self::FIELD_ORIGINAL_PRESCRIPTION]));
             }
         }
-        if (isset($data[self::FIELD_PAYEE])) {
+        if (array_key_exists(self::FIELD_PAYEE, $data)) {
             if ($data[self::FIELD_PAYEE] instanceof FHIRExplanationOfBenefitPayee) {
                 $this->setPayee($data[self::FIELD_PAYEE]);
             } else {
                 $this->setPayee(new FHIRExplanationOfBenefitPayee($data[self::FIELD_PAYEE]));
             }
         }
-        if (isset($data[self::FIELD_REFERRAL])) {
+        if (array_key_exists(self::FIELD_REFERRAL, $data)) {
             if ($data[self::FIELD_REFERRAL] instanceof FHIRReference) {
                 $this->setReferral($data[self::FIELD_REFERRAL]);
             } else {
                 $this->setReferral(new FHIRReference($data[self::FIELD_REFERRAL]));
             }
         }
-        if (isset($data[self::FIELD_FACILITY])) {
+        if (array_key_exists(self::FIELD_FACILITY, $data)) {
             if ($data[self::FIELD_FACILITY] instanceof FHIRReference) {
                 $this->setFacility($data[self::FIELD_FACILITY]);
             } else {
                 $this->setFacility(new FHIRReference($data[self::FIELD_FACILITY]));
             }
         }
-        if (isset($data[self::FIELD_CLAIM])) {
+        if (array_key_exists(self::FIELD_CLAIM, $data)) {
             if ($data[self::FIELD_CLAIM] instanceof FHIRReference) {
                 $this->setClaim($data[self::FIELD_CLAIM]);
             } else {
                 $this->setClaim(new FHIRReference($data[self::FIELD_CLAIM]));
             }
         }
-        if (isset($data[self::FIELD_CLAIM_RESPONSE])) {
+        if (array_key_exists(self::FIELD_CLAIM_RESPONSE, $data)) {
             if ($data[self::FIELD_CLAIM_RESPONSE] instanceof FHIRReference) {
                 $this->setClaimResponse($data[self::FIELD_CLAIM_RESPONSE]);
             } else {
                 $this->setClaimResponse(new FHIRReference($data[self::FIELD_CLAIM_RESPONSE]));
             }
         }
-        if (isset($data[self::FIELD_OUTCOME]) || isset($data[self::FIELD_OUTCOME_EXT])) {
+        if (array_key_exists(self::FIELD_OUTCOME, $data) || array_key_exists(self::FIELD_OUTCOME_EXT, $data)) {
             $value = $data[self::FIELD_OUTCOME] ?? null;
             $ext = (isset($data[self::FIELD_OUTCOME_EXT]) && is_array($data[self::FIELD_OUTCOME_EXT])) ? $data[self::FIELD_OUTCOME_EXT] : [];
             if (null !== $value) {
@@ -871,9 +874,11 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 }
             } elseif ([] !== $ext) {
                 $this->setOutcome(new FHIRClaimProcessingCodes($ext));
+            } else {
+                $this->setOutcome(new FHIRClaimProcessingCodes(null));
             }
         }
-        if (isset($data[self::FIELD_DISPOSITION]) || isset($data[self::FIELD_DISPOSITION_EXT])) {
+        if (array_key_exists(self::FIELD_DISPOSITION, $data) || array_key_exists(self::FIELD_DISPOSITION_EXT, $data)) {
             $value = $data[self::FIELD_DISPOSITION] ?? null;
             $ext = (isset($data[self::FIELD_DISPOSITION_EXT]) && is_array($data[self::FIELD_DISPOSITION_EXT])) ? $data[self::FIELD_DISPOSITION_EXT] : [];
             if (null !== $value) {
@@ -886,9 +891,11 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 }
             } elseif ([] !== $ext) {
                 $this->setDisposition(new FHIRString($ext));
+            } else {
+                $this->setDisposition(new FHIRString(null));
             }
         }
-        if (isset($data[self::FIELD_PRE_AUTH_REF]) || isset($data[self::FIELD_PRE_AUTH_REF_EXT])) {
+        if (array_key_exists(self::FIELD_PRE_AUTH_REF, $data) || array_key_exists(self::FIELD_PRE_AUTH_REF_EXT, $data)) {
             $value = $data[self::FIELD_PRE_AUTH_REF] ?? null;
             $ext = (isset($data[self::FIELD_PRE_AUTH_REF_EXT]) && is_array($data[self::FIELD_PRE_AUTH_REF_EXT])) ? $data[self::FIELD_PRE_AUTH_REF_EXT] : [];
             if (null !== $value) {
@@ -916,14 +923,13 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 foreach($ext as $iext) {
                     $this->addPreAuthRef(new FHIRString($iext));
                 }
+            } else {
+                $this->addPreAuthRef(new FHIRString(null));
             }
         }
-        if (isset($data[self::FIELD_PRE_AUTH_REF_PERIOD])) {
+        if (array_key_exists(self::FIELD_PRE_AUTH_REF_PERIOD, $data)) {
             if (is_array($data[self::FIELD_PRE_AUTH_REF_PERIOD])) {
                 foreach($data[self::FIELD_PRE_AUTH_REF_PERIOD] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRPeriod) {
                         $this->addPreAuthRefPeriod($v);
                     } else {
@@ -936,12 +942,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addPreAuthRefPeriod(new FHIRPeriod($data[self::FIELD_PRE_AUTH_REF_PERIOD]));
             }
         }
-        if (isset($data[self::FIELD_CARE_TEAM])) {
+        if (array_key_exists(self::FIELD_CARE_TEAM, $data)) {
             if (is_array($data[self::FIELD_CARE_TEAM])) {
                 foreach($data[self::FIELD_CARE_TEAM] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitCareTeam) {
                         $this->addCareTeam($v);
                     } else {
@@ -954,12 +957,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addCareTeam(new FHIRExplanationOfBenefitCareTeam($data[self::FIELD_CARE_TEAM]));
             }
         }
-        if (isset($data[self::FIELD_SUPPORTING_INFO])) {
+        if (array_key_exists(self::FIELD_SUPPORTING_INFO, $data)) {
             if (is_array($data[self::FIELD_SUPPORTING_INFO])) {
                 foreach($data[self::FIELD_SUPPORTING_INFO] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitSupportingInfo) {
                         $this->addSupportingInfo($v);
                     } else {
@@ -972,12 +972,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addSupportingInfo(new FHIRExplanationOfBenefitSupportingInfo($data[self::FIELD_SUPPORTING_INFO]));
             }
         }
-        if (isset($data[self::FIELD_DIAGNOSIS])) {
+        if (array_key_exists(self::FIELD_DIAGNOSIS, $data)) {
             if (is_array($data[self::FIELD_DIAGNOSIS])) {
                 foreach($data[self::FIELD_DIAGNOSIS] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitDiagnosis) {
                         $this->addDiagnosis($v);
                     } else {
@@ -990,12 +987,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addDiagnosis(new FHIRExplanationOfBenefitDiagnosis($data[self::FIELD_DIAGNOSIS]));
             }
         }
-        if (isset($data[self::FIELD_PROCEDURE])) {
+        if (array_key_exists(self::FIELD_PROCEDURE, $data)) {
             if (is_array($data[self::FIELD_PROCEDURE])) {
                 foreach($data[self::FIELD_PROCEDURE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitProcedure) {
                         $this->addProcedure($v);
                     } else {
@@ -1008,7 +1002,7 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addProcedure(new FHIRExplanationOfBenefitProcedure($data[self::FIELD_PROCEDURE]));
             }
         }
-        if (isset($data[self::FIELD_PRECEDENCE]) || isset($data[self::FIELD_PRECEDENCE_EXT])) {
+        if (array_key_exists(self::FIELD_PRECEDENCE, $data) || array_key_exists(self::FIELD_PRECEDENCE_EXT, $data)) {
             $value = $data[self::FIELD_PRECEDENCE] ?? null;
             $ext = (isset($data[self::FIELD_PRECEDENCE_EXT]) && is_array($data[self::FIELD_PRECEDENCE_EXT])) ? $data[self::FIELD_PRECEDENCE_EXT] : [];
             if (null !== $value) {
@@ -1021,14 +1015,13 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 }
             } elseif ([] !== $ext) {
                 $this->setPrecedence(new FHIRPositiveInt($ext));
+            } else {
+                $this->setPrecedence(new FHIRPositiveInt(null));
             }
         }
-        if (isset($data[self::FIELD_INSURANCE])) {
+        if (array_key_exists(self::FIELD_INSURANCE, $data)) {
             if (is_array($data[self::FIELD_INSURANCE])) {
                 foreach($data[self::FIELD_INSURANCE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitInsurance) {
                         $this->addInsurance($v);
                     } else {
@@ -1041,19 +1034,16 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addInsurance(new FHIRExplanationOfBenefitInsurance($data[self::FIELD_INSURANCE]));
             }
         }
-        if (isset($data[self::FIELD_ACCIDENT])) {
+        if (array_key_exists(self::FIELD_ACCIDENT, $data)) {
             if ($data[self::FIELD_ACCIDENT] instanceof FHIRExplanationOfBenefitAccident) {
                 $this->setAccident($data[self::FIELD_ACCIDENT]);
             } else {
                 $this->setAccident(new FHIRExplanationOfBenefitAccident($data[self::FIELD_ACCIDENT]));
             }
         }
-        if (isset($data[self::FIELD_ITEM])) {
+        if (array_key_exists(self::FIELD_ITEM, $data)) {
             if (is_array($data[self::FIELD_ITEM])) {
                 foreach($data[self::FIELD_ITEM] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitItem) {
                         $this->addItem($v);
                     } else {
@@ -1066,12 +1056,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addItem(new FHIRExplanationOfBenefitItem($data[self::FIELD_ITEM]));
             }
         }
-        if (isset($data[self::FIELD_ADD_ITEM])) {
+        if (array_key_exists(self::FIELD_ADD_ITEM, $data)) {
             if (is_array($data[self::FIELD_ADD_ITEM])) {
                 foreach($data[self::FIELD_ADD_ITEM] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitAddItem) {
                         $this->addAddItem($v);
                     } else {
@@ -1084,12 +1071,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addAddItem(new FHIRExplanationOfBenefitAddItem($data[self::FIELD_ADD_ITEM]));
             }
         }
-        if (isset($data[self::FIELD_ADJUDICATION])) {
+        if (array_key_exists(self::FIELD_ADJUDICATION, $data)) {
             if (is_array($data[self::FIELD_ADJUDICATION])) {
                 foreach($data[self::FIELD_ADJUDICATION] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitAdjudication) {
                         $this->addAdjudication($v);
                     } else {
@@ -1102,12 +1086,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addAdjudication(new FHIRExplanationOfBenefitAdjudication($data[self::FIELD_ADJUDICATION]));
             }
         }
-        if (isset($data[self::FIELD_TOTAL])) {
+        if (array_key_exists(self::FIELD_TOTAL, $data)) {
             if (is_array($data[self::FIELD_TOTAL])) {
                 foreach($data[self::FIELD_TOTAL] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitTotal) {
                         $this->addTotal($v);
                     } else {
@@ -1120,33 +1101,30 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addTotal(new FHIRExplanationOfBenefitTotal($data[self::FIELD_TOTAL]));
             }
         }
-        if (isset($data[self::FIELD_PAYMENT])) {
+        if (array_key_exists(self::FIELD_PAYMENT, $data)) {
             if ($data[self::FIELD_PAYMENT] instanceof FHIRExplanationOfBenefitPayment) {
                 $this->setPayment($data[self::FIELD_PAYMENT]);
             } else {
                 $this->setPayment(new FHIRExplanationOfBenefitPayment($data[self::FIELD_PAYMENT]));
             }
         }
-        if (isset($data[self::FIELD_FORM_CODE])) {
+        if (array_key_exists(self::FIELD_FORM_CODE, $data)) {
             if ($data[self::FIELD_FORM_CODE] instanceof FHIRCodeableConcept) {
                 $this->setFormCode($data[self::FIELD_FORM_CODE]);
             } else {
                 $this->setFormCode(new FHIRCodeableConcept($data[self::FIELD_FORM_CODE]));
             }
         }
-        if (isset($data[self::FIELD_FORM])) {
+        if (array_key_exists(self::FIELD_FORM, $data)) {
             if ($data[self::FIELD_FORM] instanceof FHIRAttachment) {
                 $this->setForm($data[self::FIELD_FORM]);
             } else {
                 $this->setForm(new FHIRAttachment($data[self::FIELD_FORM]));
             }
         }
-        if (isset($data[self::FIELD_PROCESS_NOTE])) {
+        if (array_key_exists(self::FIELD_PROCESS_NOTE, $data)) {
             if (is_array($data[self::FIELD_PROCESS_NOTE])) {
                 foreach($data[self::FIELD_PROCESS_NOTE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitProcessNote) {
                         $this->addProcessNote($v);
                     } else {
@@ -1159,19 +1137,16 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 $this->addProcessNote(new FHIRExplanationOfBenefitProcessNote($data[self::FIELD_PROCESS_NOTE]));
             }
         }
-        if (isset($data[self::FIELD_BENEFIT_PERIOD])) {
+        if (array_key_exists(self::FIELD_BENEFIT_PERIOD, $data)) {
             if ($data[self::FIELD_BENEFIT_PERIOD] instanceof FHIRPeriod) {
                 $this->setBenefitPeriod($data[self::FIELD_BENEFIT_PERIOD]);
             } else {
                 $this->setBenefitPeriod(new FHIRPeriod($data[self::FIELD_BENEFIT_PERIOD]));
             }
         }
-        if (isset($data[self::FIELD_BENEFIT_BALANCE])) {
+        if (array_key_exists(self::FIELD_BENEFIT_BALANCE, $data)) {
             if (is_array($data[self::FIELD_BENEFIT_BALANCE])) {
                 foreach($data[self::FIELD_BENEFIT_BALANCE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRExplanationOfBenefitBenefitBalance) {
                         $this->addBenefitBalance($v);
                     } else {
@@ -1186,11 +1161,10 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -1202,7 +1176,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
     {
         return static::FHIR_TYPE_NAME;
     }
-
 
     /**
      * An identifier - identifies some entity uniquely and unambiguously. Typically
@@ -1237,36 +1210,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->identifier[] = $identifier;
-        return $this;
-    }
-
-    /**
-     * An identifier - identifies some entity uniquely and unambiguously. Typically
-     * this is used for business identifiers.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * A unique identifier assigned to this explanation of benefit.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRIdentifier[] $identifier
-     * @return static
-     */
-    public function setIdentifier(array $identifier = []): self
-    {
-        if ([] !== $this->identifier) {
-            $this->_trackValuesRemoved(count($this->identifier));
-            $this->identifier = [];
-        }
-        if ([] === $identifier) {
-            return $this;
-        }
-        foreach($identifier as $v) {
-            if ($v instanceof FHIRIdentifier) {
-                $this->addIdentifier($v);
-            } else {
-                $this->addIdentifier(new FHIRIdentifier($v));
-            }
-        }
         return $this;
     }
 
@@ -1516,14 +1459,19 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * The date this resource was created.
      *
      * @param null|string|\DateTimeInterface|\HL7\FHIR\R4\FHIRDateTimePrimitive|\HL7\FHIR\R4\FHIRElement\FHIRDateTime $created
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setCreated(null|string|\DateTimeInterface|FHIRDateTimePrimitive|FHIRDateTime $created = null): self
+    public function setCreated(null|string|\DateTimeInterface|FHIRDateTimePrimitive|FHIRDateTime $created = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $created && !($created instanceof FHIRDateTime)) {
             $created = new FHIRDateTime($created);
         }
         $this->_trackValueSet($this->created, $created);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_CREATED])) {
+            $this->_primitiveXmlLocations[self::FIELD_CREATED] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_CREATED][0] = $xmlLocation;
         $this->created = $created;
         return $this;
     }
@@ -1779,36 +1727,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->related[] = $related;
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * Other claims which are related to this claim such as prior submissions or claims
-     * for related services or for the same event.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitRelated[] $related
-     * @return static
-     */
-    public function setRelated(array $related = []): self
-    {
-        if ([] !== $this->related) {
-            $this->_trackValuesRemoved(count($this->related));
-            $this->related = [];
-        }
-        if ([] === $related) {
-            return $this;
-        }
-        foreach($related as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitRelated) {
-                $this->addRelated($v);
-            } else {
-                $this->addRelated(new FHIRExplanationOfBenefitRelated($v));
-            }
-        }
         return $this;
     }
 
@@ -2112,14 +2030,19 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * A human readable description of the status of the adjudication.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRStringPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRString $disposition
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setDisposition(null|string|FHIRStringPrimitive|FHIRString $disposition = null): self
+    public function setDisposition(null|string|FHIRStringPrimitive|FHIRString $disposition = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $disposition && !($disposition instanceof FHIRString)) {
             $disposition = new FHIRString($disposition);
         }
         $this->_trackValueSet($this->disposition, $disposition);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_DISPOSITION])) {
+            $this->_primitiveXmlLocations[self::FIELD_DISPOSITION] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_DISPOSITION][0] = $xmlLocation;
         $this->disposition = $disposition;
         return $this;
     }
@@ -2148,14 +2071,19 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * this adjudication.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRStringPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRString $preAuthRef
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function addPreAuthRef(null|string|FHIRStringPrimitive|FHIRString $preAuthRef = null): self
+    public function addPreAuthRef(null|string|FHIRStringPrimitive|FHIRString $preAuthRef = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $preAuthRef && !($preAuthRef instanceof FHIRString)) {
             $preAuthRef = new FHIRString($preAuthRef);
         }
         $this->_trackValueAdded();
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_PRE_AUTH_REF])) {
+            $this->_primitiveXmlLocations[self::FIELD_PRE_AUTH_REF] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_PRE_AUTH_REF][] = $xmlLocation;
         $this->preAuthRef[] = $preAuthRef;
         return $this;
     }
@@ -2169,10 +2097,12 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * this adjudication.
      *
      * @param \HL7\FHIR\R4\FHIRElement\FHIRString[] $preAuthRef
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setPreAuthRef(array $preAuthRef = []): self
+    public function setPreAuthRef(array $preAuthRef = [], PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
+        unset($this->_primitiveXmlLocations[self::FIELD_PRE_AUTH_REF]);
         if ([] !== $this->preAuthRef) {
             $this->_trackValuesRemoved(count($this->preAuthRef));
             $this->preAuthRef = [];
@@ -2182,9 +2112,9 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         foreach($preAuthRef as $v) {
             if ($v instanceof FHIRString) {
-                $this->addPreAuthRef($v);
+                $this->addPreAuthRef($v, $xmlLocation);
             } else {
-                $this->addPreAuthRef(new FHIRString($v));
+                $this->addPreAuthRef(new FHIRString($v), $xmlLocation);
             }
         }
         return $this;
@@ -2227,36 +2157,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
     }
 
     /**
-     * A time period defined by a start and end date and optionally time.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * The timeframe during which the supplied preauthorization reference may be quoted
-     * on claims to obtain the adjudication as provided.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRPeriod[] $preAuthRefPeriod
-     * @return static
-     */
-    public function setPreAuthRefPeriod(array $preAuthRefPeriod = []): self
-    {
-        if ([] !== $this->preAuthRefPeriod) {
-            $this->_trackValuesRemoved(count($this->preAuthRefPeriod));
-            $this->preAuthRefPeriod = [];
-        }
-        if ([] === $preAuthRefPeriod) {
-            return $this;
-        }
-        foreach($preAuthRefPeriod as $v) {
-            if ($v instanceof FHIRPeriod) {
-                $this->addPreAuthRefPeriod($v);
-            } else {
-                $this->addPreAuthRefPeriod(new FHIRPeriod($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * This resource provides: the claim details; adjudication details from the
      * processing of a Claim; and optionally account balance information, for informing
      * the subscriber of the benefits provided.
@@ -2287,35 +2187,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->careTeam[] = $careTeam;
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * The members of the team who provided the products and services.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitCareTeam[] $careTeam
-     * @return static
-     */
-    public function setCareTeam(array $careTeam = []): self
-    {
-        if ([] !== $this->careTeam) {
-            $this->_trackValuesRemoved(count($this->careTeam));
-            $this->careTeam = [];
-        }
-        if ([] === $careTeam) {
-            return $this;
-        }
-        foreach($careTeam as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitCareTeam) {
-                $this->addCareTeam($v);
-            } else {
-                $this->addCareTeam(new FHIRExplanationOfBenefitCareTeam($v));
-            }
-        }
         return $this;
     }
 
@@ -2360,36 +2231,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * processing of a Claim; and optionally account balance information, for informing
      * the subscriber of the benefits provided.
      *
-     * Additional information codes regarding exceptions, special considerations, the
-     * condition, situation, prior or concurrent issues.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitSupportingInfo[] $supportingInfo
-     * @return static
-     */
-    public function setSupportingInfo(array $supportingInfo = []): self
-    {
-        if ([] !== $this->supportingInfo) {
-            $this->_trackValuesRemoved(count($this->supportingInfo));
-            $this->supportingInfo = [];
-        }
-        if ([] === $supportingInfo) {
-            return $this;
-        }
-        foreach($supportingInfo as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitSupportingInfo) {
-                $this->addSupportingInfo($v);
-            } else {
-                $this->addSupportingInfo(new FHIRExplanationOfBenefitSupportingInfo($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
      * Information about diagnoses relevant to the claim items.
      *
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitDiagnosis[]
@@ -2416,35 +2257,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->diagnosis[] = $diagnosis;
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * Information about diagnoses relevant to the claim items.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitDiagnosis[] $diagnosis
-     * @return static
-     */
-    public function setDiagnosis(array $diagnosis = []): self
-    {
-        if ([] !== $this->diagnosis) {
-            $this->_trackValuesRemoved(count($this->diagnosis));
-            $this->diagnosis = [];
-        }
-        if ([] === $diagnosis) {
-            return $this;
-        }
-        foreach($diagnosis as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitDiagnosis) {
-                $this->addDiagnosis($v);
-            } else {
-                $this->addDiagnosis(new FHIRExplanationOfBenefitDiagnosis($v));
-            }
-        }
         return $this;
     }
 
@@ -2485,36 +2297,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
     }
 
     /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * Procedures performed on the patient relevant to the billing items with the
-     * claim.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitProcedure[] $procedure
-     * @return static
-     */
-    public function setProcedure(array $procedure = []): self
-    {
-        if ([] !== $this->procedure) {
-            $this->_trackValuesRemoved(count($this->procedure));
-            $this->procedure = [];
-        }
-        if ([] === $procedure) {
-            return $this;
-        }
-        foreach($procedure as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitProcedure) {
-                $this->addProcedure($v);
-            } else {
-                $this->addProcedure(new FHIRExplanationOfBenefitProcedure($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * An integer with a value that is positive (e.g. >0)
      * If the element is present, it must have either a \@value, an \@id referenced from
      * the Narrative, or extensions
@@ -2538,14 +2320,19 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * coverages for the same suite of services.
      *
      * @param null|string|int|float|\HL7\FHIR\R4\FHIRPositiveIntPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRPositiveInt $precedence
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setPrecedence(null|string|int|float|FHIRPositiveIntPrimitive|FHIRPositiveInt $precedence = null): self
+    public function setPrecedence(null|string|int|float|FHIRPositiveIntPrimitive|FHIRPositiveInt $precedence = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $precedence && !($precedence instanceof FHIRPositiveInt)) {
             $precedence = new FHIRPositiveInt($precedence);
         }
         $this->_trackValueSet($this->precedence, $precedence);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_PRECEDENCE])) {
+            $this->_primitiveXmlLocations[self::FIELD_PRECEDENCE] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_PRECEDENCE][0] = $xmlLocation;
         $this->precedence = $precedence;
         return $this;
     }
@@ -2583,36 +2370,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->insurance[] = $insurance;
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * Financial instruments for reimbursement for the health care products and
-     * services specified on the claim.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitInsurance[] $insurance
-     * @return static
-     */
-    public function setInsurance(array $insurance = []): self
-    {
-        if ([] !== $this->insurance) {
-            $this->_trackValuesRemoved(count($this->insurance));
-            $this->insurance = [];
-        }
-        if ([] === $insurance) {
-            return $this;
-        }
-        foreach($insurance as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitInsurance) {
-                $this->addInsurance($v);
-            } else {
-                $this->addInsurance(new FHIRExplanationOfBenefitInsurance($v));
-            }
-        }
         return $this;
     }
 
@@ -2693,36 +2450,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * processing of a Claim; and optionally account balance information, for informing
      * the subscriber of the benefits provided.
      *
-     * A claim line. Either a simple (a product or service) or a 'group' of details
-     * which can also be a simple items or groups of sub-details.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitItem[] $item
-     * @return static
-     */
-    public function setItem(array $item = []): self
-    {
-        if ([] !== $this->item) {
-            $this->_trackValuesRemoved(count($this->item));
-            $this->item = [];
-        }
-        if ([] === $item) {
-            return $this;
-        }
-        foreach($item as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitItem) {
-                $this->addItem($v);
-            } else {
-                $this->addItem(new FHIRExplanationOfBenefitItem($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
      * The first-tier service adjudications for payor added product or service lines.
      *
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitAddItem[]
@@ -2749,35 +2476,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->addItem[] = $addItem;
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * The first-tier service adjudications for payor added product or service lines.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitAddItem[] $addItem
-     * @return static
-     */
-    public function setAddItem(array $addItem = []): self
-    {
-        if ([] !== $this->addItem) {
-            $this->_trackValuesRemoved(count($this->addItem));
-            $this->addItem = [];
-        }
-        if ([] === $addItem) {
-            return $this;
-        }
-        foreach($addItem as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitAddItem) {
-                $this->addAddItem($v);
-            } else {
-                $this->addAddItem(new FHIRExplanationOfBenefitAddItem($v));
-            }
-        }
         return $this;
     }
 
@@ -2822,36 +2520,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
      * processing of a Claim; and optionally account balance information, for informing
      * the subscriber of the benefits provided.
      *
-     * The adjudication results which are presented at the header level rather than at
-     * the line-item or add-item levels.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitAdjudication[] $adjudication
-     * @return static
-     */
-    public function setAdjudication(array $adjudication = []): self
-    {
-        if ([] !== $this->adjudication) {
-            $this->_trackValuesRemoved(count($this->adjudication));
-            $this->adjudication = [];
-        }
-        if ([] === $adjudication) {
-            return $this;
-        }
-        foreach($adjudication as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitAdjudication) {
-                $this->addAdjudication($v);
-            } else {
-                $this->addAdjudication(new FHIRExplanationOfBenefitAdjudication($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
      * Categorized monetary totals for the adjudication.
      *
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitTotal[]
@@ -2878,35 +2546,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->total[] = $total;
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * Categorized monetary totals for the adjudication.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitTotal[] $total
-     * @return static
-     */
-    public function setTotal(array $total = []): self
-    {
-        if ([] !== $this->total) {
-            $this->_trackValuesRemoved(count($this->total));
-            $this->total = [];
-        }
-        if ([] === $total) {
-            return $this;
-        }
-        foreach($total as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitTotal) {
-                $this->addTotal($v);
-            } else {
-                $this->addTotal(new FHIRExplanationOfBenefitTotal($v));
-            }
-        }
         return $this;
     }
 
@@ -3049,35 +2688,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
     }
 
     /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * A note that describes or explains adjudication results in a human readable form.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitProcessNote[] $processNote
-     * @return static
-     */
-    public function setProcessNote(array $processNote = []): self
-    {
-        if ([] !== $this->processNote) {
-            $this->_trackValuesRemoved(count($this->processNote));
-            $this->processNote = [];
-        }
-        if ([] === $processNote) {
-            return $this;
-        }
-        foreach($processNote as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitProcessNote) {
-                $this->addProcessNote($v);
-            } else {
-                $this->addProcessNote(new FHIRExplanationOfBenefitProcessNote($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A time period defined by a start and end date and optionally time.
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
@@ -3142,35 +2752,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         }
         $this->_trackValueAdded();
         $this->benefitBalance[] = $benefitBalance;
-        return $this;
-    }
-
-    /**
-     * This resource provides: the claim details; adjudication details from the
-     * processing of a Claim; and optionally account balance information, for informing
-     * the subscriber of the benefits provided.
-     *
-     * Balance by Benefit Category.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRExplanationOfBenefit\FHIRExplanationOfBenefitBenefitBalance[] $benefitBalance
-     * @return static
-     */
-    public function setBenefitBalance(array $benefitBalance = []): self
-    {
-        if ([] !== $this->benefitBalance) {
-            $this->_trackValuesRemoved(count($this->benefitBalance));
-            $this->benefitBalance = [];
-        }
-        if ([] === $benefitBalance) {
-            return $this;
-        }
-        foreach($benefitBalance as $v) {
-            if ($v instanceof FHIRExplanationOfBenefitBenefitBalance) {
-                $this->addBenefitBalance($v);
-            } else {
-                $this->addBenefitBalance(new FHIRExplanationOfBenefitBenefitBalance($v));
-            }
-        }
         return $this;
     }
 
@@ -4056,37 +3637,23 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRResource\FHIRDomainResource\FHIRExplanationOfBenefit $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRResource\FHIRDomainResource\FHIRExplanationOfBenefit
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -4098,498 +3665,447 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_IDENTIFIER === $n->nodeName) {
-                $type->addIdentifier(FHIRIdentifier::xmlUnserialize($n));
-            } elseif (self::FIELD_STATUS === $n->nodeName) {
-                $type->setStatus(FHIRExplanationOfBenefitStatus::xmlUnserialize($n));
-            } elseif (self::FIELD_TYPE === $n->nodeName) {
-                $type->setType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_SUB_TYPE === $n->nodeName) {
-                $type->setSubType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_USE === $n->nodeName) {
-                $type->setUse(FHIRUse::xmlUnserialize($n));
-            } elseif (self::FIELD_PATIENT === $n->nodeName) {
-                $type->setPatient(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_BILLABLE_PERIOD === $n->nodeName) {
-                $type->setBillablePeriod(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_CREATED === $n->nodeName) {
-                $type->setCreated(FHIRDateTime::xmlUnserialize($n));
-            } elseif (self::FIELD_ENTERER === $n->nodeName) {
-                $type->setEnterer(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_INSURER === $n->nodeName) {
-                $type->setInsurer(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_PROVIDER === $n->nodeName) {
-                $type->setProvider(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_PRIORITY === $n->nodeName) {
-                $type->setPriority(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_FUNDS_RESERVE_REQUESTED === $n->nodeName) {
-                $type->setFundsReserveRequested(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_FUNDS_RESERVE === $n->nodeName) {
-                $type->setFundsReserve(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_RELATED === $n->nodeName) {
-                $type->addRelated(FHIRExplanationOfBenefitRelated::xmlUnserialize($n));
-            } elseif (self::FIELD_PRESCRIPTION === $n->nodeName) {
-                $type->setPrescription(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_ORIGINAL_PRESCRIPTION === $n->nodeName) {
-                $type->setOriginalPrescription(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_PAYEE === $n->nodeName) {
-                $type->setPayee(FHIRExplanationOfBenefitPayee::xmlUnserialize($n));
-            } elseif (self::FIELD_REFERRAL === $n->nodeName) {
-                $type->setReferral(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_FACILITY === $n->nodeName) {
-                $type->setFacility(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_CLAIM === $n->nodeName) {
-                $type->setClaim(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_CLAIM_RESPONSE === $n->nodeName) {
-                $type->setClaimResponse(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_OUTCOME === $n->nodeName) {
-                $type->setOutcome(FHIRClaimProcessingCodes::xmlUnserialize($n));
-            } elseif (self::FIELD_DISPOSITION === $n->nodeName) {
-                $type->setDisposition(FHIRString::xmlUnserialize($n));
-            } elseif (self::FIELD_PRE_AUTH_REF === $n->nodeName) {
-                $type->addPreAuthRef(FHIRString::xmlUnserialize($n));
-            } elseif (self::FIELD_PRE_AUTH_REF_PERIOD === $n->nodeName) {
-                $type->addPreAuthRefPeriod(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_CARE_TEAM === $n->nodeName) {
-                $type->addCareTeam(FHIRExplanationOfBenefitCareTeam::xmlUnserialize($n));
-            } elseif (self::FIELD_SUPPORTING_INFO === $n->nodeName) {
-                $type->addSupportingInfo(FHIRExplanationOfBenefitSupportingInfo::xmlUnserialize($n));
-            } elseif (self::FIELD_DIAGNOSIS === $n->nodeName) {
-                $type->addDiagnosis(FHIRExplanationOfBenefitDiagnosis::xmlUnserialize($n));
-            } elseif (self::FIELD_PROCEDURE === $n->nodeName) {
-                $type->addProcedure(FHIRExplanationOfBenefitProcedure::xmlUnserialize($n));
-            } elseif (self::FIELD_PRECEDENCE === $n->nodeName) {
-                $type->setPrecedence(FHIRPositiveInt::xmlUnserialize($n));
-            } elseif (self::FIELD_INSURANCE === $n->nodeName) {
-                $type->addInsurance(FHIRExplanationOfBenefitInsurance::xmlUnserialize($n));
-            } elseif (self::FIELD_ACCIDENT === $n->nodeName) {
-                $type->setAccident(FHIRExplanationOfBenefitAccident::xmlUnserialize($n));
-            } elseif (self::FIELD_ITEM === $n->nodeName) {
-                $type->addItem(FHIRExplanationOfBenefitItem::xmlUnserialize($n));
-            } elseif (self::FIELD_ADD_ITEM === $n->nodeName) {
-                $type->addAddItem(FHIRExplanationOfBenefitAddItem::xmlUnserialize($n));
-            } elseif (self::FIELD_ADJUDICATION === $n->nodeName) {
-                $type->addAdjudication(FHIRExplanationOfBenefitAdjudication::xmlUnserialize($n));
-            } elseif (self::FIELD_TOTAL === $n->nodeName) {
-                $type->addTotal(FHIRExplanationOfBenefitTotal::xmlUnserialize($n));
-            } elseif (self::FIELD_PAYMENT === $n->nodeName) {
-                $type->setPayment(FHIRExplanationOfBenefitPayment::xmlUnserialize($n));
-            } elseif (self::FIELD_FORM_CODE === $n->nodeName) {
-                $type->setFormCode(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_FORM === $n->nodeName) {
-                $type->setForm(FHIRAttachment::xmlUnserialize($n));
-            } elseif (self::FIELD_PROCESS_NOTE === $n->nodeName) {
-                $type->addProcessNote(FHIRExplanationOfBenefitProcessNote::xmlUnserialize($n));
-            } elseif (self::FIELD_BENEFIT_PERIOD === $n->nodeName) {
-                $type->setBenefitPeriod(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_BENEFIT_BALANCE === $n->nodeName) {
-                $type->addBenefitBalance(FHIRExplanationOfBenefitBenefitBalance::xmlUnserialize($n));
-            } elseif (self::FIELD_TEXT === $n->nodeName) {
-                $type->setText(FHIRNarrative::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTAINED === $n->nodeName) {
-                for ($ni = 0; $ni < $n->childNodes->length; $ni++) {
-                    $nn = $n->childNodes->item($ni);
-                    if ($nn instanceof \DOMElement) {
-                        $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn));
-                    }
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_IDENTIFIER === $childName) {
+                $type->addIdentifier(FHIRIdentifier::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_STATUS === $childName) {
+                $type->setStatus(FHIRExplanationOfBenefitStatus::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TYPE === $childName) {
+                $type->setType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUB_TYPE === $childName) {
+                $type->setSubType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_USE === $childName) {
+                $type->setUse(FHIRUse::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PATIENT === $childName) {
+                $type->setPatient(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BILLABLE_PERIOD === $childName) {
+                $type->setBillablePeriod(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CREATED === $childName) {
+                $type->setCreated(FHIRDateTime::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_ENTERER === $childName) {
+                $type->setEnterer(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_INSURER === $childName) {
+                $type->setInsurer(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PROVIDER === $childName) {
+                $type->setProvider(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PRIORITY === $childName) {
+                $type->setPriority(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FUNDS_RESERVE_REQUESTED === $childName) {
+                $type->setFundsReserveRequested(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FUNDS_RESERVE === $childName) {
+                $type->setFundsReserve(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_RELATED === $childName) {
+                $type->addRelated(FHIRExplanationOfBenefitRelated::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PRESCRIPTION === $childName) {
+                $type->setPrescription(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ORIGINAL_PRESCRIPTION === $childName) {
+                $type->setOriginalPrescription(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PAYEE === $childName) {
+                $type->setPayee(FHIRExplanationOfBenefitPayee::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_REFERRAL === $childName) {
+                $type->setReferral(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FACILITY === $childName) {
+                $type->setFacility(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLAIM === $childName) {
+                $type->setClaim(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLAIM_RESPONSE === $childName) {
+                $type->setClaimResponse(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_OUTCOME === $childName) {
+                $type->setOutcome(FHIRClaimProcessingCodes::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DISPOSITION === $childName) {
+                $type->setDisposition(FHIRString::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_PRE_AUTH_REF === $childName) {
+                $type->addPreAuthRef(FHIRString::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_PRE_AUTH_REF_PERIOD === $childName) {
+                $type->addPreAuthRefPeriod(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CARE_TEAM === $childName) {
+                $type->addCareTeam(FHIRExplanationOfBenefitCareTeam::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SUPPORTING_INFO === $childName) {
+                $type->addSupportingInfo(FHIRExplanationOfBenefitSupportingInfo::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DIAGNOSIS === $childName) {
+                $type->addDiagnosis(FHIRExplanationOfBenefitDiagnosis::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PROCEDURE === $childName) {
+                $type->addProcedure(FHIRExplanationOfBenefitProcedure::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PRECEDENCE === $childName) {
+                $type->setPrecedence(FHIRPositiveInt::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_INSURANCE === $childName) {
+                $type->addInsurance(FHIRExplanationOfBenefitInsurance::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ACCIDENT === $childName) {
+                $type->setAccident(FHIRExplanationOfBenefitAccident::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ITEM === $childName) {
+                $type->addItem(FHIRExplanationOfBenefitItem::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ADD_ITEM === $childName) {
+                $type->addAddItem(FHIRExplanationOfBenefitAddItem::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ADJUDICATION === $childName) {
+                $type->addAdjudication(FHIRExplanationOfBenefitAdjudication::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TOTAL === $childName) {
+                $type->addTotal(FHIRExplanationOfBenefitTotal::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PAYMENT === $childName) {
+                $type->setPayment(FHIRExplanationOfBenefitPayment::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FORM_CODE === $childName) {
+                $type->setFormCode(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_FORM === $childName) {
+                $type->setForm(FHIRAttachment::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PROCESS_NOTE === $childName) {
+                $type->addProcessNote(FHIRExplanationOfBenefitProcessNote::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BENEFIT_PERIOD === $childName) {
+                $type->setBenefitPeriod(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_BENEFIT_BALANCE === $childName) {
+                $type->addBenefitBalance(FHIRExplanationOfBenefitBenefitBalance::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TEXT === $childName) {
+                $type->setText(FHIRNarrative::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTAINED === $childName) {
+                foreach ($n->children() as $nn) {
+                    $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn, $config));
                 }
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRId::xmlUnserialize($n));
-            } elseif (self::FIELD_META === $n->nodeName) {
-                $type->setMeta(FHIRMeta::xmlUnserialize($n));
-            } elseif (self::FIELD_IMPLICIT_RULES === $n->nodeName) {
-                $type->setImplicitRules(FHIRUri::xmlUnserialize($n));
-            } elseif (self::FIELD_LANGUAGE === $n->nodeName) {
-                $type->setLanguage(FHIRCode::xmlUnserialize($n));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRId::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_META === $childName) {
+                $type->setMeta(FHIRMeta::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMPLICIT_RULES === $childName) {
+                $type->setImplicitRules(FHIRUri::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_LANGUAGE === $childName) {
+                $type->setLanguage(FHIRCode::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_CREATED);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_CREATED])) {
             $pt = $type->getCreated();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_CREATED], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setCreated($n->nodeValue);
+                $type->setCreated((string)$attributes[self::FIELD_CREATED], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_DISPOSITION);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_DISPOSITION])) {
             $pt = $type->getDisposition();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_DISPOSITION], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setDisposition($n->nodeValue);
+                $type->setDisposition((string)$attributes[self::FIELD_DISPOSITION], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_PRE_AUTH_REF);
-        if (null !== $n) {
-            $type->addPreAuthRef($n->nodeValue);
+        if (isset($attributes[self::FIELD_PRE_AUTH_REF])) {
+            $type->addPreAuthRef((string)$attributes[self::FIELD_PRE_AUTH_REF], PHPFHIRXmlLocationEnum::ATTRIBUTE);
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_PRECEDENCE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_PRECEDENCE])) {
             $pt = $type->getPrecedence();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_PRECEDENCE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setPrecedence($n->nodeValue);
+                $type->setPrecedence((string)$attributes[self::FIELD_PRECEDENCE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_IMPLICIT_RULES);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_IMPLICIT_RULES])) {
             $pt = $type->getImplicitRules();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setImplicitRules($n->nodeValue);
+                $type->setImplicitRules((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_LANGUAGE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_LANGUAGE])) {
             $pt = $type->getLanguage();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setLanguage($n->nodeValue);
+                $type->setLanguage((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('ExplanationOfBenefit'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
-        if ([] !== ($vs = $this->getIdentifier())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_IDENTIFIER);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'ExplanationOfBenefit', $this->_getSourceXmlns());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_CREATED] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getCreated())) {
+            $xw->writeAttribute(self::FIELD_CREATED, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_DISPOSITION] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getDisposition())) {
+            $xw->writeAttribute(self::FIELD_DISPOSITION, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PRE_AUTH_REF] ?? [];
+        if ([] === $locs && [] !== ($vs = $this->getPreAuthRef())) {
+            $xw->writeAttribute(self::FIELD_PRE_AUTH_REF, $vs[0]->getValue()?->getFormattedValue());
+        } else if (false !== ($idx = array_search(PHPFHIRXmlLocationEnum::ATTRIBUTE, $locs, true)) && [] !== ($vs = $this->getPreAuthRef()) && isset($vs[$idx])) {
+            $xw->writeAttribute(self::FIELD_PRE_AUTH_REF, $vs[$idx]->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PRECEDENCE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getPrecedence())) {
+            $xw->writeAttribute(self::FIELD_PRECEDENCE, $v->getValue()?->getFormattedValue());
+        }
+        parent::xmlSerialize($xw, $config);
+        foreach ($this->getIdentifier() as $v) {
+            $xw->startElement(self::FIELD_IDENTIFIER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getStatus())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_STATUS);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_STATUS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getSubType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_SUB_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_SUB_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getUse())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_USE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_USE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPatient())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PATIENT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PATIENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getBillablePeriod())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_BILLABLE_PERIOD);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_BILLABLE_PERIOD);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getCreated())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CREATED);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_CREATED] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getCreated())) {
+            $xw->startElement(self::FIELD_CREATED);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getEnterer())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_ENTERER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_ENTERER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getInsurer())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_INSURER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_INSURER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getProvider())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PROVIDER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PROVIDER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPriority())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PRIORITY);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PRIORITY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getFundsReserveRequested())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_FUNDS_RESERVE_REQUESTED);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_FUNDS_RESERVE_REQUESTED);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getFundsReserve())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_FUNDS_RESERVE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_FUNDS_RESERVE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getRelated())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_RELATED);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getRelated() as $v) {
+            $xw->startElement(self::FIELD_RELATED);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPrescription())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PRESCRIPTION);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PRESCRIPTION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getOriginalPrescription())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_ORIGINAL_PRESCRIPTION);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_ORIGINAL_PRESCRIPTION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPayee())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PAYEE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PAYEE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getReferral())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_REFERRAL);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_REFERRAL);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getFacility())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_FACILITY);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_FACILITY);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getClaim())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CLAIM);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CLAIM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getClaimResponse())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CLAIM_RESPONSE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CLAIM_RESPONSE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getOutcome())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_OUTCOME);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_OUTCOME);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getDisposition())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_DISPOSITION);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_DISPOSITION] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getDisposition())) {
+            $xw->startElement(self::FIELD_DISPOSITION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getPreAuthRef())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PRE_AUTH_REF] ?? [];
+        if (([] === $locs || in_array(PHPFHIRXmlLocationEnum::ELEMENT, $locs, true)) && [] !== ($vs = $this->getPreAuthRef())) {
+            foreach($vs as $i => $v) {
+                if (!isset($locs[$i]) || PHPFHIRXmlLocationEnum::ELEMENT === $locs[$i]) {
+                    $xw->startElement(self::FIELD_PRE_AUTH_REF);
+                    $v->xmlSerialize($xw, $config);
+                    $xw->endElement();
                 }
-                $telement = $element->ownerDocument->createElement(self::FIELD_PRE_AUTH_REF);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
             }
         }
-        if ([] !== ($vs = $this->getPreAuthRefPeriod())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_PRE_AUTH_REF_PERIOD);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getPreAuthRefPeriod() as $v) {
+            $xw->startElement(self::FIELD_PRE_AUTH_REF_PERIOD);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getCareTeam())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_CARE_TEAM);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getCareTeam() as $v) {
+            $xw->startElement(self::FIELD_CARE_TEAM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSupportingInfo())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SUPPORTING_INFO);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSupportingInfo() as $v) {
+            $xw->startElement(self::FIELD_SUPPORTING_INFO);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getDiagnosis())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_DIAGNOSIS);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getDiagnosis() as $v) {
+            $xw->startElement(self::FIELD_DIAGNOSIS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getProcedure())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_PROCEDURE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getProcedure() as $v) {
+            $xw->startElement(self::FIELD_PROCEDURE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getPrecedence())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PRECEDENCE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_PRECEDENCE] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getPrecedence())) {
+            $xw->startElement(self::FIELD_PRECEDENCE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getInsurance())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_INSURANCE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getInsurance() as $v) {
+            $xw->startElement(self::FIELD_INSURANCE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getAccident())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_ACCIDENT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_ACCIDENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getItem())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ITEM);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getItem() as $v) {
+            $xw->startElement(self::FIELD_ITEM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAddItem())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ADD_ITEM);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAddItem() as $v) {
+            $xw->startElement(self::FIELD_ADD_ITEM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAdjudication())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ADJUDICATION);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAdjudication() as $v) {
+            $xw->startElement(self::FIELD_ADJUDICATION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getTotal())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_TOTAL);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getTotal() as $v) {
+            $xw->startElement(self::FIELD_TOTAL);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPayment())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PAYMENT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PAYMENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getFormCode())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_FORM_CODE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_FORM_CODE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getForm())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_FORM);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_FORM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getProcessNote())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_PROCESS_NOTE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getProcessNote() as $v) {
+            $xw->startElement(self::FIELD_PROCESS_NOTE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getBenefitPeriod())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_BENEFIT_PERIOD);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_BENEFIT_PERIOD);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getBenefitBalance())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_BENEFIT_BALANCE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getBenefitBalance() as $v) {
+            $xw->startElement(self::FIELD_BENEFIT_BALANCE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -4601,9 +4117,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         if ([] !== ($vs = $this->getIdentifier())) {
             $out->{self::FIELD_IDENTIFIER} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_IDENTIFIER}[] = $v;
             }
         }
@@ -4670,9 +4183,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         if ([] !== ($vs = $this->getRelated())) {
             $out->{self::FIELD_RELATED} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_RELATED}[] = $v;
             }
         }
@@ -4744,45 +4254,30 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         if ([] !== ($vs = $this->getPreAuthRefPeriod())) {
             $out->{self::FIELD_PRE_AUTH_REF_PERIOD} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_PRE_AUTH_REF_PERIOD}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getCareTeam())) {
             $out->{self::FIELD_CARE_TEAM} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_CARE_TEAM}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getSupportingInfo())) {
             $out->{self::FIELD_SUPPORTING_INFO} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SUPPORTING_INFO}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getDiagnosis())) {
             $out->{self::FIELD_DIAGNOSIS} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_DIAGNOSIS}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getProcedure())) {
             $out->{self::FIELD_PROCEDURE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_PROCEDURE}[] = $v;
             }
         }
@@ -4799,9 +4294,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         if ([] !== ($vs = $this->getInsurance())) {
             $out->{self::FIELD_INSURANCE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_INSURANCE}[] = $v;
             }
         }
@@ -4811,36 +4303,24 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         if ([] !== ($vs = $this->getItem())) {
             $out->{self::FIELD_ITEM} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ITEM}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAddItem())) {
             $out->{self::FIELD_ADD_ITEM} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ADD_ITEM}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAdjudication())) {
             $out->{self::FIELD_ADJUDICATION} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ADJUDICATION}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getTotal())) {
             $out->{self::FIELD_TOTAL} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_TOTAL}[] = $v;
             }
         }
@@ -4856,9 +4336,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         if ([] !== ($vs = $this->getProcessNote())) {
             $out->{self::FIELD_PROCESS_NOTE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_PROCESS_NOTE}[] = $v;
             }
         }
@@ -4868,9 +4345,6 @@ class FHIRExplanationOfBenefit extends FHIRDomainResource implements PHPFHIRCont
         if ([] !== ($vs = $this->getBenefitBalance())) {
             $out->{self::FIELD_BENEFIT_BALANCE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_BENEFIT_BALANCE}[] = $v;
             }
         }

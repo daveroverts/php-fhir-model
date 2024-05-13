@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRConsent;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -70,10 +70,11 @@ use HL7\FHIR\STU3\FHIRElement\FHIRExtension;
 use HL7\FHIR\STU3\FHIRElement\FHIRPeriod;
 use HL7\FHIR\STU3\FHIRStringPrimitive;
 use HL7\FHIR\STU3\PHPFHIRConfig;
+use HL7\FHIR\STU3\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\STU3\PHPFHIRConstants;
 use HL7\FHIR\STU3\PHPFHIRTypeInterface;
-use HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\STU3\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\STU3\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\STU3\PHPFHIRXmlWriter;
 
 /**
  * A record of a healthcare consumer’s policy choices, which permits or denies
@@ -216,10 +217,12 @@ class FHIRConsentExcept extends FHIRBackboneElement
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRConsentExcept Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -227,7 +230,7 @@ class FHIRConsentExcept extends FHIRBackboneElement
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_TYPE]) || isset($data[self::FIELD_TYPE_EXT])) {
+        if (array_key_exists(self::FIELD_TYPE, $data) || array_key_exists(self::FIELD_TYPE_EXT, $data)) {
             $value = $data[self::FIELD_TYPE] ?? null;
             $ext = (isset($data[self::FIELD_TYPE_EXT]) && is_array($data[self::FIELD_TYPE_EXT])) ? $data[self::FIELD_TYPE_EXT] : [];
             if (null !== $value) {
@@ -240,21 +243,20 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setType(new FHIRConsentExceptType($ext));
+            } else {
+                $this->setType(new FHIRConsentExceptType(null));
             }
         }
-        if (isset($data[self::FIELD_PERIOD])) {
+        if (array_key_exists(self::FIELD_PERIOD, $data)) {
             if ($data[self::FIELD_PERIOD] instanceof FHIRPeriod) {
                 $this->setPeriod($data[self::FIELD_PERIOD]);
             } else {
                 $this->setPeriod(new FHIRPeriod($data[self::FIELD_PERIOD]));
             }
         }
-        if (isset($data[self::FIELD_ACTOR])) {
+        if (array_key_exists(self::FIELD_ACTOR, $data)) {
             if (is_array($data[self::FIELD_ACTOR])) {
                 foreach($data[self::FIELD_ACTOR] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRConsentActor1) {
                         $this->addActor($v);
                     } else {
@@ -267,12 +269,9 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 $this->addActor(new FHIRConsentActor1($data[self::FIELD_ACTOR]));
             }
         }
-        if (isset($data[self::FIELD_ACTION])) {
+        if (array_key_exists(self::FIELD_ACTION, $data)) {
             if (is_array($data[self::FIELD_ACTION])) {
                 foreach($data[self::FIELD_ACTION] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCodeableConcept) {
                         $this->addAction($v);
                     } else {
@@ -285,12 +284,9 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 $this->addAction(new FHIRCodeableConcept($data[self::FIELD_ACTION]));
             }
         }
-        if (isset($data[self::FIELD_SECURITY_LABEL])) {
+        if (array_key_exists(self::FIELD_SECURITY_LABEL, $data)) {
             if (is_array($data[self::FIELD_SECURITY_LABEL])) {
                 foreach($data[self::FIELD_SECURITY_LABEL] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCoding) {
                         $this->addSecurityLabel($v);
                     } else {
@@ -303,12 +299,9 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 $this->addSecurityLabel(new FHIRCoding($data[self::FIELD_SECURITY_LABEL]));
             }
         }
-        if (isset($data[self::FIELD_PURPOSE])) {
+        if (array_key_exists(self::FIELD_PURPOSE, $data)) {
             if (is_array($data[self::FIELD_PURPOSE])) {
                 foreach($data[self::FIELD_PURPOSE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCoding) {
                         $this->addPurpose($v);
                     } else {
@@ -321,12 +314,9 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 $this->addPurpose(new FHIRCoding($data[self::FIELD_PURPOSE]));
             }
         }
-        if (isset($data[self::FIELD_CLASS])) {
+        if (array_key_exists(self::FIELD_CLASS, $data)) {
             if (is_array($data[self::FIELD_CLASS])) {
                 foreach($data[self::FIELD_CLASS] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCoding) {
                         $this->addClass($v);
                     } else {
@@ -339,12 +329,9 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 $this->addClass(new FHIRCoding($data[self::FIELD_CLASS]));
             }
         }
-        if (isset($data[self::FIELD_CODE])) {
+        if (array_key_exists(self::FIELD_CODE, $data)) {
             if (is_array($data[self::FIELD_CODE])) {
                 foreach($data[self::FIELD_CODE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCoding) {
                         $this->addCode($v);
                     } else {
@@ -357,19 +344,16 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 $this->addCode(new FHIRCoding($data[self::FIELD_CODE]));
             }
         }
-        if (isset($data[self::FIELD_DATA_PERIOD])) {
+        if (array_key_exists(self::FIELD_DATA_PERIOD, $data)) {
             if ($data[self::FIELD_DATA_PERIOD] instanceof FHIRPeriod) {
                 $this->setDataPeriod($data[self::FIELD_DATA_PERIOD]);
             } else {
                 $this->setDataPeriod(new FHIRPeriod($data[self::FIELD_DATA_PERIOD]));
             }
         }
-        if (isset($data[self::FIELD_DATA])) {
+        if (array_key_exists(self::FIELD_DATA, $data)) {
             if (is_array($data[self::FIELD_DATA])) {
                 foreach($data[self::FIELD_DATA] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRConsentData1) {
                         $this->addData($v);
                     } else {
@@ -384,11 +368,10 @@ class FHIRConsentExcept extends FHIRBackboneElement
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -498,36 +481,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
     }
 
     /**
-     * A record of a healthcare consumer’s policy choices, which permits or denies
-     * identified recipient(s) or recipient role(s) to perform one or more actions
-     * within a given policy context, for specific purposes and periods of time.
-     *
-     * Who or what is controlled by this Exception. Use group to identify a set of
-     * actors by some property they share (e.g. 'admitting officers').
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRConsent\FHIRConsentActor1[] $actor
-     * @return static
-     */
-    public function setActor(array $actor = []): self
-    {
-        if ([] !== $this->actor) {
-            $this->_trackValuesRemoved(count($this->actor));
-            $this->actor = [];
-        }
-        if ([] === $actor) {
-            return $this;
-        }
-        foreach($actor as $v) {
-            if ($v instanceof FHIRConsentActor1) {
-                $this->addActor($v);
-            } else {
-                $this->addActor(new FHIRConsentActor1($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A concept that may be defined by a formal reference to a terminology or ontology
      * or may be provided by text.
      * If the element is present, it must have a value for at least one of the defined
@@ -560,36 +513,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
         }
         $this->_trackValueAdded();
         $this->action[] = $action;
-        return $this;
-    }
-
-    /**
-     * A concept that may be defined by a formal reference to a terminology or ontology
-     * or may be provided by text.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Actions controlled by this Exception.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCodeableConcept[] $action
-     * @return static
-     */
-    public function setAction(array $action = []): self
-    {
-        if ([] !== $this->action) {
-            $this->_trackValuesRemoved(count($this->action));
-            $this->action = [];
-        }
-        if ([] === $action) {
-            return $this;
-        }
-        foreach($action as $v) {
-            if ($v instanceof FHIRCodeableConcept) {
-                $this->addAction($v);
-            } else {
-                $this->addAction(new FHIRCodeableConcept($v));
-            }
-        }
         return $this;
     }
 
@@ -636,37 +559,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * A set of security labels that define which resources are controlled by this
-     * exception. If more than one label is specified, all resources must have all the
-     * specified labels.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCoding[] $securityLabel
-     * @return static
-     */
-    public function setSecurityLabel(array $securityLabel = []): self
-    {
-        if ([] !== $this->securityLabel) {
-            $this->_trackValuesRemoved(count($this->securityLabel));
-            $this->securityLabel = [];
-        }
-        if ([] === $securityLabel) {
-            return $this;
-        }
-        foreach($securityLabel as $v) {
-            if ($v instanceof FHIRCoding) {
-                $this->addSecurityLabel($v);
-            } else {
-                $this->addSecurityLabel(new FHIRCoding($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A reference to a code defined by a terminology system.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * The context of the activities a user is taking - why the user is accessing the
      * data - that are controlled by this exception.
      *
@@ -695,36 +587,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
         }
         $this->_trackValueAdded();
         $this->purpose[] = $purpose;
-        return $this;
-    }
-
-    /**
-     * A reference to a code defined by a terminology system.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * The context of the activities a user is taking - why the user is accessing the
-     * data - that are controlled by this exception.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCoding[] $purpose
-     * @return static
-     */
-    public function setPurpose(array $purpose = []): self
-    {
-        if ([] !== $this->purpose) {
-            $this->_trackValuesRemoved(count($this->purpose));
-            $this->purpose = [];
-        }
-        if ([] === $purpose) {
-            return $this;
-        }
-        foreach($purpose as $v) {
-            if ($v instanceof FHIRCoding) {
-                $this->addPurpose($v);
-            } else {
-                $this->addPurpose(new FHIRCoding($v));
-            }
-        }
         return $this;
     }
 
@@ -771,37 +633,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * The class of information covered by this exception. The type can be a FHIR
-     * resource type, a profile on a type, or a CDA document, or some other type that
-     * indicates what sort of information the consent relates to.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCoding[] $class
-     * @return static
-     */
-    public function setClass(array $class = []): self
-    {
-        if ([] !== $this->class) {
-            $this->_trackValuesRemoved(count($this->class));
-            $this->class = [];
-        }
-        if ([] === $class) {
-            return $this;
-        }
-        foreach($class as $v) {
-            if ($v instanceof FHIRCoding) {
-                $this->addClass($v);
-            } else {
-                $this->addClass(new FHIRCoding($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A reference to a code defined by a terminology system.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * If this code is found in an instance, then the exception applies.
      *
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRCoding[]
@@ -828,35 +659,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
         }
         $this->_trackValueAdded();
         $this->code[] = $code;
-        return $this;
-    }
-
-    /**
-     * A reference to a code defined by a terminology system.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * If this code is found in an instance, then the exception applies.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRCoding[] $code
-     * @return static
-     */
-    public function setCode(array $code = []): self
-    {
-        if ([] !== $this->code) {
-            $this->_trackValuesRemoved(count($this->code));
-            $this->code = [];
-        }
-        if ([] === $code) {
-            return $this;
-        }
-        foreach($code as $v) {
-            if ($v instanceof FHIRCoding) {
-                $this->addCode($v);
-            } else {
-                $this->addCode(new FHIRCoding($v));
-            }
-        }
         return $this;
     }
 
@@ -929,36 +731,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
         }
         $this->_trackValueAdded();
         $this->data[] = $data;
-        return $this;
-    }
-
-    /**
-     * A record of a healthcare consumer’s policy choices, which permits or denies
-     * identified recipient(s) or recipient role(s) to perform one or more actions
-     * within a given policy context, for specific purposes and periods of time.
-     *
-     * The resources controlled by this exception, if specific resources are
-     * referenced.
-     *
-     * @param \HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRConsent\FHIRConsentData1[] $data
-     * @return static
-     */
-    public function setData(array $data = []): self
-    {
-        if ([] !== $this->data) {
-            $this->_trackValuesRemoved(count($this->data));
-            $this->data = [];
-        }
-        if ([] === $data) {
-            return $this;
-        }
-        foreach($data as $v) {
-            if ($v instanceof FHIRConsentData1) {
-                $this->addData($v);
-            } else {
-                $this->addData(new FHIRConsentData1($v));
-            }
-        }
         return $this;
     }
 
@@ -1207,37 +979,23 @@ class FHIRConsentExcept extends FHIRBackboneElement
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRConsent\FHIRConsentExcept $type
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\STU3\FHIRElement\FHIRBackboneElement\FHIRConsent\FHIRConsentExcept
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -1249,163 +1007,135 @@ class FHIRConsentExcept extends FHIRBackboneElement
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_TYPE === $n->nodeName) {
-                $type->setType(FHIRConsentExceptType::xmlUnserialize($n));
-            } elseif (self::FIELD_PERIOD === $n->nodeName) {
-                $type->setPeriod(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_ACTOR === $n->nodeName) {
-                $type->addActor(FHIRConsentActor1::xmlUnserialize($n));
-            } elseif (self::FIELD_ACTION === $n->nodeName) {
-                $type->addAction(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_SECURITY_LABEL === $n->nodeName) {
-                $type->addSecurityLabel(FHIRCoding::xmlUnserialize($n));
-            } elseif (self::FIELD_PURPOSE === $n->nodeName) {
-                $type->addPurpose(FHIRCoding::xmlUnserialize($n));
-            } elseif (self::FIELD_CLASS === $n->nodeName) {
-                $type->addClass(FHIRCoding::xmlUnserialize($n));
-            } elseif (self::FIELD_CODE === $n->nodeName) {
-                $type->addCode(FHIRCoding::xmlUnserialize($n));
-            } elseif (self::FIELD_DATA_PERIOD === $n->nodeName) {
-                $type->setDataPeriod(FHIRPeriod::xmlUnserialize($n));
-            } elseif (self::FIELD_DATA === $n->nodeName) {
-                $type->addData(FHIRConsentData1::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRStringPrimitive::xmlUnserialize($n));
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_TYPE === $childName) {
+                $type->setType(FHIRConsentExceptType::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PERIOD === $childName) {
+                $type->setPeriod(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ACTOR === $childName) {
+                $type->addActor(FHIRConsentActor1::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ACTION === $childName) {
+                $type->addAction(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_SECURITY_LABEL === $childName) {
+                $type->addSecurityLabel(FHIRCoding::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PURPOSE === $childName) {
+                $type->addPurpose(FHIRCoding::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CLASS === $childName) {
+                $type->addClass(FHIRCoding::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CODE === $childName) {
+                $type->addCode(FHIRCoding::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DATA_PERIOD === $childName) {
+                $type->setDataPeriod(FHIRPeriod::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DATA === $childName) {
+                $type->addData(FHIRConsentData1::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRStringPrimitive::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\STU3\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\STU3\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\STU3\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\STU3\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('ConsentExcept'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'ConsentExcept', $this->_getSourceXmlns());
+        }
+        parent::xmlSerialize($xw, $config);
         if (null !== ($v = $this->getType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPeriod())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PERIOD);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PERIOD);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getActor())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ACTOR);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getActor() as $v) {
+            $xw->startElement(self::FIELD_ACTOR);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getAction())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ACTION);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getAction() as $v) {
+            $xw->startElement(self::FIELD_ACTION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getSecurityLabel())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_SECURITY_LABEL);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getSecurityLabel() as $v) {
+            $xw->startElement(self::FIELD_SECURITY_LABEL);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getPurpose())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_PURPOSE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getPurpose() as $v) {
+            $xw->startElement(self::FIELD_PURPOSE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getClass())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_CLASS);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getClass() as $v) {
+            $xw->startElement(self::FIELD_CLASS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getCode())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_CODE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getCode() as $v) {
+            $xw->startElement(self::FIELD_CODE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getDataPeriod())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_DATA_PERIOD);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_DATA_PERIOD);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getData())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_DATA);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getData() as $v) {
+            $xw->startElement(self::FIELD_DATA);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -1430,54 +1160,36 @@ class FHIRConsentExcept extends FHIRBackboneElement
         if ([] !== ($vs = $this->getActor())) {
             $out->{self::FIELD_ACTOR} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ACTOR}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getAction())) {
             $out->{self::FIELD_ACTION} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ACTION}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getSecurityLabel())) {
             $out->{self::FIELD_SECURITY_LABEL} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_SECURITY_LABEL}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getPurpose())) {
             $out->{self::FIELD_PURPOSE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_PURPOSE}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getClass())) {
             $out->{self::FIELD_CLASS} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_CLASS}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getCode())) {
             $out->{self::FIELD_CODE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_CODE}[] = $v;
             }
         }
@@ -1487,9 +1199,6 @@ class FHIRConsentExcept extends FHIRBackboneElement
         if ([] !== ($vs = $this->getData())) {
             $out->{self::FIELD_DATA} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_DATA}[] = $v;
             }
         }

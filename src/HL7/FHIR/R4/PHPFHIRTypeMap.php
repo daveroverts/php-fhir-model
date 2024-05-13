@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -1385,18 +1385,18 @@ abstract class PHPFHIRTypeMap
 
     /**
      * Will attempt to determine if the provided value is or describes a containable resource type
-     * @param string|array|\DOMElement|PHPFHIRTypeInterface $type
+     * @param string|array|\SimpleXMLElement|PHPFHIRTypeInterface $type
      * @return bool
      * @throws \InvalidArgumentException
      */
-    public static function isContainableResource(string|array|\DOMElement|PHPFHIRTypeInterface $type): bool
+    public static function isContainableResource(string|array|\SimpleXMLElement|PHPFHIRTypeInterface $type): bool
     {
         $tt = gettype($type);
         if ('object' === $tt) {
             if ($type instanceof PHPFHIRTypeInterface) {
                 return in_array('\\' . get_class($type), self::CONTAINABLE_TYPES, true);
             }
-            return isset(self::CONTAINABLE_TYPES[$type->nodeName]);
+            return isset(self::CONTAINABLE_TYPES[$type->getName()]);
         }
         if ('string' === $tt) {
             return isset(self::CONTAINABLE_TYPES[$type]) || in_array('\\' . ltrim($type, '\\'), self::CONTAINABLE_TYPES, true);
@@ -1408,25 +1408,26 @@ abstract class PHPFHIRTypeMap
     }
 
     /**
-     * @param \DOMElement $node Parent element containing inline resource
-     * @return \HL7\FHIR\R4\PHPFHIRContainedTypeInterface|null
+     * @param \SimpleXMLElement $node Parent element containing inline resource
+     * @param \HL7\FHIR\R4\PHPFHIRConfig $config
+     * @return null|\HL7\FHIR\R4\PHPFHIRContainedTypeInterface
      */
-    public static function getContainedTypeFromXML(\DOMElement $node): ?PHPFHIRContainedTypeInterface
+    public static function getContainedTypeFromXML(\SimpleXMLElement $node, PHPFHIRConfig $config): null|PHPFHIRContainedTypeInterface
     {
-        $typeName = $node->nodeName;
+        $typeName = $node->getName();
         $className = self::getContainedTypeClassName($typeName);
         if (null === $className) {
             throw self::createdInvalidContainedTypeException($typeName);
         }
         /** @var \HL7\FHIR\R4\PHPFHIRContainedTypeInterface $className */
-        return $className::xmlUnserialize($node);
+        return $className::xmlUnserialize($node, null, $config);
     }
 
     /**
      * @param array|null $data
-     * @return \HL7\FHIR\R4\PHPFHIRContainedTypeInterface|null
+     * @return null|\HL7\FHIR\R4\PHPFHIRContainedTypeInterface
      */
-    public static function getContainedTypeFromArray(null|array $data): ?PHPFHIRContainedTypeInterface
+    public static function getContainedTypeFromArray(null|array $data): null|PHPFHIRContainedTypeInterface
     {
         if (null === $data || [] === $data) {
             return null;

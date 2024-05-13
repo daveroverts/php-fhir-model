@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSpecimenDefinition;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -72,10 +72,11 @@ use HL7\FHIR\R4\FHIRElement\FHIRSpecimenContainedPreference;
 use HL7\FHIR\R4\FHIRElement\FHIRString;
 use HL7\FHIR\R4\FHIRStringPrimitive;
 use HL7\FHIR\R4\PHPFHIRConfig;
+use HL7\FHIR\R4\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\R4\PHPFHIRConstants;
 use HL7\FHIR\R4\PHPFHIRTypeInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\R4\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\R4\PHPFHIRXmlWriter;
 
 /**
  * A kind of specimen with associated set of requirements.
@@ -186,10 +187,12 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
      */
     private const _VALIDATION_RULES = [    ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRSpecimenDefinitionTypeTested Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -197,7 +200,7 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_IS_DERIVED]) || isset($data[self::FIELD_IS_DERIVED_EXT])) {
+        if (array_key_exists(self::FIELD_IS_DERIVED, $data) || array_key_exists(self::FIELD_IS_DERIVED_EXT, $data)) {
             $value = $data[self::FIELD_IS_DERIVED] ?? null;
             $ext = (isset($data[self::FIELD_IS_DERIVED_EXT]) && is_array($data[self::FIELD_IS_DERIVED_EXT])) ? $data[self::FIELD_IS_DERIVED_EXT] : [];
             if (null !== $value) {
@@ -210,16 +213,18 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setIsDerived(new FHIRBoolean($ext));
+            } else {
+                $this->setIsDerived(new FHIRBoolean(null));
             }
         }
-        if (isset($data[self::FIELD_TYPE])) {
+        if (array_key_exists(self::FIELD_TYPE, $data)) {
             if ($data[self::FIELD_TYPE] instanceof FHIRCodeableConcept) {
                 $this->setType($data[self::FIELD_TYPE]);
             } else {
                 $this->setType(new FHIRCodeableConcept($data[self::FIELD_TYPE]));
             }
         }
-        if (isset($data[self::FIELD_PREFERENCE]) || isset($data[self::FIELD_PREFERENCE_EXT])) {
+        if (array_key_exists(self::FIELD_PREFERENCE, $data) || array_key_exists(self::FIELD_PREFERENCE_EXT, $data)) {
             $value = $data[self::FIELD_PREFERENCE] ?? null;
             $ext = (isset($data[self::FIELD_PREFERENCE_EXT]) && is_array($data[self::FIELD_PREFERENCE_EXT])) ? $data[self::FIELD_PREFERENCE_EXT] : [];
             if (null !== $value) {
@@ -232,16 +237,18 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setPreference(new FHIRSpecimenContainedPreference($ext));
+            } else {
+                $this->setPreference(new FHIRSpecimenContainedPreference(null));
             }
         }
-        if (isset($data[self::FIELD_CONTAINER])) {
+        if (array_key_exists(self::FIELD_CONTAINER, $data)) {
             if ($data[self::FIELD_CONTAINER] instanceof FHIRSpecimenDefinitionContainer) {
                 $this->setContainer($data[self::FIELD_CONTAINER]);
             } else {
                 $this->setContainer(new FHIRSpecimenDefinitionContainer($data[self::FIELD_CONTAINER]));
             }
         }
-        if (isset($data[self::FIELD_REQUIREMENT]) || isset($data[self::FIELD_REQUIREMENT_EXT])) {
+        if (array_key_exists(self::FIELD_REQUIREMENT, $data) || array_key_exists(self::FIELD_REQUIREMENT_EXT, $data)) {
             $value = $data[self::FIELD_REQUIREMENT] ?? null;
             $ext = (isset($data[self::FIELD_REQUIREMENT_EXT]) && is_array($data[self::FIELD_REQUIREMENT_EXT])) ? $data[self::FIELD_REQUIREMENT_EXT] : [];
             if (null !== $value) {
@@ -254,21 +261,20 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
                 }
             } elseif ([] !== $ext) {
                 $this->setRequirement(new FHIRString($ext));
+            } else {
+                $this->setRequirement(new FHIRString(null));
             }
         }
-        if (isset($data[self::FIELD_RETENTION_TIME])) {
+        if (array_key_exists(self::FIELD_RETENTION_TIME, $data)) {
             if ($data[self::FIELD_RETENTION_TIME] instanceof FHIRDuration) {
                 $this->setRetentionTime($data[self::FIELD_RETENTION_TIME]);
             } else {
                 $this->setRetentionTime(new FHIRDuration($data[self::FIELD_RETENTION_TIME]));
             }
         }
-        if (isset($data[self::FIELD_REJECTION_CRITERION])) {
+        if (array_key_exists(self::FIELD_REJECTION_CRITERION, $data)) {
             if (is_array($data[self::FIELD_REJECTION_CRITERION])) {
                 foreach($data[self::FIELD_REJECTION_CRITERION] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRCodeableConcept) {
                         $this->addRejectionCriterion($v);
                     } else {
@@ -281,12 +287,9 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
                 $this->addRejectionCriterion(new FHIRCodeableConcept($data[self::FIELD_REJECTION_CRITERION]));
             }
         }
-        if (isset($data[self::FIELD_HANDLING])) {
+        if (array_key_exists(self::FIELD_HANDLING, $data)) {
             if (is_array($data[self::FIELD_HANDLING])) {
                 foreach($data[self::FIELD_HANDLING] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRSpecimenDefinitionHandling) {
                         $this->addHandling($v);
                     } else {
@@ -301,11 +304,10 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -330,14 +332,19 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
      * Primary of secondary specimen.
      *
      * @param null|string|bool|\HL7\FHIR\R4\FHIRBooleanPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRBoolean $isDerived
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setIsDerived(null|string|bool|FHIRBooleanPrimitive|FHIRBoolean $isDerived = null): self
+    public function setIsDerived(null|string|bool|FHIRBooleanPrimitive|FHIRBoolean $isDerived = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $isDerived && !($isDerived instanceof FHIRBoolean)) {
             $isDerived = new FHIRBoolean($isDerived);
         }
         $this->_trackValueSet($this->isDerived, $isDerived);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_IS_DERIVED])) {
+            $this->_primitiveXmlLocations[self::FIELD_IS_DERIVED] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_IS_DERIVED][0] = $xmlLocation;
         $this->isDerived = $isDerived;
         return $this;
     }
@@ -464,14 +471,19 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
      * specimen.
      *
      * @param null|string|\HL7\FHIR\R4\FHIRStringPrimitive|\HL7\FHIR\R4\FHIRElement\FHIRString $requirement
+     * @param \HL7\FHIR\R4\PHPFHIRXmlLocationEnum $xmlLocation
      * @return static
      */
-    public function setRequirement(null|string|FHIRStringPrimitive|FHIRString $requirement = null): self
+    public function setRequirement(null|string|FHIRStringPrimitive|FHIRString $requirement = null, PHPFHIRXmlLocationEnum $xmlLocation = PHPFHIRXmlLocationEnum::ATTRIBUTE): self
     {
         if (null !== $requirement && !($requirement instanceof FHIRString)) {
             $requirement = new FHIRString($requirement);
         }
         $this->_trackValueSet($this->requirement, $requirement);
+        if (!isset($this->_primitiveXmlLocations[self::FIELD_REQUIREMENT])) {
+            $this->_primitiveXmlLocations[self::FIELD_REQUIREMENT] = [];
+        }
+        $this->_primitiveXmlLocations[self::FIELD_REQUIREMENT][0] = $xmlLocation;
         $this->requirement = $requirement;
         return $this;
     }
@@ -549,36 +561,6 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
     }
 
     /**
-     * A concept that may be defined by a formal reference to a terminology or ontology
-     * or may be provided by text.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Criterion for rejection of the specimen in its container by the laboratory.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRCodeableConcept[] $rejectionCriterion
-     * @return static
-     */
-    public function setRejectionCriterion(array $rejectionCriterion = []): self
-    {
-        if ([] !== $this->rejectionCriterion) {
-            $this->_trackValuesRemoved(count($this->rejectionCriterion));
-            $this->rejectionCriterion = [];
-        }
-        if ([] === $rejectionCriterion) {
-            return $this;
-        }
-        foreach($rejectionCriterion as $v) {
-            if ($v instanceof FHIRCodeableConcept) {
-                $this->addRejectionCriterion($v);
-            } else {
-                $this->addRejectionCriterion(new FHIRCodeableConcept($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
      * A kind of specimen with associated set of requirements.
      *
      * Set of instructions for preservation/transport of the specimen at a defined
@@ -607,34 +589,6 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
         }
         $this->_trackValueAdded();
         $this->handling[] = $handling;
-        return $this;
-    }
-
-    /**
-     * A kind of specimen with associated set of requirements.
-     *
-     * Set of instructions for preservation/transport of the specimen at a defined
-     * temperature interval, prior the testing process.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSpecimenDefinition\FHIRSpecimenDefinitionHandling[] $handling
-     * @return static
-     */
-    public function setHandling(array $handling = []): self
-    {
-        if ([] !== $this->handling) {
-            $this->_trackValuesRemoved(count($this->handling));
-            $this->handling = [];
-        }
-        if ([] === $handling) {
-            return $this;
-        }
-        foreach($handling as $v) {
-            if ($v instanceof FHIRSpecimenDefinitionHandling) {
-                $this->addHandling($v);
-            } else {
-                $this->addHandling(new FHIRSpecimenDefinitionHandling($v));
-            }
-        }
         return $this;
     }
 
@@ -839,37 +793,23 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSpecimenDefinition\FHIRSpecimenDefinitionTypeTested $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRSpecimenDefinition\FHIRSpecimenDefinitionTypeTested
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -881,142 +821,147 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_IS_DERIVED === $n->nodeName) {
-                $type->setIsDerived(FHIRBoolean::xmlUnserialize($n));
-            } elseif (self::FIELD_TYPE === $n->nodeName) {
-                $type->setType(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_PREFERENCE === $n->nodeName) {
-                $type->setPreference(FHIRSpecimenContainedPreference::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTAINER === $n->nodeName) {
-                $type->setContainer(FHIRSpecimenDefinitionContainer::xmlUnserialize($n));
-            } elseif (self::FIELD_REQUIREMENT === $n->nodeName) {
-                $type->setRequirement(FHIRString::xmlUnserialize($n));
-            } elseif (self::FIELD_RETENTION_TIME === $n->nodeName) {
-                $type->setRetentionTime(FHIRDuration::xmlUnserialize($n));
-            } elseif (self::FIELD_REJECTION_CRITERION === $n->nodeName) {
-                $type->addRejectionCriterion(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_HANDLING === $n->nodeName) {
-                $type->addHandling(FHIRSpecimenDefinitionHandling::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRStringPrimitive::xmlUnserialize($n));
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_IS_DERIVED === $childName) {
+                $type->setIsDerived(FHIRBoolean::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_TYPE === $childName) {
+                $type->setType(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_PREFERENCE === $childName) {
+                $type->setPreference(FHIRSpecimenContainedPreference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTAINER === $childName) {
+                $type->setContainer(FHIRSpecimenDefinitionContainer::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_REQUIREMENT === $childName) {
+                $type->setRequirement(FHIRString::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_RETENTION_TIME === $childName) {
+                $type->setRetentionTime(FHIRDuration::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_REJECTION_CRITERION === $childName) {
+                $type->addRejectionCriterion(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_HANDLING === $childName) {
+                $type->addHandling(FHIRSpecimenDefinitionHandling::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRStringPrimitive::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_IS_DERIVED);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_IS_DERIVED])) {
             $pt = $type->getIsDerived();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_IS_DERIVED], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setIsDerived($n->nodeValue);
+                $type->setIsDerived((string)$attributes[self::FIELD_IS_DERIVED], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_REQUIREMENT);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_REQUIREMENT])) {
             $pt = $type->getRequirement();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_REQUIREMENT], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setRequirement($n->nodeValue);
+                $type->setRequirement((string)$attributes[self::FIELD_REQUIREMENT], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('SpecimenDefinitionTypeTested'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
-        if (null !== ($v = $this->getIsDerived())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_IS_DERIVED);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'SpecimenDefinitionTypeTested', $this->_getSourceXmlns());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_IS_DERIVED] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getIsDerived())) {
+            $xw->writeAttribute(self::FIELD_IS_DERIVED, $v->getValue()?->getFormattedValue());
+        }
+        $locs = $this->_primitiveXmlLocations[self::FIELD_REQUIREMENT] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ATTRIBUTE === $locs[0])) && null !== ($v = $this->getRequirement())) {
+            $xw->writeAttribute(self::FIELD_REQUIREMENT, $v->getValue()?->getFormattedValue());
+        }
+        parent::xmlSerialize($xw, $config);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_IS_DERIVED] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getIsDerived())) {
+            $xw->startElement(self::FIELD_IS_DERIVED);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getType())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_TYPE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_TYPE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getPreference())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_PREFERENCE);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_PREFERENCE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getContainer())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_CONTAINER);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_CONTAINER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if (null !== ($v = $this->getRequirement())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_REQUIREMENT);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+        $locs = $this->_primitiveXmlLocations[self::FIELD_REQUIREMENT] ?? [];
+        if (([] === $locs || (isset($locs[0]) && PHPFHIRXmlLocationEnum::ELEMENT === $locs[0])) && null !== ($v = $this->getRequirement())) {
+            $xw->startElement(self::FIELD_REQUIREMENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getRetentionTime())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_RETENTION_TIME);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_RETENTION_TIME);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getRejectionCriterion())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_REJECTION_CRITERION);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getRejectionCriterion() as $v) {
+            $xw->startElement(self::FIELD_REJECTION_CRITERION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getHandling())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_HANDLING);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getHandling() as $v) {
+            $xw->startElement(self::FIELD_HANDLING);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -1067,18 +1012,12 @@ class FHIRSpecimenDefinitionTypeTested extends FHIRBackboneElement
         if ([] !== ($vs = $this->getRejectionCriterion())) {
             $out->{self::FIELD_REJECTION_CRITERION} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_REJECTION_CRITERION}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getHandling())) {
             $out->{self::FIELD_HANDLING} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_HANDLING}[] = $v;
             }
         }

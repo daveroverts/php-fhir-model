@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -94,6 +94,22 @@ class PHPFHIRDebugClient
     {
         $this->_baseUrl = $baseUrl;
         $this->_curlOpts = $curlOpts;
+    }
+
+    /**
+     * @return string
+     */
+    public function _getBaseUrl(): string
+    {
+        return $this->_baseUrl;
+    }
+
+    /**
+     * @return array
+     */
+    public function _getBaseCurlOpts(): array
+    {
+        return $this->_curlOpts;
     }
 
     /**

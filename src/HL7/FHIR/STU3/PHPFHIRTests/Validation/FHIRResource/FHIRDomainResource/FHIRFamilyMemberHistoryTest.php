@@ -6,7 +6,7 @@ namespace HL7\FHIR\STU3\PHPFHIRTests\Validation\FHIRResource\FHIRDomainResource;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -200,7 +200,7 @@ class FHIRFamilyMemberHistoryTest extends TestCase
             ));
         }
         $resource = $entry[0]->getResource();
-        $fname = PHPFHIR_OUTPUT_TMP_DIR . DIRECTORY_SEPARATOR . $resource->_getFHIRTypeName() . '-v3.0.1.xml';
+        $fname = PHPFHIR_OUTPUT_TMP_DIR . DIRECTORY_SEPARATOR . $resource->_getFhirTypeName() . '-v3.0.1.xml';
         file_put_contents($fname, $bundle->xmlSerialize()->ownerDocument->saveXML());
         $this->assertFileExists($fname);
 
@@ -249,7 +249,7 @@ class FHIRFamilyMemberHistoryTest extends TestCase
             ));
         }
         $resource = $entry[0]->getResource();
-        $fname = PHPFHIR_OUTPUT_TMP_DIR . DIRECTORY_SEPARATOR . $resource->_getFHIRTypeName() . '-v3.0.1.json';
+        $fname = PHPFHIR_OUTPUT_TMP_DIR . DIRECTORY_SEPARATOR . $resource->_getFhirTypeName() . '-v3.0.1.json';
         file_put_contents($fname, json_encode($bundle));
         $this->assertFileExists($fname);
 

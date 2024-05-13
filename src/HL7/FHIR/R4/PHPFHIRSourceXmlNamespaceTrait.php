@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -62,48 +62,28 @@ namespace HL7\FHIR\R4;
  * 
  */
 
-    /**
-    * Trait PHPFHIRXmlNamespaceTrait
-    * @package \HL7\FHIR\R4
-    */
-trait PHPFHIRXmlNamespaceTrait
+/**
+ * Trait PHPFHIRSourceXmlNamespaceTrait
+ * @package \HL7\FHIR\R4
+ */
+trait PHPFHIRSourceXmlNamespaceTrait
 {
     /** @var string */
-    protected string $_xmlns = '';
+    private string $_sourceXmlns;
 
     /**
-     * @param null|string $xmlNamespace
-     * @return static
+     * @param string $xmlns
      */
-    public function _setFHIRXMLNamespace(null|string $xmlNamespace): self
+    protected function _setSourceXmlns(string $xmlns): void
     {
-        $this->_xmlns = trim((string)$xmlNamespace);
-        return $this;
+        $this->_sourceXmlns = $xmlns;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function _getFHIRXMLNamespace(): string
+    public function _getSourceXmlns(): null|string
     {
-        return $this->_xmlns;
-    }
-
-    /**
-     * @param string $elementName Name to use for the element
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function _getFHIRXMLElementDefinition(string $elementName): string
-    {
-        if ('' === $elementName) {
-            throw new \InvalidArgumentException(sprintf('%s::_getFHIRXMLElementDefinition - $elementName is required', get_called_class()));
-        }
-        $xmlns = $this->_getFHIRXMLNamespace();
-        if ('' !==  $xmlns) {
-            $xmlns = sprintf(' xmlns="%s"', $xmlns);
-        }
-        return sprintf('<%1$s%2$s></%1$s>', $elementName, $xmlns);
+        return $this->_sourceXmlns ?? null;
     }
 }
-

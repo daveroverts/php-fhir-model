@@ -6,7 +6,7 @@ namespace HL7\FHIR\R4\FHIRResource\FHIRDomainResource;
  * This class was generated with the PHPFHIR library (https://github.com/dcarbone/php-fhir) using
  * class definitions from HL7 FHIR (https://www.hl7.org/fhir/)
  * 
- * Class creation date: May 1st, 2024 07:44+0000
+ * Class creation date: May 13th, 2024 09:03+0000
  * 
  * PHPFHIR Copyright:
  * 
@@ -78,12 +78,13 @@ use HL7\FHIR\R4\FHIRIdPrimitive;
 use HL7\FHIR\R4\FHIRResource\FHIRDomainResource;
 use HL7\FHIR\R4\FHIRUriPrimitive;
 use HL7\FHIR\R4\PHPFHIRConfig;
+use HL7\FHIR\R4\PHPFHIRConfigKeyEnum;
 use HL7\FHIR\R4\PHPFHIRConstants;
 use HL7\FHIR\R4\PHPFHIRContainedTypeInterface;
 use HL7\FHIR\R4\PHPFHIRTypeInterface;
 use HL7\FHIR\R4\PHPFHIRTypeMap;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface;
-use HL7\FHIR\R4\PHPFHIRXmlSerializableInterface;
+use HL7\FHIR\R4\PHPFHIRXmlLocationEnum;
+use HL7\FHIR\R4\PHPFHIRXmlWriter;
 
 /**
  * A pharmaceutical product described in terms of its composition and dose form.
@@ -186,10 +187,12 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
         ],
     ];
 
+    /** @var array */
+    private array $_primitiveXmlLocations = [];
+
     /**
      * FHIRMedicinalProductPharmaceutical Constructor
      * @param null|array $data
-
      */
     public function __construct(null|array $data = null)
     {
@@ -197,12 +200,9 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
             return;
         }
         parent::__construct($data);
-        if (isset($data[self::FIELD_IDENTIFIER])) {
+        if (array_key_exists(self::FIELD_IDENTIFIER, $data)) {
             if (is_array($data[self::FIELD_IDENTIFIER])) {
                 foreach($data[self::FIELD_IDENTIFIER] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRIdentifier) {
                         $this->addIdentifier($v);
                     } else {
@@ -215,26 +215,23 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
                 $this->addIdentifier(new FHIRIdentifier($data[self::FIELD_IDENTIFIER]));
             }
         }
-        if (isset($data[self::FIELD_ADMINISTRABLE_DOSE_FORM])) {
+        if (array_key_exists(self::FIELD_ADMINISTRABLE_DOSE_FORM, $data)) {
             if ($data[self::FIELD_ADMINISTRABLE_DOSE_FORM] instanceof FHIRCodeableConcept) {
                 $this->setAdministrableDoseForm($data[self::FIELD_ADMINISTRABLE_DOSE_FORM]);
             } else {
                 $this->setAdministrableDoseForm(new FHIRCodeableConcept($data[self::FIELD_ADMINISTRABLE_DOSE_FORM]));
             }
         }
-        if (isset($data[self::FIELD_UNIT_OF_PRESENTATION])) {
+        if (array_key_exists(self::FIELD_UNIT_OF_PRESENTATION, $data)) {
             if ($data[self::FIELD_UNIT_OF_PRESENTATION] instanceof FHIRCodeableConcept) {
                 $this->setUnitOfPresentation($data[self::FIELD_UNIT_OF_PRESENTATION]);
             } else {
                 $this->setUnitOfPresentation(new FHIRCodeableConcept($data[self::FIELD_UNIT_OF_PRESENTATION]));
             }
         }
-        if (isset($data[self::FIELD_INGREDIENT])) {
+        if (array_key_exists(self::FIELD_INGREDIENT, $data)) {
             if (is_array($data[self::FIELD_INGREDIENT])) {
                 foreach($data[self::FIELD_INGREDIENT] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addIngredient($v);
                     } else {
@@ -247,12 +244,9 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
                 $this->addIngredient(new FHIRReference($data[self::FIELD_INGREDIENT]));
             }
         }
-        if (isset($data[self::FIELD_DEVICE])) {
+        if (array_key_exists(self::FIELD_DEVICE, $data)) {
             if (is_array($data[self::FIELD_DEVICE])) {
                 foreach($data[self::FIELD_DEVICE] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRReference) {
                         $this->addDevice($v);
                     } else {
@@ -265,12 +259,9 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
                 $this->addDevice(new FHIRReference($data[self::FIELD_DEVICE]));
             }
         }
-        if (isset($data[self::FIELD_CHARACTERISTICS])) {
+        if (array_key_exists(self::FIELD_CHARACTERISTICS, $data)) {
             if (is_array($data[self::FIELD_CHARACTERISTICS])) {
                 foreach($data[self::FIELD_CHARACTERISTICS] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRMedicinalProductPharmaceuticalCharacteristics) {
                         $this->addCharacteristics($v);
                     } else {
@@ -283,12 +274,9 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
                 $this->addCharacteristics(new FHIRMedicinalProductPharmaceuticalCharacteristics($data[self::FIELD_CHARACTERISTICS]));
             }
         }
-        if (isset($data[self::FIELD_ROUTE_OF_ADMINISTRATION])) {
+        if (array_key_exists(self::FIELD_ROUTE_OF_ADMINISTRATION, $data)) {
             if (is_array($data[self::FIELD_ROUTE_OF_ADMINISTRATION])) {
                 foreach($data[self::FIELD_ROUTE_OF_ADMINISTRATION] as $v) {
-                    if (null === $v) {
-                        continue;
-                    }
                     if ($v instanceof FHIRMedicinalProductPharmaceuticalRouteOfAdministration) {
                         $this->addRouteOfAdministration($v);
                     } else {
@@ -303,11 +291,10 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
         }
     }
 
-
     /**
      * @return string
      */
-    public function _getFHIRTypeName(): string
+    public function _getFhirTypeName(): string
     {
         return self::FHIR_TYPE_NAME;
     }
@@ -319,7 +306,6 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
     {
         return static::FHIR_TYPE_NAME;
     }
-
 
     /**
      * An identifier - identifies some entity uniquely and unambiguously. Typically
@@ -354,36 +340,6 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
         }
         $this->_trackValueAdded();
         $this->identifier[] = $identifier;
-        return $this;
-    }
-
-    /**
-     * An identifier - identifies some entity uniquely and unambiguously. Typically
-     * this is used for business identifiers.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * An identifier for the pharmaceutical medicinal product.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRIdentifier[] $identifier
-     * @return static
-     */
-    public function setIdentifier(array $identifier = []): self
-    {
-        if ([] !== $this->identifier) {
-            $this->_trackValuesRemoved(count($this->identifier));
-            $this->identifier = [];
-        }
-        if ([] === $identifier) {
-            return $this;
-        }
-        foreach($identifier as $v) {
-            if ($v instanceof FHIRIdentifier) {
-                $this->addIdentifier($v);
-            } else {
-                $this->addIdentifier(new FHIRIdentifier($v));
-            }
-        }
         return $this;
     }
 
@@ -498,35 +454,6 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
      * If the element is present, it must have a value for at least one of the defined
      * elements, an \@id referenced from the Narrative, or extensions
      *
-     * Ingredient.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRReference[] $ingredient
-     * @return static
-     */
-    public function setIngredient(array $ingredient = []): self
-    {
-        if ([] !== $this->ingredient) {
-            $this->_trackValuesRemoved(count($this->ingredient));
-            $this->ingredient = [];
-        }
-        if ([] === $ingredient) {
-            return $this;
-        }
-        foreach($ingredient as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addIngredient($v);
-            } else {
-                $this->addIngredient(new FHIRReference($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
      * Accompanying device.
      *
      * @return null|\HL7\FHIR\R4\FHIRElement\FHIRReference[]
@@ -553,35 +480,6 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
         }
         $this->_trackValueAdded();
         $this->device[] = $device;
-        return $this;
-    }
-
-    /**
-     * A reference from one resource to another.
-     * If the element is present, it must have a value for at least one of the defined
-     * elements, an \@id referenced from the Narrative, or extensions
-     *
-     * Accompanying device.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRReference[] $device
-     * @return static
-     */
-    public function setDevice(array $device = []): self
-    {
-        if ([] !== $this->device) {
-            $this->_trackValuesRemoved(count($this->device));
-            $this->device = [];
-        }
-        if ([] === $device) {
-            return $this;
-        }
-        foreach($device as $v) {
-            if ($v instanceof FHIRReference) {
-                $this->addDevice($v);
-            } else {
-                $this->addDevice(new FHIRReference($v));
-            }
-        }
         return $this;
     }
 
@@ -618,33 +516,6 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
     /**
      * A pharmaceutical product described in terms of its composition and dose form.
      *
-     * Characteristics e.g. a products onset of action.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRMedicinalProductPharmaceutical\FHIRMedicinalProductPharmaceuticalCharacteristics[] $characteristics
-     * @return static
-     */
-    public function setCharacteristics(array $characteristics = []): self
-    {
-        if ([] !== $this->characteristics) {
-            $this->_trackValuesRemoved(count($this->characteristics));
-            $this->characteristics = [];
-        }
-        if ([] === $characteristics) {
-            return $this;
-        }
-        foreach($characteristics as $v) {
-            if ($v instanceof FHIRMedicinalProductPharmaceuticalCharacteristics) {
-                $this->addCharacteristics($v);
-            } else {
-                $this->addCharacteristics(new FHIRMedicinalProductPharmaceuticalCharacteristics($v));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * A pharmaceutical product described in terms of its composition and dose form.
-     *
      * The path by which the pharmaceutical product is taken into or makes contact with
      * the body.
      *
@@ -671,34 +542,6 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
         }
         $this->_trackValueAdded();
         $this->routeOfAdministration[] = $routeOfAdministration;
-        return $this;
-    }
-
-    /**
-     * A pharmaceutical product described in terms of its composition and dose form.
-     *
-     * The path by which the pharmaceutical product is taken into or makes contact with
-     * the body.
-     *
-     * @param \HL7\FHIR\R4\FHIRElement\FHIRBackboneElement\FHIRMedicinalProductPharmaceutical\FHIRMedicinalProductPharmaceuticalRouteOfAdministration[] $routeOfAdministration
-     * @return static
-     */
-    public function setRouteOfAdministration(array $routeOfAdministration = []): self
-    {
-        if ([] !== $this->routeOfAdministration) {
-            $this->_trackValuesRemoved(count($this->routeOfAdministration));
-            $this->routeOfAdministration = [];
-        }
-        if ([] === $routeOfAdministration) {
-            return $this;
-        }
-        foreach($routeOfAdministration as $v) {
-            if ($v instanceof FHIRMedicinalProductPharmaceuticalRouteOfAdministration) {
-                $this->addRouteOfAdministration($v);
-            } else {
-                $this->addRouteOfAdministration(new FHIRMedicinalProductPharmaceuticalRouteOfAdministration($v));
-            }
-        }
         return $this;
     }
 
@@ -952,37 +795,23 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
     }
 
     /**
-     * @param null|string|\DOMElement $element
+     * @param null|string|\SimpleXMLElement $element
      * @param null|\HL7\FHIR\R4\FHIRResource\FHIRDomainResource\FHIRMedicinalProductPharmaceutical $type
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
      * @return null|\HL7\FHIR\R4\FHIRResource\FHIRDomainResource\FHIRMedicinalProductPharmaceutical
      */
-    public static function xmlUnserialize(null|string|\DOMElement $element, null|PHPFHIRXmlSerializableInterface $type = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): null|self
+    public static function xmlUnserialize(null|string|\SimpleXMLElement $element, null|PHPFHIRTypeInterface $type = null, null|int|PHPFHIRConfig $config = null): null|self
     {
         if (null === $element) {
             return null;
         }
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
         if (is_string($element)) {
-            libxml_use_internal_errors(true);
-            $dom = $config->newDOMDocument();
-            if (false === $dom->loadXML($element, $libxmlOpts)) {
-                throw new \DomainException(sprintf(
-                    '%s::xmlUnserialize - String provided is not parseable as XML: %s',
-                    ltrim(substr(__CLASS__, (int)strrpos(__CLASS__, '\\')), '\\'),
-                    implode(', ', array_map(function(\libXMLError $err) { return $err->message; }, libxml_get_errors()))
-                ));
-            }
-            libxml_use_internal_errors(false);
-            $element = $dom->documentElement;
+            $element = new \SimpleXMLElement($element, $config->getLibxmlOpts());
         }
         if (null === $type) {
             $type = new static(null);
@@ -994,165 +823,142 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
                 get_class($type)
             ));
         }
-        if ('' === $type->_getFHIRXMLNamespace() && '' !== ($ens = (string)$element->namespaceURI)) {
-            $type->_setFHIRXMLNamespace($ens);
+        if (null !== ($ns = $element->getNamespaces()[''] ?? null)) {
+            $type->_setSourceXmlns((string)$ns);
         }
-        for ($i = 0; $i < $element->childNodes->length; $i++) {
-            $n = $element->childNodes->item($i);
-            if (!($n instanceof \DOMElement)) {
-                continue;
-            }
-            if (self::FIELD_IDENTIFIER === $n->nodeName) {
-                $type->addIdentifier(FHIRIdentifier::xmlUnserialize($n));
-            } elseif (self::FIELD_ADMINISTRABLE_DOSE_FORM === $n->nodeName) {
-                $type->setAdministrableDoseForm(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_UNIT_OF_PRESENTATION === $n->nodeName) {
-                $type->setUnitOfPresentation(FHIRCodeableConcept::xmlUnserialize($n));
-            } elseif (self::FIELD_INGREDIENT === $n->nodeName) {
-                $type->addIngredient(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_DEVICE === $n->nodeName) {
-                $type->addDevice(FHIRReference::xmlUnserialize($n));
-            } elseif (self::FIELD_CHARACTERISTICS === $n->nodeName) {
-                $type->addCharacteristics(FHIRMedicinalProductPharmaceuticalCharacteristics::xmlUnserialize($n));
-            } elseif (self::FIELD_ROUTE_OF_ADMINISTRATION === $n->nodeName) {
-                $type->addRouteOfAdministration(FHIRMedicinalProductPharmaceuticalRouteOfAdministration::xmlUnserialize($n));
-            } elseif (self::FIELD_TEXT === $n->nodeName) {
-                $type->setText(FHIRNarrative::xmlUnserialize($n));
-            } elseif (self::FIELD_CONTAINED === $n->nodeName) {
-                for ($ni = 0; $ni < $n->childNodes->length; $ni++) {
-                    $nn = $n->childNodes->item($ni);
-                    if ($nn instanceof \DOMElement) {
-                        $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn));
-                    }
+        foreach ($element->children() as $n) {
+            $childName = $n->getName();
+            if (self::FIELD_IDENTIFIER === $childName) {
+                $type->addIdentifier(FHIRIdentifier::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ADMINISTRABLE_DOSE_FORM === $childName) {
+                $type->setAdministrableDoseForm(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_UNIT_OF_PRESENTATION === $childName) {
+                $type->setUnitOfPresentation(FHIRCodeableConcept::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_INGREDIENT === $childName) {
+                $type->addIngredient(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_DEVICE === $childName) {
+                $type->addDevice(FHIRReference::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CHARACTERISTICS === $childName) {
+                $type->addCharacteristics(FHIRMedicinalProductPharmaceuticalCharacteristics::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ROUTE_OF_ADMINISTRATION === $childName) {
+                $type->addRouteOfAdministration(FHIRMedicinalProductPharmaceuticalRouteOfAdministration::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_TEXT === $childName) {
+                $type->setText(FHIRNarrative::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_CONTAINED === $childName) {
+                foreach ($n->children() as $nn) {
+                    $type->addContained(PHPFHIRTypeMap::getContainedTypeFromXML($nn, $config));
                 }
-            } elseif (self::FIELD_EXTENSION === $n->nodeName) {
-                $type->addExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_MODIFIER_EXTENSION === $n->nodeName) {
-                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n));
-            } elseif (self::FIELD_ID === $n->nodeName) {
-                $type->setId(FHIRId::xmlUnserialize($n));
-            } elseif (self::FIELD_META === $n->nodeName) {
-                $type->setMeta(FHIRMeta::xmlUnserialize($n));
-            } elseif (self::FIELD_IMPLICIT_RULES === $n->nodeName) {
-                $type->setImplicitRules(FHIRUri::xmlUnserialize($n));
-            } elseif (self::FIELD_LANGUAGE === $n->nodeName) {
-                $type->setLanguage(FHIRCode::xmlUnserialize($n));
+            } elseif (self::FIELD_EXTENSION === $childName) {
+                $type->addExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_MODIFIER_EXTENSION === $childName) {
+                $type->addModifierExtension(FHIRExtension::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_ID === $childName) {
+                $type->setId(FHIRId::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_META === $childName) {
+                $type->setMeta(FHIRMeta::xmlUnserialize($n, null, $config));
+            } elseif (self::FIELD_IMPLICIT_RULES === $childName) {
+                $type->setImplicitRules(FHIRUri::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
+            } elseif (self::FIELD_LANGUAGE === $childName) {
+                $type->setLanguage(FHIRCode::xmlUnserialize($n, null, $config), PHPFHIRXmlLocationEnum::ELEMENT);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_ID);
-        if (null !== $n) {
+        $attributes = $element->attributes();
+        if (isset($attributes[self::FIELD_ID])) {
             $pt = $type->getId();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setId($n->nodeValue);
+                $type->setId((string)$attributes[self::FIELD_ID], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_IMPLICIT_RULES);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_IMPLICIT_RULES])) {
             $pt = $type->getImplicitRules();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setImplicitRules($n->nodeValue);
+                $type->setImplicitRules((string)$attributes[self::FIELD_IMPLICIT_RULES], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
-        $n = $element->attributes->getNamedItem(self::FIELD_LANGUAGE);
-        if (null !== $n) {
+        if (isset($attributes[self::FIELD_LANGUAGE])) {
             $pt = $type->getLanguage();
             if (null !== $pt) {
-                $pt->setValue($n->nodeValue);
+                $pt->setValue((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             } else {
-                $type->setLanguage($n->nodeValue);
+                $type->setLanguage((string)$attributes[self::FIELD_LANGUAGE], PHPFHIRXmlLocationEnum::ATTRIBUTE);
             }
         }
         return $type;
     }
 
     /**
-     * @param null|\DOMElement $element
-     * @param null|int|\HL7\FHIR\R4\PHPFHIRXmlSerializableConfigInterface $config XML serialization config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
-     * @return \DOMElement
-     * @throws \DOMException
+     * @param null|\HL7\FHIR\R4\PHPFHIRXmlWriter $xw
+     * @param null|int|\HL7\FHIR\R4\PHPFHIRConfig $config PHP FHIR config.  Supports an integer value interpreted as libxml opts for backwards compatibility.
+     * @return \HL7\FHIR\R4\PHPFHIRXmlWriter
      */
-    public function xmlSerialize(\DOMElement $element = null, null|int|PHPFHIRXmlSerializableConfigInterface $config = null): \DOMElement
+    public function xmlSerialize(null|PHPFHIRXmlWriter $xw = null, null|int|PHPFHIRConfig $config = null): PHPFHIRXmlWriter
     {
         if (is_int($config)) {
-            $libxmlOpts = $config;
-            $config = new PHPFHIRConfig();
+            $config = new PHPFHIRConfig([PHPFHIRConfigKeyEnum::LIBXML_OPTS->value => $config]);
         } else if (null === $config) {
-            $libxmlOpts = PHPFHIRXmlSerializableConfigInterface::DEFAULT_LIBXML_OPTS;
             $config = new PHPFHIRConfig();
-        } else {
-            $libxmlOpts = $config->getLibxmlOpts();
         }
-        if (null === $element) {
-            $dom = $config->newDOMDocument();
-            $dom->loadXML($this->_getFHIRXMLElementDefinition('MedicinalProductPharmaceutical'), $libxmlOpts);
-            $element = $dom->documentElement;
+        if (null === $xw) {
+            $xw = new PHPFHIRXmlWriter();
         }
-        parent::xmlSerialize($element);
-        if ([] !== ($vs = $this->getIdentifier())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_IDENTIFIER);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        if (!$xw->isOpen()) {
+            $xw->openMemory();
+        }
+        if (!$xw->isDocStarted()) {
+            $docStarted = true;
+            $xw->startDocument();
+        }
+        if (!$xw->isRootOpen()) {
+            $openedRoot = true;
+            $xw->openRootNode($config, 'MedicinalProductPharmaceutical', $this->_getSourceXmlns());
+        }
+        parent::xmlSerialize($xw, $config);
+        foreach ($this->getIdentifier() as $v) {
+            $xw->startElement(self::FIELD_IDENTIFIER);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getAdministrableDoseForm())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_ADMINISTRABLE_DOSE_FORM);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_ADMINISTRABLE_DOSE_FORM);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
         if (null !== ($v = $this->getUnitOfPresentation())) {
-            $telement = $element->ownerDocument->createElement(self::FIELD_UNIT_OF_PRESENTATION);
-            $element->appendChild($telement);
-            $v->xmlSerialize($telement);
+            $xw->startElement(self::FIELD_UNIT_OF_PRESENTATION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getIngredient())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_INGREDIENT);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getIngredient() as $v) {
+            $xw->startElement(self::FIELD_INGREDIENT);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getDevice())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_DEVICE);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getDevice() as $v) {
+            $xw->startElement(self::FIELD_DEVICE);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getCharacteristics())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_CHARACTERISTICS);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getCharacteristics() as $v) {
+            $xw->startElement(self::FIELD_CHARACTERISTICS);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        if ([] !== ($vs = $this->getRouteOfAdministration())) {
-            foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
-                $telement = $element->ownerDocument->createElement(self::FIELD_ROUTE_OF_ADMINISTRATION);
-                $element->appendChild($telement);
-                $v->xmlSerialize($telement);
-            }
+        foreach ($this->getRouteOfAdministration() as $v) {
+            $xw->startElement(self::FIELD_ROUTE_OF_ADMINISTRATION);
+            $v->xmlSerialize($xw, $config);
+            $xw->endElement();
         }
-        return $element;
+        if (isset($openedRoot) && $openedRoot) {
+            $xw->endElement();
+        }
+        if (isset($docStarted) && $docStarted) {
+            $xw->endDocument();
+        }
+        return $xw;
     }
 
     /**
@@ -1164,9 +970,6 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
         if ([] !== ($vs = $this->getIdentifier())) {
             $out->{self::FIELD_IDENTIFIER} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_IDENTIFIER}[] = $v;
             }
         }
@@ -1179,36 +982,24 @@ class FHIRMedicinalProductPharmaceutical extends FHIRDomainResource implements P
         if ([] !== ($vs = $this->getIngredient())) {
             $out->{self::FIELD_INGREDIENT} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_INGREDIENT}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getDevice())) {
             $out->{self::FIELD_DEVICE} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_DEVICE}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getCharacteristics())) {
             $out->{self::FIELD_CHARACTERISTICS} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_CHARACTERISTICS}[] = $v;
             }
         }
         if ([] !== ($vs = $this->getRouteOfAdministration())) {
             $out->{self::FIELD_ROUTE_OF_ADMINISTRATION} = [];
             foreach($vs as $v) {
-                if (null === $v) {
-                    continue;
-                }
                 $out->{self::FIELD_ROUTE_OF_ADMINISTRATION}[] = $v;
             }
         }
